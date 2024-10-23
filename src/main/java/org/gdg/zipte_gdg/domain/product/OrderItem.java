@@ -1,0 +1,33 @@
+package org.gdg.zipte_gdg.domain.product;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import org.gdg.zipte_gdg.domain.order.Order;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class OrderItem {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "orderItem_id")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    private int count;
+
+    private int price;
+
+
+}
