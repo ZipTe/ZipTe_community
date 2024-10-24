@@ -46,15 +46,19 @@ public class Order {
     private OrderStatus status;
 
     // 비즈니스 로직 추가
-    // 주문 생성
-    public void createOrder(Member member,Delivery delivery,OrderItem orderItem) {
-        this.member = member;
-        this.delivery = delivery;
-        this.orderItems.add(orderItem);
-        this.status = OrderStatus.ORDER;
+    public static Order createNewOrder(Member member,Delivery delivery,List<OrderItem> orderItems) {
+        Order order = Order.builder()
+                .member(member)
+                .delivery(delivery)
+                .orderDate(LocalDateTime.now())
+                .orderItems(orderItems)
+                .status(OrderStatus.ORDER)
+                .build();
 
-        // 비즈니스 로직
-        this.delivery.setOrder(this);
+        delivery.setOrder(order);
+        orderItems.forEach(orderItem -> orderItem.setOrder(order));
+
+        return order;
     }
 
     // 주문 완료

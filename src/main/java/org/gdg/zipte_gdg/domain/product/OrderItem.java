@@ -34,23 +34,26 @@ public class OrderItem {
 
     // 로직
     public int totalPrice() {
-        return price * count;
+        return this.price = price * count;
     }
 
-    public static OrderItem createOrderItem(Product product, int count, int price) {
+    public static OrderItem createOrderItem(Product product, int count) {
         OrderItem orderItem = OrderItem.builder()
                 .product(product)
                 .count(count)
-                .price(price)
                 .build();
 
         // 비즈니스 로직
         product.removeStock(count);
-
         return orderItem;
     }
 
     public void cancelOrderItem(int count) {
         this.product.addStock(count);
     }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
 }
