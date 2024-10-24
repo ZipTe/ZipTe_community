@@ -19,4 +19,11 @@ public class Address {
 
     private int zipcode;
 
+    public static Address newAddress(String city, String streetAddress, int zipcode) {
+        return Address.builder()
+                .city(city)
+                .streetAddress(streetAddress)
+                .zipcode(zipcode).build();
+    }
+
 }

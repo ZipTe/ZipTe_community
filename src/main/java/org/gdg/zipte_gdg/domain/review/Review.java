@@ -49,7 +49,9 @@ public class Review {
         Review review = Review.builder()
                 .member(member)
                 .title(title)
-                .content(content).build();
+                .content(content)
+                .createdAt(LocalDateTime.now())
+                .build();
 
         member.addReview(review);
         return review;

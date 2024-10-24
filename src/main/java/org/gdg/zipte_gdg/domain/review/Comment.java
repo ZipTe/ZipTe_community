@@ -41,14 +41,20 @@ public class Comment {
     private LocalDateTime updatedAt;
 
 
-    // 비즈니스 로직
-    public void addNewComment(Review review, Member member, String content) {
-        this.review = review;
-        this.member = member;
-        this.content = content;
+    // 로직
+    public static Comment addNewComment(Review review, Member member, String content) {
 
-        member.addComment(this);
-        review.addComment(this);
+        Comment comment = Comment.builder()
+                .review(review)
+                .member(member)
+                .content(content)
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        member.addComment(comment);
+        review.addComment(comment);
+
+        return comment;
     }
 
     public void setReview(Review review) {

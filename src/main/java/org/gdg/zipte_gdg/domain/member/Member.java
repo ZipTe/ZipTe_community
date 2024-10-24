@@ -48,6 +48,18 @@ public class Member {
     private LocalDateTime createdAt;
 
     // 로직
+    public static Member createNewMember(String email, String username, String password, String phoneNumber, Address address) {
+        return Member.builder()
+                .username(username)
+                .email(email)
+                .password(password)
+                .phoneNumber(phoneNumber)
+                .address(address)
+                .memberRole(MemberRole.GREEN)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
     // 게시물 추가 로직
     public void addReview(Review review) {
         this.reviews.add(review);
