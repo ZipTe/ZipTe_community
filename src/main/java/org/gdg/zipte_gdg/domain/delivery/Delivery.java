@@ -36,20 +36,24 @@ public class Delivery {
     private DeliveryStatus status = DeliveryStatus.READY;
 
 
-    // 기능
+    // 로직
     public void update(Address update_address) {
         this.address = update_address;
     }
 
-    public void complete() {
+    public void deliveryIng() {
+        this.status = DeliveryStatus.DELIVERING;
+    }
+
+    public void deliveryComplete() {
         this.status = DeliveryStatus.DELIVERY;
     }
 
-    public void cancel() {
+    public void deliveryCancel() {
         this.status = DeliveryStatus.CANCEL;
     }
 
-    // 연관성 부여를 위한 메서드
+    // 비즈니스 로직 위한
     public void setOrder(Order order) {
         this.order = order;
     }
