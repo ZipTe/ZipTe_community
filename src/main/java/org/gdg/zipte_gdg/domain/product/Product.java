@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -28,6 +28,19 @@ public class Product {
     private int price;
 
     private int stock;
+
+    private LocalDateTime createdAt;
+
+    //생성
+    public static Product createNewProduct(String pname, String pdesc, int price, int stock) {
+        return Product.builder()
+                .pname(pname)
+                .pdesc(pdesc)
+                .stock(stock)
+                .price(price)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
 
     // 로직
     public void addStock(int count) {
