@@ -11,7 +11,6 @@ public class OrderRequestDto {
 
     // 멤버
     private Long memberId;
-    private String memberName;
 
     // 주소
     private String city;

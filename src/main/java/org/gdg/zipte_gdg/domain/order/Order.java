@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte_gdg.domain.delivery.Delivery;
 import org.gdg.zipte_gdg.domain.member.Member;
-import org.gdg.zipte_gdg.domain.product.OrderItem;
+import org.gdg.zipte_gdg.domain.orderItem.OrderItem;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;

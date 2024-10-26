@@ -12,10 +12,10 @@ import java.util.ArrayList;
 public interface OrderService {
 
     // 주문 생성
-    OrderResponseDto registerOrder(OrderRequestDto orderRequestDto);
+    OrderResponseDto register(OrderRequestDto orderRequestDto);
 
     // 주문 번호로 찾기
-    OrderResponseDto findById(Long id);
+    OrderResponseDto getOne(Long id);
 
     // 나의 주문 목록 조회 <User>
 
@@ -41,8 +41,9 @@ public interface OrderService {
         order.getOrderItems().forEach(orderItem -> {
             OrderItemResponseDto itemDto = OrderItemResponseDto.builder()
                     .productId(orderItem.getProduct().getId())
-                    .count(orderItem.getCount())
                     .productName(orderItem.getProduct().getPname())
+                    .count(orderItem.getCount())
+                    .price(orderItem.getPrice())
                     .build();
 
             responseDto.getItems().add(itemDto); // 리스트에 추가

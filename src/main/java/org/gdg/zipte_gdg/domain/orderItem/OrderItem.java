@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.domain.product;
+package org.gdg.zipte_gdg.domain.orderItem;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte_gdg.domain.order.Order;
+import org.gdg.zipte_gdg.domain.product.Product;
 
 @Entity
 @NoArgsConstructor
@@ -33,8 +34,8 @@ public class OrderItem {
     private int price;
 
     // 로직
-    public int totalPrice() {
-        return this.price = price * count;
+    public void totalPrice() {
+        this.price = this.product.getPrice() * count;
     }
 
     public static OrderItem createOrderItem(Product product, int count) {
@@ -45,6 +46,7 @@ public class OrderItem {
 
         // 비즈니스 로직
         product.removeStock(count);
+        orderItem.totalPrice();
         return orderItem;
     }
 

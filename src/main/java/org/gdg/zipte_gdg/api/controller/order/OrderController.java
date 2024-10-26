@@ -16,6 +16,11 @@ public class OrderController {
 
     @PostMapping
     public ApiResponse<OrderResponseDto> create(@RequestBody OrderRequestDto orderRequestDto) {
-        return ApiResponse.created(orderService.registerOrder(orderRequestDto));
+        return ApiResponse.created(orderService.register(orderRequestDto));
+    }
+
+    @GetMapping({"/{id}"})
+    public ApiResponse<OrderResponseDto> getOne(@PathVariable("id") Long id) {
+        return ApiResponse.created(orderService.getOne(id));
     }
 }
