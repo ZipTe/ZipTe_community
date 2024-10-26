@@ -2,9 +2,11 @@ package org.gdg.zipte_gdg.api.service.order;
 
 
 import org.gdg.zipte_gdg.api.controller.order.request.OrderRequestDto;
+import org.gdg.zipte_gdg.api.controller.page.request.PageRequestDto;
 import org.gdg.zipte_gdg.api.service.delivery.response.DeliveryDto;
 import org.gdg.zipte_gdg.api.service.order.response.OrderItemResponseDto;
 import org.gdg.zipte_gdg.api.service.order.response.OrderResponseDto;
+import org.gdg.zipte_gdg.api.service.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.domain.order.Order;
 
 import java.util.ArrayList;
@@ -18,8 +20,7 @@ public interface OrderService {
     OrderResponseDto getOne(Long id);
 
     // 나의 주문 목록 조회 <User>
-
-    // 전체 주문 목록 조회 <Admin>
+    PageResponseDto<OrderResponseDto> findMyOrders(PageRequestDto pageRequestDto, Long memberId);
 
     // 주문 배송지 변경
     Order updateAddress(Long id, DeliveryDto dto);

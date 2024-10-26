@@ -3,9 +3,11 @@ package org.gdg.zipte_gdg.api.service.order;
 import lombok.RequiredArgsConstructor;
 
 import org.gdg.zipte_gdg.api.controller.order.request.OrderRequestDto;
+import org.gdg.zipte_gdg.api.controller.page.request.PageRequestDto;
 import org.gdg.zipte_gdg.api.service.delivery.response.DeliveryDto;
 import org.gdg.zipte_gdg.api.service.order.response.OrderItemResponseDto;
 import org.gdg.zipte_gdg.api.service.order.response.OrderResponseDto;
+import org.gdg.zipte_gdg.api.service.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.domain.delivery.Delivery;
 import org.gdg.zipte_gdg.domain.delivery.DeliveryRepository;
 import org.gdg.zipte_gdg.domain.member.Address;
@@ -17,6 +19,10 @@ import org.gdg.zipte_gdg.domain.orderItem.OrderItem;
 import org.gdg.zipte_gdg.domain.orderItem.OrderItemRepository;
 import org.gdg.zipte_gdg.domain.product.Product;
 import org.gdg.zipte_gdg.domain.product.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -67,6 +73,21 @@ public class OrderServiceImpl implements OrderService {
         orderResponseDto.setItems(orderItemResponseDto);
 
         return orderResponseDto;
+    }
+    @Override
+    public PageResponseDto<OrderResponseDto> findMyOrders(PageRequestDto pageRequestDto, Long memberId) {
+
+        Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
+
+        Page<Order> orders = orderRepository.findOrdersByMemberId(memberId, pageable);
+
+        List<OrderResponseDto> dtoList = orders.stream()
+                .map(this::entityToDTO)
+                .toList();
+
+        long total = orders.getTotalElements();
+
+        return new PageResponseDto<OrderResponseDto>(dtoList, pageRequestDto, total);
     }
 
     private OrderItemResponseDto orderItemResponseDto(OrderItem orderItem) {
