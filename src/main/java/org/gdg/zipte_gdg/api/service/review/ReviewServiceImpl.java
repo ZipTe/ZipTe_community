@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.api.controller.page.request.PageRequestDto;
 import org.gdg.zipte_gdg.api.controller.review.request.ReviewRequestDto;
 import org.gdg.zipte_gdg.api.service.comment.response.CommentResponseDto;
+import org.gdg.zipte_gdg.api.service.comment.response.CommentResponseWithReviewDto;
 import org.gdg.zipte_gdg.api.service.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.review.response.ReviewResponseDto;
 import org.gdg.zipte_gdg.api.service.review.response.ReviewResponseWithCommentDto;
@@ -57,7 +58,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<Comment> commentsWithReview = reviewRepository.findCommentsWithReview(reviewId);
 
         // 댓글을 DTO로 변환합니다.
-        List<CommentResponseDto> commentResponseDtos = commentsWithReview.stream()
+        List<CommentResponseWithReviewDto> commentResponseDtos = commentsWithReview.stream()
                 .map(this::commentEntityToDto) // 댓글 엔티티를 DTO로 변환하는 메서드를 호출합니다.
                 .collect(Collectors.toList());
 
@@ -67,9 +68,10 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewResponseDto;
     }
 
-    private CommentResponseDto commentEntityToDto(Comment comment) {
-        return CommentResponseDto.builder()
+    private CommentResponseWithReviewDto commentEntityToDto(Comment comment) {
+        return CommentResponseWithReviewDto.builder()
                 .id(comment.getId())
+                .memberId(comment.getMember().getId())
                 .author(comment.getMember().getUsername())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
