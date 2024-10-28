@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @NoArgsConstructor
@@ -29,6 +31,10 @@ public class Product {
 
     private int stock;
 
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<ProductImage> productImages = new ArrayList<>();
+
     private LocalDateTime createdAt;
 
     //생성
@@ -49,6 +55,18 @@ public class Product {
 
     public void removeStock(int count) {
         this.stock -= count;
+    }
+
+    // 이미지 로직
+    public void addProductImage(ProductImage productImage) {
+        productImage.setProduct(this);
+        this.productImages.add(productImage);
+        productImage.setOrd(this.productImages.size());
+
+    }
+
+    public void removeProductImage(ProductImage productImage) {
+        this.productImages.remove(productImage);
     }
 
 }

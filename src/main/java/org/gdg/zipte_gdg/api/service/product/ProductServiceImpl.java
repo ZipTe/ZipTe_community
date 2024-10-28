@@ -26,14 +26,20 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductImageService productImageService;
 
     @Override
     public ProductResponseDto register(ProductRequestDto productRequestDto) {
         Product product = dtoToEntity(productRequestDto);
-        productRepository.save(product);
+        Product save = productRepository.save(product);
 
-        return entityToDto(product);
+        List<String> uploads = productImageService.saveFiles(save, productRequestDto.getFiles());
+        ProductResponseDto productResponseDto = entityToDto(save);
+        productResponseDto.setUploadFileNames(uploads);
+
+        return productResponseDto;
     }
+
 
     @Override
     public ProductResponseDto findById(Long id) {
