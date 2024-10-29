@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.gdg.zipte_gdg.domain.review.Comment;
+import org.gdg.zipte_gdg.domain.comment.Comment;
 import org.gdg.zipte_gdg.domain.review.Review;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -73,6 +73,11 @@ public class Member {
     // ROLE 관련 로직
     public void changeMemberRole(MemberRole memberRole) {
         this.memberRole = memberRole;
+    }
+
+    // 이메일 추가 로직
+    public void changeEmail(String email) {
+        this.email = email;
     }
 
     // 비즈니스 로직
