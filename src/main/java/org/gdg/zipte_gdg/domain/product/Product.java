@@ -61,7 +61,7 @@ public class Product {
     public void addProductImage(ProductImage productImage) {
         productImage.setProduct(this);
         this.productImages.add(productImage);
-        productImage.setOrd(this.productImages.size());
+        productImage.setOrd(this.productImages.size()-1);
 
     }
 
