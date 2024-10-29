@@ -20,7 +20,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ApiResponse<ReviewResponseDto> create(@RequestBody ReviewRequestDto reviewRequestDto) {
+    public ApiResponse<ReviewResponseDto> create(ReviewRequestDto reviewRequestDto) {
         return ApiResponse.created(reviewService.register(reviewRequestDto));
     }
 

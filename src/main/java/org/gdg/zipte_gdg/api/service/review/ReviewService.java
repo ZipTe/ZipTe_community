@@ -44,6 +44,7 @@ public interface ReviewService {
         return ReviewResponseWithCommentDto.builder()
                 .id(review.getId())
                 .title(review.getTitle())
+                .memberId(review.getMember().getId())
                 .author(review.getMember().getUsername())
                 .content(review.getContent())
                 .createdAt(Date.from(review.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant()))

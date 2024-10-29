@@ -7,6 +7,7 @@ import org.gdg.zipte_gdg.api.controller.product.request.ProductRequestDto;
 import org.gdg.zipte_gdg.api.service.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.product.response.ProductResponseDto;
 import org.gdg.zipte_gdg.domain.product.Product;
+import org.gdg.zipte_gdg.domain.product.ProductImage;
 import org.gdg.zipte_gdg.domain.product.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,40 +28,55 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductImageService productImageService;
 
     @Override
     public ProductResponseDto register(ProductRequestDto productRequestDto) {
         Product product = dtoToEntity(productRequestDto);
-        productRepository.save(product);
+        Product save = productRepository.save(product);
 
-        return entityToDto(product);
+        List<String> uploads = productImageService.saveFiles(save, productRequestDto.getFiles());
+        ProductResponseDto productResponseDto = entityToDto(save);
+        productResponseDto.setUploadFileNames(uploads);
+
+        return productResponseDto;
     }
+
 
     @Override
     public ProductResponseDto findById(Long id) {
-        Optional<Product> byId = productRepository.findById(id);
-        Product product = byId.orElseThrow();
 
-        return entityToDto(product);
+        Product product = productRepository.findById(id).orElseThrow();
+
+        List<ProductImage> productImages = productRepository.selectProductImages(id);
+        log.info("MyLog"+ productImages);
+
+        ProductResponseDto productResponseDto = entityToDto(product);
+
+        productResponseDto.setUploadFileNames(productImages.stream().map(ProductImage::getFileName).collect(Collectors.toList()));
+
+        return productResponseDto;
     }
 
-    @Override
     public PageResponseDto<ProductResponseDto> findAll(PageRequestDto pageRequestDto) {
         log.info("=== getList ===");
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
+        Page<Object[]> result = productRepository.selectList(pageable);
 
-        Page<Product> result = productRepository.findAll(pageable);
+        List<ProductResponseDto> dtoList = result.get().map(arr -> {
+            Product product = (Product) arr[0];
+            ProductImage productImage = (ProductImage) arr[1];
 
-        log.info(result);
+            String imageStr = (productImage != null) ? productImage.getFileName() : "No image found";
+            ProductResponseDto dto = entityToDto(product);
+            dto.setUploadFileNames(Collections.singletonList(imageStr));
 
-        // Review 엔티티를 ReviewResponseDto로 변환
-        List<ProductResponseDto> dtoList = result.stream()
-                .map(this::entityToDto)  // entityToDto 메서드 사용
-                .collect(Collectors.toList());
+            return dto;
+        }).toList();
 
         long total = result.getTotalElements();
-
-        return new PageResponseDto<ProductResponseDto>(dtoList, pageRequestDto, total);
+        return new PageResponseDto<>(dtoList, pageRequestDto, total);
     }
+
 }

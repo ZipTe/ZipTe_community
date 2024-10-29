@@ -1,8 +1,14 @@
 package org.gdg.zipte_gdg.api.controller.product.request;
 
+import lombok.Builder;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
+@Builder
 public class ProductRequestDto {
 
     private Long id;
@@ -10,5 +16,8 @@ public class ProductRequestDto {
     private String pdesc;
     private int price;
     private int stock;
+
+    @Builder.Default
+    private List<MultipartFile> files = new ArrayList<>();
 
 }
