@@ -1,6 +1,5 @@
 package org.gdg.zipte_gdg.domain.review;
 
-import org.gdg.zipte_gdg.api.service.review.response.ReviewResponseDto;
 import org.gdg.zipte_gdg.domain.comment.Comment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,5 +16,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("select c from Comment c join c.review r where c.review.id = :reviewId")
     List<Comment> findCommentsWithReview(@Param("reviewId") Long reviewId);
+
+    @Query("select ri from ReviewImage ri join Review r on ri.review.id = :reviewId")
+    List<ReviewImage> selectReviewImages(@Param("reviewId") Long reviewId);
+
+    @Query("SELECT r, ri FROM Review r LEFT JOIN ReviewImage ri ON r.id = ri.review.id WHERE ri.ord = 0 OR ri.ord IS NULL")
+    Page<Object[]> selectList(Pageable pageable);
 
 }

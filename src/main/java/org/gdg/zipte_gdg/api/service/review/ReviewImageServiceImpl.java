@@ -1,13 +1,13 @@
-package org.gdg.zipte_gdg.api.service.product;
+package org.gdg.zipte_gdg.api.service.review;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnails;
-import org.gdg.zipte_gdg.domain.product.Product;
-import org.gdg.zipte_gdg.domain.product.ProductImage;
-import org.gdg.zipte_gdg.domain.product.ProductImageRepository;
+import org.gdg.zipte_gdg.domain.review.Review;
+import org.gdg.zipte_gdg.domain.review.ReviewImage;
+import org.gdg.zipte_gdg.domain.review.ReviewImageRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -29,10 +29,11 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ProductImageServiceImpl implements ProductImageService {
+public class ReviewImageServiceImpl implements ReviewImageService {
 
-    private final ProductImageRepository productImageRepository;
-    @Value("${spring.file.upload.product.path}") // 프레임워크 value를 사용해야한다.
+    private final ReviewImageRepository reviewImageRepository;
+
+    @Value("${spring.file.upload.review.path}") // 프레임워크 value를 사용해야한다.
     private String uploadPath;
 
     @PostConstruct // 폴더 없으면 생성!
@@ -47,7 +48,7 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public List<String> saveFiles(Product product, List<MultipartFile> files) {
+    public List<String> saveFiles(Review review, List<MultipartFile> files) {
 
         if (files.isEmpty()){
             return List.of();
@@ -61,13 +62,13 @@ public class ProductImageServiceImpl implements ProductImageService {
 
             Path savePath = Paths.get(uploadPath, savedName);
 
-            // productImage 객체 생성 및 저장
-            ProductImage productImage = ProductImage.productImage(product, savedName);
-            product.addProductImage(productImage);
-            productImageRepository.save(productImage);// 먼저 저장
+            // reviewImage 객체 생성 및 저장
+            ReviewImage reviewImage = ReviewImage.reviewImage(review, savedName);
+            review.addReviewImage(reviewImage);
+            reviewImageRepository.save(reviewImage);// 먼저 저장
 
             // 저장 후 관계 설정
-            log.info("mylog" + product);
+            log.info("mylog" + reviewImage);
 
             uploadNames.add(savedName);
 

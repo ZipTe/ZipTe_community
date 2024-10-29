@@ -2,9 +2,9 @@ package org.gdg.zipte_gdg.api.service.review.response;
 
 import lombok.Builder;
 import lombok.Data;
-import org.gdg.zipte_gdg.api.service.comment.response.CommentResponseDto;
 import org.gdg.zipte_gdg.api.service.comment.response.CommentResponseWithReviewDto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,5 +20,8 @@ public class ReviewResponseWithCommentDto {
     private Date createdAt;
     private Date updatedAt;
     private List<CommentResponseWithReviewDto> comments;
+
+    @Builder.Default
+    private List<String> uploadFileNames = new ArrayList<>();
 
 }
