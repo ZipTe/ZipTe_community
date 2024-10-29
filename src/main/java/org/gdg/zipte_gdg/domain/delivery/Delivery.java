@@ -32,9 +32,17 @@ public class Delivery {
     private String deliveryDesc;
 
     @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private DeliveryStatus status = DeliveryStatus.READY;
+    private DeliveryStatus status;
 
+
+    public static Delivery createNewDelivery(Address address, String orderDesc, String deliveryDesc) {
+        return Delivery.builder()
+                .address(address)
+                .orderDesc(orderDesc)
+                .deliveryDesc(deliveryDesc)
+                .status(DeliveryStatus.READY)
+                .build();
+    }
 
     // 로직
     public void update(Address update_address) {
@@ -51,6 +59,18 @@ public class Delivery {
 
     public void deliveryCancel() {
         this.status = DeliveryStatus.CANCEL;
+    }
+
+    public void changeDeliveryDesc(String deliveryDesc) {
+        this.deliveryDesc = deliveryDesc;
+    }
+
+    public void changeOrderDesc(String orderDesc) {
+        this.orderDesc = orderDesc;
+    }
+
+    public void changeAddress(Address address) {
+        this.address = address;
     }
 
     // 비즈니스 로직 위한

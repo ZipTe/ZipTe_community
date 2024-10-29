@@ -34,6 +34,10 @@ public class Review {
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "review")
+    @Builder.Default
+    private List<ReviewImage> reviewImages = new ArrayList<>();
+
     private String title;
 
     private String content;
@@ -44,7 +48,8 @@ public class Review {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    // 비즈니스 로직
+    // 생성 로직
+
     public static Review addNewReview(Member member, String title, String content) {
 
         Review review = Review.builder()
@@ -60,6 +65,16 @@ public class Review {
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
+    }
+
+    public void addReviewImage(ReviewImage reviewImage) {
+        this.reviewImages.add(reviewImage);
+        reviewImage.setReview(this);
+        reviewImage.setOrd(this.reviewImages.size()-1);
+    }
+
+    public void removeReviewImage(ReviewImage reviewImage) {
+        this.reviewImages.remove(reviewImage);
     }
 
 }

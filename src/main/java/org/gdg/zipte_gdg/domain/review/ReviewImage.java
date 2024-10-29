@@ -26,4 +26,22 @@ public class ReviewImage {
 
     private int ord;
 
+
+    public static ReviewImage reviewImage(Review review, String fileName) {
+        return ReviewImage.builder()
+                .review(review)
+                .fileName(fileName)
+                .ord(0)
+                .build();
+    }
+
+
+    //로직
+    public void setReview(Review review) {
+        this.review = review;
+    }
+
+    public void setOrd(int ord) {
+        this.ord = ord;
+    }
 }
