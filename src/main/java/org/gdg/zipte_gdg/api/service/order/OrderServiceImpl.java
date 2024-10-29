@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.gdg.zipte_gdg.api.controller.order.request.OrderRequestDto;
 import org.gdg.zipte_gdg.api.controller.page.request.PageRequestDto;
-import org.gdg.zipte_gdg.api.service.delivery.response.DeliveryDto;
 import org.gdg.zipte_gdg.api.service.order.response.OrderItemResponseDto;
 import org.gdg.zipte_gdg.api.service.order.response.OrderResponseDto;
 import org.gdg.zipte_gdg.api.service.page.response.PageResponseDto;
@@ -98,12 +97,6 @@ public class OrderServiceImpl implements OrderService {
                 .count(orderItem.getCount())
                 .build();
     }
-
-    @Override
-    public Order updateAddress(Long id, DeliveryDto dto) {
-        return null;
-    }
-
 
     //extract한 메소드
 

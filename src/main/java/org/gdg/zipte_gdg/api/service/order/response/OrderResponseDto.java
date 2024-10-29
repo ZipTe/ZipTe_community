@@ -1,9 +1,9 @@
 package org.gdg.zipte_gdg.api.service.order.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.gdg.zipte_gdg.domain.delivery.DeliveryStatus;
+import org.gdg.zipte_gdg.domain.order.OrderStatus;
 
 import java.util.List;
 
@@ -30,4 +30,6 @@ public class OrderResponseDto {
     // 아이템
     private List<OrderItemResponseDto> items; // 여러 상품 정보를 담는 리스트
 
+    private OrderStatus orderStatus;
+    private DeliveryStatus deliveryStatus;
 }
