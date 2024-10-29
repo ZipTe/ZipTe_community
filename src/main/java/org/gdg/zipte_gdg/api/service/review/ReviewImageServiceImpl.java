@@ -50,7 +50,7 @@ public class ReviewImageServiceImpl implements ReviewImageService {
     @Override
     public List<String> saveFiles(Review review, List<MultipartFile> files) {
 
-        if (files.isEmpty()){
+        if (files == null || files.isEmpty()) {
             return List.of();
         }
 

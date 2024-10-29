@@ -42,6 +42,8 @@ public class ReviewServiceImpl implements ReviewService {
         Review savedReview = reviewRepository.save(review);
 
         List<String> uploads = reviewImageService.saveFiles(savedReview, reviewRequestDto.getFiles());
+
+
         ReviewResponseDto reviewResponseDto = entityToDto(savedReview);
         reviewResponseDto.setUploadFileNames(uploads);
 
@@ -121,34 +123,26 @@ public class ReviewServiceImpl implements ReviewService {
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage() - 1, pageRequestDto.getSize(), Sort.by("id").descending());
 
-        // 멤버 ID로 리뷰를 가져옴
         Page<Review> result = reviewRepository.findReviewsByMemberId(memberId, pageable);
-        log.info(result);
 
+        log.info(result);
         // Review 엔티티를 ReviewResponseDto로 변환
         List<ReviewResponseDto> dtoList = result.stream()
-                .map(this::entityToDto)  // 각 Review를 ReviewResponseDto로 변환
+                .map(this::entityToDto)  // entityToDto 메서드 사용
                 .collect(Collectors.toList());
 
-        // 각 리뷰에 대한 이미지 파일 이름을 수집할 맵
-        Map<Long, List<String>> reviewImagesMap = new HashMap<>();
+        dtoList.forEach(dto->{
 
-        // 각 리뷰에 대한 이미지를 한 번에 가져옴
-        for (Review review : result) {
-            List<ReviewImage> reviewImages = reviewRepository.selectReviewImages(review.getId());
-            log.info("리뷰 ID: {}, 이미지: {}", review.getId(), reviewImages);
 
-            // 파일 이름을 맵에 저장
-            reviewImagesMap.put(review.getId(), reviewImages.stream().map(ReviewImage::getFileName).collect(Collectors.toList()));
-        }
+            ReviewImage reviewImage = reviewRepository.selectReviewImagesthumbnail(dto.getId());
 
-        // dtoList에 파일 이름을 업데이트
-        for (ReviewResponseDto dto : dtoList) {
-            List<String> fileNames = reviewImagesMap.get(dto.getId());
-            dto.setUploadFileNames(fileNames); // ReviewResponseDto에 setUploadFileNames 메서드가 있어야 함
-        }
+            String imageStr = (reviewImage != null) ? reviewImage.getFileName() : "No image found";
+
+            dto.setUploadFileNames(Collections.singletonList(imageStr));
+        });
 
         long total = result.getTotalElements();
+
         return new PageResponseDto<>(dtoList, pageRequestDto, total);
     }
 

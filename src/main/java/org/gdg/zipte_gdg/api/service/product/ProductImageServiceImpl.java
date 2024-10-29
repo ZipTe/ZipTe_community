@@ -49,7 +49,8 @@ public class ProductImageServiceImpl implements ProductImageService {
     @Override
     public List<String> saveFiles(Product product, List<MultipartFile> files) {
 
-        if (files.isEmpty()){
+        // files가 null일 경우 빈 리스트 반환
+        if (files == null || files.isEmpty()) {
             return List.of();
         }
 
