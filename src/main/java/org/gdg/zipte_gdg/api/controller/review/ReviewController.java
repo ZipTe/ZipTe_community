@@ -24,14 +24,26 @@ public class ReviewController {
         return ApiResponse.created(reviewService.register(reviewRequestDto));
     }
 
-    @GetMapping("/list")
-    public ApiResponse<PageResponseDto<ReviewResponseDto>> getList(PageRequestDto pageRequestDto) {
-        return ApiResponse.created(reviewService.getList(pageRequestDto));
+    @GetMapping("/list/member/{memberId}")
+    public ApiResponse<PageResponseDto<ReviewResponseDto>> getListById(@PathVariable("memberId") Long memberId, PageRequestDto pageRequestDto) {
+        return ApiResponse.created(reviewService.getReviewsByMemberId(pageRequestDto, memberId));
     }
 
-    @GetMapping("/list/{memberId}")
-    public ApiResponse<PageResponseDto<ReviewResponseDto>> getListbyId(@PathVariable("memberId") Long memberId, PageRequestDto pageRequestDto) {
-        return ApiResponse.created(reviewService.getReviewsByMemberId(pageRequestDto, memberId));
+    @GetMapping("/list/apt/{aptId}")
+    public ApiResponse<PageResponseDto<ReviewResponseDto>> getListByAptId(
+            @PathVariable("aptId") Long aptId,
+            PageRequestDto pageRequestDto,
+            @RequestParam(value = "orderBy", defaultValue = "date") String orderBy) {
+
+        switch (orderBy) {
+            case "view":
+                return ApiResponse.created(reviewService.getListByAptIdOrderByCountView(pageRequestDto, aptId));
+            case "rating":
+                return ApiResponse.created(reviewService.getListByAptIdOrderByRating(pageRequestDto, aptId));
+            case "date":
+            default:
+                return ApiResponse.created(reviewService.getListByAptId(pageRequestDto, aptId));
+        }
     }
 
     @GetMapping("/{reviewId}")
@@ -39,4 +51,12 @@ public class ReviewController {
         log.info("Logs" + reviewId);
         return ApiResponse.created(reviewService.getOne(reviewId));
     }
+
+    // ----------필요없는 것 --------
+    //    @GetMapping("/list")
+//    public ApiResponse<PageResponseDto<ReviewResponseDto>> getList(PageRequestDto pageRequestDto) {
+//        return ApiResponse.created(reviewService.getList(pageRequestDto));
+//    }
+
+
 }

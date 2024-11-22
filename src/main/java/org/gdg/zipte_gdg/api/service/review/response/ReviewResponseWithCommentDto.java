@@ -17,6 +17,9 @@ public class ReviewResponseWithCommentDto {
     private Long memberId;
     private String author;
     private String content;
+    private String aptName;
+    private int rating;
+    private int viewCount;
     private Date createdAt;
     private Date updatedAt;
     private List<CommentResponseWithReviewDto> comments;

@@ -16,6 +16,8 @@ public class ReviewRequestDto {
     private String title;
     private String content;
     private Long memberId;
+    private Long aptId;
+    private int ratingScore;
     private LocalDateTime updatedAt;
 
     @Builder.Default

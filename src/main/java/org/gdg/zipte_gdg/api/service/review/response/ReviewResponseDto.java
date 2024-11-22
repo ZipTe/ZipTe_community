@@ -15,6 +15,9 @@ public class ReviewResponseDto {
     private String title;
     private String author;
     private String content;
+    private String aptName;
+    private int rating;
+    private int viewCount;
     private Date createdAt;
     private Date updatedAt;
 

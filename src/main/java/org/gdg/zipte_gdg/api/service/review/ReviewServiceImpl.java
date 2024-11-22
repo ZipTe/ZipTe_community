@@ -8,9 +8,13 @@ import org.gdg.zipte_gdg.api.service.comment.response.CommentResponseWithReviewD
 import org.gdg.zipte_gdg.api.service.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.review.response.ReviewResponseDto;
 import org.gdg.zipte_gdg.api.service.review.response.ReviewResponseWithCommentDto;
+import org.gdg.zipte_gdg.domain.apt.Apt;
+import org.gdg.zipte_gdg.domain.apt.AptRepository;
 import org.gdg.zipte_gdg.domain.comment.Comment;
 import org.gdg.zipte_gdg.domain.member.Member;
 import org.gdg.zipte_gdg.domain.member.MemberRepository;
+import org.gdg.zipte_gdg.domain.rating.Rating;
+import org.gdg.zipte_gdg.domain.rating.RatingRepository;
 import org.gdg.zipte_gdg.domain.review.Review;
 import org.gdg.zipte_gdg.domain.review.ReviewImage;
 import org.gdg.zipte_gdg.domain.review.ReviewRepository;
@@ -33,12 +37,16 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final ReviewImageService reviewImageService;
+    private final AptRepository aptRepository;
+    private final RatingRepository ratingRepository;
 
     @Override
     public ReviewResponseDto register(ReviewRequestDto reviewRequestDto) {
         Member member = getMember(reviewRequestDto);
-        Review review = Review.addNewReview(member, reviewRequestDto.getTitle(), reviewRequestDto.getContent());
+        Apt apt = getApt(reviewRequestDto);
+        Rating rating = getRating(reviewRequestDto, member, apt);
 
+        Review review = Review.addNewReview(member, apt, reviewRequestDto.getTitle(), reviewRequestDto.getContent(), rating);
         Review savedReview = reviewRepository.save(review);
 
         List<String> uploads = reviewImageService.saveFiles(savedReview, reviewRequestDto.getFiles());
@@ -50,30 +58,34 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewResponseDto;
     }
 
-    private Member getMember(ReviewRequestDto reviewRequestDto) {
-        Optional<Member> byId = memberRepository.findById(reviewRequestDto.getMemberId());
-        return byId.orElseThrow();
-    }
+
 
     @Override
     public ReviewResponseWithCommentDto getOne(Long reviewId) {
 
         Review review = reviewRepository.findById(reviewId).orElseThrow();
+        review.addCount();
+        reviewRepository.save(review);
 
         ReviewResponseWithCommentDto reviewResponseDto = entityToCommentDto(review);
 
-        List<Comment> commentsWithReview = reviewRepository.findCommentsWithReview(reviewId);
-        List<ReviewImage> reviewImages = reviewRepository.selectReviewImages(reviewId);
+//        List<Comment> commentsWithReview = reviewRepository.findCommentsWithReview(reviewId);
+//        List<ReviewImage> reviewImages = reviewRepository.selectReviewImages(reviewId);
+        log.info("LOG " + review.getReviewImages());
 
-
+//        // 댓글을 DTO로 변환합니다.
+//        List<CommentResponseWithReviewDto> commentResponseDtos = commentsWithReview.stream()
+//                .map(this::commentEntityToDto) // 댓글 엔티티를 DTO로 변환하는 메서드를 호출합니다.
+//                .collect(Collectors.toList());
+//
         // 댓글을 DTO로 변환합니다.
-        List<CommentResponseWithReviewDto> commentResponseDtos = commentsWithReview.stream()
+        List<CommentResponseWithReviewDto> commentResponseDtos = review.getComments().stream()
                 .map(this::commentEntityToDto) // 댓글 엔티티를 DTO로 변환하는 메서드를 호출합니다.
                 .collect(Collectors.toList());
 
         // 리뷰 DTO에 댓글을 설정합니다.
         reviewResponseDto.setComments(commentResponseDtos);
-        reviewResponseDto.setUploadFileNames(reviewImages.stream().map(ReviewImage::getFileName).collect(Collectors.toList()));
+        reviewResponseDto.setUploadFileNames(review.getReviewImages().stream().map(ReviewImage::getFileName).collect(Collectors.toList()));
 
         return reviewResponseDto;
     }
@@ -89,13 +101,16 @@ public class ReviewServiceImpl implements ReviewService {
                 .build();
     }
 
+//
+
     @Override
-    public PageResponseDto<ReviewResponseDto> getList(PageRequestDto pageRequestDto) {
+    public PageResponseDto<ReviewResponseDto> getListByAptId(PageRequestDto pageRequestDto, Long aptId) {
         log.info("=== getList ===");
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
 
-        Page<Object[]> result = reviewRepository.selectList(pageable);
+        Page<Object[]> result = reviewRepository.selectListbyAptId(aptId, pageable);
+
         log.info(result);
 
 
@@ -112,9 +127,62 @@ public class ReviewServiceImpl implements ReviewService {
 
         long total = result.getTotalElements();
 
-        return new PageResponseDto<ReviewResponseDto>(dtoList, pageRequestDto, total);
+        return new PageResponseDto<>(dtoList, pageRequestDto, total);
     }
 
+    @Override
+    public PageResponseDto<ReviewResponseDto> getListByAptIdOrderByCountView(PageRequestDto pageRequestDto, Long aptId) {
+        log.info("=== getList ===");
+
+        Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
+
+        Page<Object[]> result = reviewRepository.selectListbyAptIdOrderByCountViewDesc(aptId, pageable);
+
+        log.info(result);
+
+
+        List<ReviewResponseDto> dtoList = result.get().map(arr -> {
+            Review review = (Review) arr[0];
+            ReviewImage reviewImage = (ReviewImage) arr[1];
+
+            String imageStr = (reviewImage != null) ? reviewImage.getFileName() : "No image found";
+            ReviewResponseDto dto = entityToDto(review);
+            dto.setUploadFileNames(Collections.singletonList(imageStr));
+
+            return dto;
+        }).toList();
+
+        long total = result.getTotalElements();
+
+        return new PageResponseDto<>(dtoList, pageRequestDto, total);
+    }
+
+    @Override
+    public PageResponseDto<ReviewResponseDto> getListByAptIdOrderByRating(PageRequestDto pageRequestDto, Long aptId) {
+        log.info("=== getList ===");
+
+        Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
+
+        Page<Object[]> result = reviewRepository.selectListbyAptIdOrderByRatingDesc(aptId, pageable);
+
+        log.info(result);
+
+
+        List<ReviewResponseDto> dtoList = result.get().map(arr -> {
+            Review review = (Review) arr[0];
+            ReviewImage reviewImage = (ReviewImage) arr[1];
+
+            String imageStr = (reviewImage != null) ? reviewImage.getFileName() : "No image found";
+            ReviewResponseDto dto = entityToDto(review);
+            dto.setUploadFileNames(Collections.singletonList(imageStr));
+
+            return dto;
+        }).toList();
+
+        long total = result.getTotalElements();
+
+        return new PageResponseDto<>(dtoList, pageRequestDto, total);
+    }
 
 
     @Override
@@ -132,8 +200,6 @@ public class ReviewServiceImpl implements ReviewService {
                 .collect(Collectors.toList());
 
         dtoList.forEach(dto->{
-
-
             ReviewImage reviewImage = reviewRepository.selectReviewImagesthumbnail(dto.getId());
 
             String imageStr = (reviewImage != null) ? reviewImage.getFileName() : "No image found";
@@ -145,5 +211,49 @@ public class ReviewServiceImpl implements ReviewService {
 
         return new PageResponseDto<>(dtoList, pageRequestDto, total);
     }
+
+//    ------------------------_EXTRACTING_------------------------
+
+    private Rating getRating(ReviewRequestDto reviewRequestDto, Member member, Apt apt) {
+        Rating rating = Rating.createRating(member, apt, reviewRequestDto.getRatingScore());
+        return ratingRepository.save(rating);
+    }
+
+    private Apt getApt(ReviewRequestDto reviewRequestDto) {
+        return aptRepository.findById(reviewRequestDto.getAptId()).orElseThrow();
+    }
+
+    private Member getMember(ReviewRequestDto reviewRequestDto) {
+        Optional<Member> byId = memberRepository.findById(reviewRequestDto.getMemberId());
+        return byId.orElseThrow();
+    }
+
+    // -------------------------------------------
+
+//    @Override
+//    public PageResponseDto<ReviewResponseDto> getList(PageRequestDto pageRequestDto) {
+//        log.info("=== getList ===");
+//
+//        Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
+//
+//        Page<Object[]> result = reviewRepository.selectList(pageable);
+//        log.info(result);
+//
+//
+//        List<ReviewResponseDto> dtoList = result.get().map(arr -> {
+//            Review review = (Review) arr[0];
+//            ReviewImage reviewImage = (ReviewImage) arr[1];
+//
+//            String imageStr = (reviewImage != null) ? reviewImage.getFileName() : "No image found";
+//            ReviewResponseDto dto = entityToDto(review);
+//            dto.setUploadFileNames(Collections.singletonList(imageStr));
+//
+//            return dto;
+//        }).toList();
+//
+//        long total = result.getTotalElements();
+//
+//        return new PageResponseDto<>(dtoList, pageRequestDto, total);
+//    }
 
 }
