@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte_gdg.domain.area.Area;
 import org.gdg.zipte_gdg.domain.member.Address;
-import org.gdg.zipte_gdg.domain.own.Own;
+import org.gdg.zipte_gdg.domain.own.SubwayOwn;
 import org.gdg.zipte_gdg.domain.review.Review;
 
 import java.util.List;
@@ -37,6 +37,18 @@ public class Apt {
 
     @Enumerated(EnumType.STRING)
     private AptCategory houseCategory;
+
+    private List<String> convenientFacility = new ArrayList<>();
+    private List<String> educationFacility = new ArrayList<>();
+
+    private int WithTimeBus;
+
+    private int withTimeSub;
+
+    private int houseHolds;
+
+    @OneToMany
+    private List<SubwayOwn> subwayOwns = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "apt")
 //    private List<Own> ownList = new ArrayList<>();

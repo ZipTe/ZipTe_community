@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.gdg.zipte_gdg.domain.apt.Apt;
 import org.gdg.zipte_gdg.domain.comment.Comment;
 import org.gdg.zipte_gdg.domain.member.Member;
 import org.springframework.data.annotation.CreatedDate;
@@ -41,6 +42,10 @@ public class Review {
     private String title;
 
     private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "apt_id")
+    private Apt apt;
 
     @CreatedDate
     private LocalDateTime createdAt;
