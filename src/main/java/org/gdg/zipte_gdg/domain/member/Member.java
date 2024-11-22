@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte_gdg.domain.comment.Comment;
+//import org.gdg.zipte_gdg.domain.like.CommentLike;
+//import org.gdg.zipte_gdg.domain.like.ReviewLike;
+import org.gdg.zipte_gdg.domain.rating.Rating;
 import org.gdg.zipte_gdg.domain.review.Review;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -37,6 +40,21 @@ public class Member {
     @OneToMany(mappedBy = "member")
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
+
+    // 평점 준 목록
+    @OneToMany(mappedBy = "member")
+    @Builder.Default
+    private List<Rating> ratings = new ArrayList<>();
+
+//    // 하트 준 목록
+//    @OneToMany(mappedBy = "member")
+//    @Builder.Default
+//    private List<ReviewLike> reviewLikes = new ArrayList<>();
+//
+//    // 하트 준 목록
+//    @OneToMany(mappedBy = "member")
+//    @Builder.Default
+//    private List<CommentLike> commentLikes = new ArrayList<>();
 
     @Embedded
     private Address address;
@@ -80,7 +98,15 @@ public class Member {
         this.email = email;
     }
 
-    // 비즈니스 로직
-
+//    // --------------------------------- 양방향 필요한가
+//    // 리뷰 좋아요 추가 로직
+//    public void addReviewLike(ReviewLike reviewLike) {
+//        this.reviewLikes.add(reviewLike);
+//    }
+//
+//    // 댓글 좋아요 추가 로직
+//    public void addCommentLike(CommentLike commentLike) {
+//        this.commentLikes.add(commentLike);
+//    }
 
 }
