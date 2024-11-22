@@ -1,9 +1,9 @@
 package org.gdg.zipte_gdg.domain.member.oauth2;
 
 import lombok.RequiredArgsConstructor;
+import org.gdg.zipte_gdg.api.service.member.response.oauth2.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.gdg.zipte_gdg.api.service.member.response.oauth2.OAuth2UserResponse;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,9 +11,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class CustomOAuth2User implements OAuth2User {
-
-    private final OAuth2UserResponse oAuth2UserResponse;
-    private final String role;
+    private final UserDTO userDTO;
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -25,21 +23,27 @@ public class CustomOAuth2User implements OAuth2User {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         Collection<GrantedAuthority> collection = new ArrayList<>();
+
         collection.add(new GrantedAuthority() {
+
             @Override
             public String getAuthority() {
-                return role;
+
+                return userDTO.getRole();
             }
         });
+
         return collection;
     }
 
     @Override
     public String getName() {
-        return oAuth2UserResponse.getName();
+
+        return userDTO.getEmail();
     }
 
     public String getUsername() {
-        return oAuth2UserResponse.getProvider() + " " + oAuth2UserResponse.getProviderId();
+
+        return userDTO.getUsername();
     }
 }

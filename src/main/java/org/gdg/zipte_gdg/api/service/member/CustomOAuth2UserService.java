@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.api.service.member.response.oauth2.NaverResponse;
 import org.gdg.zipte_gdg.api.service.member.response.oauth2.OAuth2UserResponse;
+import org.gdg.zipte_gdg.api.service.member.response.oauth2.UserDTO;
 import org.gdg.zipte_gdg.domain.member.Member;
 import org.gdg.zipte_gdg.domain.member.MemberRepository;
 import org.gdg.zipte_gdg.domain.member.MemberRole;
@@ -65,13 +66,26 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .build();
 
             memberRepository.save(member);
+
+            UserDTO userDTO = UserDTO.builder()
+                    .email(email)
+                    .username(username)
+                    .role("ROLE_Green")
+                    .build();
+
+            return new CustomOAuth2User(userDTO);
         } else {
             existsmember.changeEmail(oAuth2UserResponse.getEmail());
             memberRepository.save(existsmember);
-        }
 
-        String role = "ROLE_Green";
-        return new CustomOAuth2User(oAuth2UserResponse, role);
+            UserDTO userDTO = UserDTO.builder()
+                    .email(email)
+                    .username(username)
+                    .role("ROLE_Green")
+                    .build();
+
+            return new CustomOAuth2User(userDTO);
+        }
 
     }
 
