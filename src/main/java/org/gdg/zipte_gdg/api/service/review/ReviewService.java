@@ -20,8 +20,14 @@ public interface ReviewService {
     // 리뷰 및 댓글 조회
     ReviewResponseWithCommentDto getOne(Long id);
 
-    // 리뷰 목록 조회 <페이징 처리해서 가져오기>
-    PageResponseDto<ReviewResponseDto> getList(PageRequestDto pageRequestDto);
+    // 특정 아파트 리뷰 목록 조회 (최신) <페이징 처리>
+    PageResponseDto<ReviewResponseDto> getListByAptId(PageRequestDto pageRequestDto, Long aptId);
+
+    // 특정 아파트 리뷰 목록 조회 (조회수) <페이징 처리>
+    PageResponseDto<ReviewResponseDto> getListByAptIdOrderByCountView(PageRequestDto pageRequestDto, Long aptId);
+
+    // 특정 아파트 리뷰 목록 조회 (평점) <페이징 처리>
+    PageResponseDto<ReviewResponseDto> getListByAptIdOrderByRating(PageRequestDto pageRequestDto, Long aptId);
 
     // 특정 유저 리뷰 조회 <특정 아이디 리뷰 검색해서 가져오기>
     PageResponseDto<ReviewResponseDto> getReviewsByMemberId(PageRequestDto pageRequestDto, Long memberId);
@@ -55,5 +61,11 @@ public interface ReviewService {
                 .viewCount(review.getViewCount())
                 .build();
     }
+
+    // ---------- 필요없어진 내용 -------------
+
+    // 리뷰 목록 조회 <페이징 처리해서 가져오기>
+//    PageResponseDto<ReviewResponseDto> getList(PageRequestDto pageRequestDto);
+
 
 }
