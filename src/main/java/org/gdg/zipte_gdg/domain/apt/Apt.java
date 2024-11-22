@@ -3,10 +3,12 @@ package org.gdg.zipte_gdg.domain.apt;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte_gdg.domain.area.Area;
 import org.gdg.zipte_gdg.domain.member.Address;
 import org.gdg.zipte_gdg.domain.own.SubwayOwn;
+import org.gdg.zipte_gdg.domain.rating.Rating;
 import org.gdg.zipte_gdg.domain.review.Review;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Builder
 public class Apt {
 
@@ -31,24 +34,34 @@ public class Apt {
     @JoinColumn(name = "area_id")
     private Area area;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "apt")
-    private List<Review> reviews = new ArrayList<>();
+//    @Builder.Default
+//    @OneToMany(mappedBy = "apt")
+//    private List<Review> reviews = new ArrayList<>();
+
+//    // 평점
+//    @OneToMany(mappedBy = "apt")
+//    private List<Rating> ratings = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private AptCategory houseCategory;
 
-    private List<String> convenientFacility = new ArrayList<>();
-    private List<String> educationFacility = new ArrayList<>();
-
+    // 버스 시간
     private int WithTimeBus;
 
+    // 지하철 시간
     private int withTimeSub;
 
+    // 세대수
     private int houseHolds;
 
     @OneToMany
     private List<SubwayOwn> subwayOwns = new ArrayList<>();
+
+    // 편의시설
+//    private List<String> convenientFacility = new ArrayList<>();
+//
+//    // 교육시설
+//    private List<String> educationFacility = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "apt")
 //    private List<Own> ownList = new ArrayList<>();
