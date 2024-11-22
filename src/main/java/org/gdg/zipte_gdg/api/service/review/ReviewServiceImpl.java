@@ -8,9 +8,13 @@ import org.gdg.zipte_gdg.api.service.comment.response.CommentResponseWithReviewD
 import org.gdg.zipte_gdg.api.service.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.review.response.ReviewResponseDto;
 import org.gdg.zipte_gdg.api.service.review.response.ReviewResponseWithCommentDto;
+import org.gdg.zipte_gdg.domain.apt.Apt;
+import org.gdg.zipte_gdg.domain.apt.AptRepository;
 import org.gdg.zipte_gdg.domain.comment.Comment;
 import org.gdg.zipte_gdg.domain.member.Member;
 import org.gdg.zipte_gdg.domain.member.MemberRepository;
+import org.gdg.zipte_gdg.domain.rating.Rating;
+import org.gdg.zipte_gdg.domain.rating.RatingRepository;
 import org.gdg.zipte_gdg.domain.review.Review;
 import org.gdg.zipte_gdg.domain.review.ReviewImage;
 import org.gdg.zipte_gdg.domain.review.ReviewRepository;
@@ -33,12 +37,16 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final ReviewImageService reviewImageService;
+    private final AptRepository aptRepository;
+    private final RatingRepository ratingRepository;
 
     @Override
     public ReviewResponseDto register(ReviewRequestDto reviewRequestDto) {
         Member member = getMember(reviewRequestDto);
-        Review review = Review.addNewReview(member, reviewRequestDto.getTitle(), reviewRequestDto.getContent());
+        Apt apt = getApt(reviewRequestDto);
+        Rating rating = getRating(reviewRequestDto, member, apt);
 
+        Review review = Review.addNewReview(member, apt, reviewRequestDto.getTitle(), reviewRequestDto.getContent(), rating);
         Review savedReview = reviewRepository.save(review);
 
         List<String> uploads = reviewImageService.saveFiles(savedReview, reviewRequestDto.getFiles());
@@ -50,6 +58,15 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewResponseDto;
     }
 
+    private Rating getRating(ReviewRequestDto reviewRequestDto, Member member, Apt apt) {
+        Rating rating = Rating.createRating(member, apt, reviewRequestDto.getRatingScore());
+        return ratingRepository.save(rating);
+    }
+
+    private Apt getApt(ReviewRequestDto reviewRequestDto) {
+        return aptRepository.findById(reviewRequestDto.getAptId()).orElseThrow();
+    }
+
     private Member getMember(ReviewRequestDto reviewRequestDto) {
         Optional<Member> byId = memberRepository.findById(reviewRequestDto.getMemberId());
         return byId.orElseThrow();
@@ -59,6 +76,8 @@ public class ReviewServiceImpl implements ReviewService {
     public ReviewResponseWithCommentDto getOne(Long reviewId) {
 
         Review review = reviewRepository.findById(reviewId).orElseThrow();
+        review.addCount();
+        reviewRepository.save(review);
 
         ReviewResponseWithCommentDto reviewResponseDto = entityToCommentDto(review);
 

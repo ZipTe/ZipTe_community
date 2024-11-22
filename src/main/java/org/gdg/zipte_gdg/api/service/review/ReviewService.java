@@ -7,7 +7,6 @@ import org.gdg.zipte_gdg.api.service.review.response.ReviewResponseDto;
 import org.gdg.zipte_gdg.api.service.review.response.ReviewResponseWithCommentDto;
 import org.gdg.zipte_gdg.domain.review.Review;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -36,7 +35,10 @@ public interface ReviewService {
                 .title(review.getTitle())
                 .author(review.getMember().getUsername())
                 .content(review.getContent())
+                .aptName(review.getApt().getAptName())
+                .rating(review.getRating().getRating())
                 .createdAt(Date.from(review.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant()))
+                .viewCount(review.getViewCount())
                 .build();
     }
 
@@ -47,7 +49,10 @@ public interface ReviewService {
                 .memberId(review.getMember().getId())
                 .author(review.getMember().getUsername())
                 .content(review.getContent())
+                .aptName(review.getApt().getAptName())
+                .rating(review.getRating().getRating())
                 .createdAt(Date.from(review.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant()))
+                .viewCount(review.getViewCount())
                 .build();
     }
 
