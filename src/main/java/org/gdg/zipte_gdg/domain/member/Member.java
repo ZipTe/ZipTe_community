@@ -88,6 +88,11 @@ public class Member {
         this.comments.add(comment);
     }
 
+    // 주소 추가 로직
+    public void addAddress(Address address) {
+        this.address = address;
+    }
+
     // ROLE 관련 로직
     public void changeMemberRole(MemberRole memberRole) {
         this.memberRole = memberRole;
@@ -97,6 +102,7 @@ public class Member {
     public void changeEmail(String email) {
         this.email = email;
     }
+
 
 //    // --------------------------------- 양방향 필요한가
 //    // 리뷰 좋아요 추가 로직

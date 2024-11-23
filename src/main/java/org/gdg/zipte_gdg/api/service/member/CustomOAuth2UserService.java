@@ -70,18 +70,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             UserDTO userDTO = UserDTO.builder()
                     .email(email)
                     .username(username)
-                    .role("ROLE_Green")
+                    .role("ROLE_GREEN")
                     .build();
 
             return new CustomOAuth2User(userDTO);
         } else {
             existsmember.changeEmail(oAuth2UserResponse.getEmail());
-            memberRepository.save(existsmember);
+            Member save = memberRepository.save(existsmember);
 
             UserDTO userDTO = UserDTO.builder()
                     .email(email)
                     .username(username)
-                    .role("ROLE_Green")
+                    .role(String.valueOf(save.getMemberRole()))
                     .build();
 
             return new CustomOAuth2User(userDTO);

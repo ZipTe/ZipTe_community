@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.api.controller.member.request.MemberRequestDto;
 import org.gdg.zipte_gdg.api.service.member.response.MemberResponseDto;
+import org.gdg.zipte_gdg.domain.member.Address;
 import org.gdg.zipte_gdg.domain.member.Member;
 import org.gdg.zipte_gdg.domain.member.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,16 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto getOne(Long id) {
         Member member = memberRepository.findById(id).orElseThrow();
+        return entityToDto(member);
+    }
+
+    @Override
+    public MemberResponseDto addAddress(MemberRequestDto memberRequestDto) {
+        Address address = Address.newAddress(memberRequestDto.getCity(), memberRequestDto.getStreetAddress(), memberRequestDto.getZipCode());
+        Member member = memberRepository.findById(memberRequestDto.getId()).orElseThrow();
+
+        member.addAddress(address);
+        memberRepository.save(member);
         return entityToDto(member);
     }
 }

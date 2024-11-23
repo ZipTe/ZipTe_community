@@ -34,7 +34,22 @@ public class APILoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandle
         //OAuth2User
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
 
+        Map<String, Object> valueMap = getStringObjectMap(authentication, customUserDetails);
+
+        String token = jwtUtil.generateToken(valueMap, 60);
+
+        response.addCookie(createCookie("Authorization", token));
+        response.sendRedirect("http://localhost:8080");
+//        PrintWriter printWriter = response.getWriter();
+//        printWriter.write(new Gson().toJson(valueMap));
+//        printWriter.write(token);
+//        printWriter.close();
+    }
+
+    private static Map<String, Object> getStringObjectMap(Authentication authentication, CustomOAuth2User customUserDetails) {
         String username = customUserDetails.getUsername();
+        String email = customUserDetails.getEmail();
+        Long userId = customUserDetails.getId();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
@@ -43,48 +58,21 @@ public class APILoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandle
 
         Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("username", username);
+        valueMap.put("email", email);
+        valueMap.put("userId", userId);
         valueMap.put("role", role);
-
-        String token = jwtUtil.generateToken(valueMap, 60);
-
-        response.addCookie(createCookie("Authorization", token));
-        response.sendRedirect("http://localhost:8080/api/review/list/apt/1");
-//        PrintWriter printWriter = response.getWriter();
-//        printWriter.write(new Gson().toJson(valueMap));
-//        printWriter.write(token);
-//        printWriter.close();
+        return valueMap;
     }
 
     private Cookie createCookie(String key, String value) {
 
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(60*60*60);
-        //cookie.setSecure(true);
+        cookie.setMaxAge(60*60*3);
+        // Https를 통한 접근
+//        cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
 
         return cookie;
     }
-
-    // -------------------
-    //    @Override
-    //    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-    //        log.info("-------Success Handler------");
-    //        log.info(authentication);
-    //
-    //        MemberDTO memberDTO = (MemberDTO) authentication.getPrincipal();
-    //
-    //        Map<String, Object> claims = memberDTO.getClaims();
-    //        claims.put("accessToken", JWTUtil.generateToken(claims,10));
-    //        claims.put("refreshToken", JWTUtil.generateToken(claims,60*24));
-    //
-    //        //JSon문자열로
-    //        Gson gson = new Gson();
-    //        String jsonStr = gson.toJson(claims);
-    //        response.setContentType("application/json;charset=UTF-8");
-    //
-    //        PrintWriter printWriter = response.getWriter();
-    //        printWriter.write(jsonStr);
-    //        printWriter.close();
-    //    }
 }

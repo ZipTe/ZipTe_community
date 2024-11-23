@@ -1,5 +1,6 @@
 package org.gdg.zipte_gdg.api.controller.member.request;
 
+import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 

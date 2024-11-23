@@ -7,15 +7,16 @@ import org.gdg.zipte_gdg.domain.member.Member;
 
 public interface MemberService {
 
-    //등록
+    // 등록
     MemberResponseDto register (MemberRequestDto memberRequestDto);
 
-    //조회
+    // 조회
     MemberResponseDto getOne(Long id);
 
-    //삭제
+    // 삭제
 
-    //수정
+    // 소셜 로그인이후,주소 추가
+    MemberResponseDto addAddress(MemberRequestDto memberRequestDto);
 
     default Member dtoToEntity(MemberRequestDto memberRequestDto) {
         Address address = Address.newAddress(memberRequestDto.getCity(), memberRequestDto.getStreetAddress(), memberRequestDto.getZipCode());

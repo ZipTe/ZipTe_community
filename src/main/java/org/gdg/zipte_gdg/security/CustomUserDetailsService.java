@@ -39,8 +39,12 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .id(member.getId())
                 .email(member.getEmail())
                 .username(member.getUsername())
+                .phoneNumber(member.getPhoneNumber())
+                .city(member.getAddress().getCity())
+                .streetAddress(member.getAddress().getStreetAddress())
+                .zipCode(member.getAddress().getZipcode())
                 .build();
-
+        
         return memberDTO;
     }
 }

@@ -2,7 +2,10 @@ package org.gdg.zipte_gdg.security.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.gdg.zipte_gdg.domain.member.Member;
+import org.gdg.zipte_gdg.domain.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +16,10 @@ import java.util.Map;
 
 @Log4j2
 @Component
+@RequiredArgsConstructor
 public class JWTUtil {
+
+    private final MemberRepository memberRepository;
 
 //    @Value("${jwt.secretKey}")
 //    private static String key = "12345678901234567890123456789012";
@@ -76,6 +82,12 @@ private static final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256)
     public String getRole(String token) {
 
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("role", String.class);
+    }
+
+    public Long getUserId (String token) {
+        String email = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("email", String.class);
+        Member member = memberRepository.findByEmail(email).orElseThrow();
+        return member.getId();
     }
 
     public Boolean isExpired(String token) {
