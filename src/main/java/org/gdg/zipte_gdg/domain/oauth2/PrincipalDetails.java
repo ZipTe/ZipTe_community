@@ -1,8 +1,9 @@
-package org.gdg.zipte_gdg.domain.member.oauth2;
+package org.gdg.zipte_gdg.domain.oauth2;
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.api.service.member.response.oauth2.UserDTO;
+import org.gdg.zipte_gdg.api.service.oauth.response.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.Collection;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class CustomOAuth2User implements OAuth2User {
+public class PrincipalDetails implements OAuth2User, UserDetails {
     private final UserDTO userDTO;
 
     @Override
@@ -37,9 +38,14 @@ public class CustomOAuth2User implements OAuth2User {
     }
 
     @Override
+    public String getPassword() {
+        return "";
+    }
+
+    @Override
     public String getName() {
 
-        return userDTO.getEmail();
+        return "";
     }
 
     public String getUsername() {

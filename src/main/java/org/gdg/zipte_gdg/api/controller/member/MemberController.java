@@ -6,7 +6,7 @@ import org.gdg.zipte_gdg.api.controller.member.request.MemberRequestDto;
 import org.gdg.zipte_gdg.api.controller.response.ApiResponse;
 import org.gdg.zipte_gdg.api.service.member.MemberService;
 import org.gdg.zipte_gdg.api.service.member.response.MemberResponseDto;
-import org.gdg.zipte_gdg.domain.member.oauth2.CustomOAuth2User;
+import org.gdg.zipte_gdg.domain.oauth2.PrincipalDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +29,8 @@ public class MemberController {
     }
 
     @GetMapping("/myPage")
-    public ApiResponse<MemberResponseDto> getOne(@AuthenticationPrincipal CustomOAuth2User customOAuth2User){
-        Long memberId = customOAuth2User.getId();
+    public ApiResponse<MemberResponseDto> getOne(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        Long memberId = principalDetails.getId();
         return ApiResponse.created(memberService.getOne(memberId));
     }
 

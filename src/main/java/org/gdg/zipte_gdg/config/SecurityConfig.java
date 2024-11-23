@@ -2,7 +2,7 @@ package org.gdg.zipte_gdg.config;
 
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.api.service.member.CustomOAuth2UserService;
+import org.gdg.zipte_gdg.api.service.oauth.CustomOAuth2UserService;
 import org.gdg.zipte_gdg.security.filter.JWTFilter;
 import org.gdg.zipte_gdg.security.handler.APILoginSuccessHandler;
 import org.gdg.zipte_gdg.security.util.JWTUtil;
@@ -26,7 +26,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                // ookie를 사용하지 않으면 꺼도 된다. (cookie를 사용할 경우 httpOnly(XSS 방어), sameSite(CSRF 방어)로 방어해야 한다.)
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
+
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.disable())
                 .httpBasic(httpSecurityHttpBasicConfigurer -> httpSecurityHttpBasicConfigurer.disable())
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.disable())
@@ -36,21 +38,27 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(
-                                new AntPathRequestMatcher("/"),
-                                new AntPathRequestMatcher("/auth/success")
+                                        new AntPathRequestMatcher("/"),
+                                        new AntPathRequestMatcher("/auth/success")
                                 ).permitAll()
-                .anyRequest().authenticated()
+                                .anyRequest().authenticated()
                 )
 
-                .addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
+
                 // oauth2 설정
                 .oauth2Login(oauth -> // OAuth2 로그인 기능에 대한 여러 설정의 진입점
                         // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때의 설정을 담당
                         oauth.userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
-                                .userService(oAuth2UserService))
+                                        .userService(oAuth2UserService))
                                 // 로그인 성공 시 핸들러
                                 .successHandler(loginSuccessHandler)
                 )
+
+                // jwt 설정
+                .addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
+
+//                 인증 예외 핸들링
+//                .exceptionHandling(exceptionHandling -> exceptionHandling.disable())
 
                 .build();
     }

@@ -6,8 +6,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.api.service.member.response.oauth2.UserDTO;
-import org.gdg.zipte_gdg.domain.member.oauth2.CustomOAuth2User;
+import org.gdg.zipte_gdg.api.service.oauth.response.UserDTO;
+import org.gdg.zipte_gdg.domain.oauth2.PrincipalDetails;
 import org.gdg.zipte_gdg.security.util.JWTUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -74,10 +74,10 @@ public class JWTFilter extends OncePerRequestFilter {
                 .build();
 
         //UserDetails에 회원 정보 객체 담기
-        CustomOAuth2User customOAuth2User = new CustomOAuth2User(userDTO);
+        PrincipalDetails principalDetails = new PrincipalDetails(userDTO);
 
         //스프링 시큐리티 인증 토큰 생성
-        Authentication authToken = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
+        Authentication authToken = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
 
         //세션에 사용자 등록
         SecurityContextHolder.getContext().setAuthentication(authToken);

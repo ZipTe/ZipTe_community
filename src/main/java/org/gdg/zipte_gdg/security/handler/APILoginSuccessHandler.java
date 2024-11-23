@@ -1,13 +1,12 @@
 package org.gdg.zipte_gdg.security.handler;
 
-import com.nimbusds.jose.shaded.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.domain.member.oauth2.CustomOAuth2User;
+import org.gdg.zipte_gdg.domain.oauth2.PrincipalDetails;
 import org.gdg.zipte_gdg.security.util.JWTUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +14,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,7 +30,7 @@ public class APILoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandle
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         //OAuth2User
-        CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
+        PrincipalDetails customUserDetails = (PrincipalDetails) authentication.getPrincipal();
 
         Map<String, Object> valueMap = getStringObjectMap(authentication, customUserDetails);
 
@@ -46,7 +44,7 @@ public class APILoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandle
 //        printWriter.close();
     }
 
-    private static Map<String, Object> getStringObjectMap(Authentication authentication, CustomOAuth2User customUserDetails) {
+    private static Map<String, Object> getStringObjectMap(Authentication authentication, PrincipalDetails customUserDetails) {
         String username = customUserDetails.getUsername();
         String email = customUserDetails.getEmail();
         Long userId = customUserDetails.getId();

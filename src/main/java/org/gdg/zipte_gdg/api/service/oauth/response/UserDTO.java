@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.api.service.member.response.oauth2;
+package org.gdg.zipte_gdg.api.service.oauth.response;
 
 import lombok.*;
 

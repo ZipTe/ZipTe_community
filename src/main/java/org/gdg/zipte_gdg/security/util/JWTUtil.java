@@ -23,8 +23,8 @@ public class JWTUtil {
 
 //    @Value("${jwt.secretKey}")
 //    private static String key = "12345678901234567890123456789012";
-// 비밀 키를 안전하게 생성 (HS256 알고리즘에 맞게 자동 생성)
-private static final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    // 비밀 키를 안전하게 생성 (HS256 알고리즘에 맞게 자동 생성)
+    private static final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     // 토큰 생성 메서드
     public static String generateToken(Map<String, Object> valueMap, int min) {
@@ -86,7 +86,7 @@ private static final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256)
 
     public Long getUserId (String token) {
         String email = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("email", String.class);
-        Member member = memberRepository.findByEmail(email).orElseThrow();
+        Member member = memberRepository.findByEmail(email);
         return member.getId();
     }
 
