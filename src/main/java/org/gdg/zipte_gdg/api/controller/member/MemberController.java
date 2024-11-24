@@ -6,7 +6,7 @@ import org.gdg.zipte_gdg.api.controller.member.request.MemberRequestDto;
 import org.gdg.zipte_gdg.api.controller.response.ApiResponse;
 import org.gdg.zipte_gdg.api.service.member.MemberService;
 import org.gdg.zipte_gdg.api.service.member.response.MemberResponseDto;
-import org.gdg.zipte_gdg.domain.oauth2.PrincipalDetails;
+import org.gdg.zipte_gdg.security.oauth.domain.PrincipalDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 

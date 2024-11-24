@@ -2,10 +2,10 @@ package org.gdg.zipte_gdg.config;
 
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.api.service.oauth.CustomOAuth2UserService;
-import org.gdg.zipte_gdg.security.filter.JWTFilter;
-import org.gdg.zipte_gdg.security.handler.APILoginSuccessHandler;
-import org.gdg.zipte_gdg.security.util.JWTUtil;
+import org.gdg.zipte_gdg.security.oauth.service.CustomOAuth2UserService;
+import org.gdg.zipte_gdg.security.jwt.filter.JWTFilter;
+import org.gdg.zipte_gdg.security.jwt.handler.APILoginSuccessHandler;
+import org.gdg.zipte_gdg.security.jwt.util.JWTUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;

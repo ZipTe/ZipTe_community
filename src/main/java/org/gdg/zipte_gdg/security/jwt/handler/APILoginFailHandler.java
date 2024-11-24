@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.security.handler;
+package org.gdg.zipte_gdg.security.jwt.handler;
 
 
 import com.nimbusds.jose.shaded.gson.Gson;

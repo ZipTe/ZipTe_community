@@ -1,15 +1,15 @@
-package org.gdg.zipte_gdg.api.service.oauth;
+package org.gdg.zipte_gdg.security.oauth.service;
 
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.api.service.oauth.response.NaverResponse;
-import org.gdg.zipte_gdg.api.service.oauth.response.OAuth2UserResponse;
-import org.gdg.zipte_gdg.api.service.oauth.response.UserDTO;
+import org.gdg.zipte_gdg.security.oauth.service.response.NaverResponse;
+import org.gdg.zipte_gdg.security.oauth.service.response.OAuth2UserResponse;
+import org.gdg.zipte_gdg.security.oauth.service.response.UserDTO;
 import org.gdg.zipte_gdg.domain.member.Address;
 import org.gdg.zipte_gdg.domain.member.Member;
 import org.gdg.zipte_gdg.domain.member.MemberRepository;
-import org.gdg.zipte_gdg.domain.oauth2.PrincipalDetails;
+import org.gdg.zipte_gdg.security.oauth.domain.PrincipalDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

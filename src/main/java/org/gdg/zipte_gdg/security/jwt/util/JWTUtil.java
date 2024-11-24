@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.security.util;
+package org.gdg.zipte_gdg.security.jwt.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.domain.member.Member;
 import org.gdg.zipte_gdg.domain.member.MemberRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;

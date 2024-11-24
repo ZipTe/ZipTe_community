@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.security.filter;
+package org.gdg.zipte_gdg.security.jwt.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -6,9 +6,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.api.service.oauth.response.UserDTO;
-import org.gdg.zipte_gdg.domain.oauth2.PrincipalDetails;
-import org.gdg.zipte_gdg.security.util.JWTUtil;
+import org.gdg.zipte_gdg.security.oauth.service.response.UserDTO;
+import org.gdg.zipte_gdg.security.oauth.domain.PrincipalDetails;
+import org.gdg.zipte_gdg.security.jwt.util.JWTUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

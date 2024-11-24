@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.security.handler;
+package org.gdg.zipte_gdg.security.jwt.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -6,8 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.domain.oauth2.PrincipalDetails;
-import org.gdg.zipte_gdg.security.util.JWTUtil;
+import org.gdg.zipte_gdg.security.oauth.domain.PrincipalDetails;
+import org.gdg.zipte_gdg.security.jwt.util.JWTUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
