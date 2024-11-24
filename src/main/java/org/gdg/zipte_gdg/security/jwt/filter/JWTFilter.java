@@ -6,6 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.security.oauth.service.response.CustomUserDto;
 import org.gdg.zipte_gdg.security.oauth.domain.PrincipalDetails;
 import org.gdg.zipte_gdg.security.jwt.util.JWTUtil;
@@ -17,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
+@Log4j2
 @RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
 
@@ -25,42 +27,36 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        //cookie들을 불러온 뒤 Authorization Key에 담긴 쿠키를 찾음
+        // 쿠키들을 불러온 뒤 Authorization Key에 담긴 쿠키를 찾음
         String authorization = null;
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
 
-            System.out.println(cookie.getName());
-            if (cookie.getName().equals("Authorization")) {
-
-                authorization = cookie.getValue();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Authorization")) {
+                    authorization = cookie.getValue();
+                    break;
+                }
             }
         }
 
-        //Authorization 헤더 검증
+        // Authorization 헤더 검증
         if (authorization == null) {
-
-            System.out.println("token null");
-            filterChain.doFilter(request, response);
-
-            //조건이 해당되면 메소드 종료 (필수)
+            filterChain.doFilter(request, response);  // 조건이 해당되면 메소드 종료
             return;
         }
 
-        //토큰
+        // 토큰
         String token = authorization;
 
-        //토큰 소멸 시간 검증
+        // 토큰 소멸 시간 검증
         if (jwtUtil.isExpired(token)) {
-
             System.out.println("token expired");
-            filterChain.doFilter(request, response);
-
-            //조건이 해당되면 메소드 종료 (필수)
+            filterChain.doFilter(request, response);  // 조건이 해당되면 메소드 종료
             return;
         }
 
-        //토큰에서 username과 role 획득
+        // 토큰에서 username과 role 획득
         String email = jwtUtil.getEmail(token);
         String username = jwtUtil.getUsername(token);
         List<String> roles = jwtUtil.getRoles(token); // 다중 권한 가져오기
@@ -71,19 +67,19 @@ public class JWTFilter extends OncePerRequestFilter {
                 .id(userId)
                 .email(email)
                 .username(username)
-                .roles(roles) // 다중 권한 설정
+                .roles(roles)  // 다중 권한 설정
                 .build();
 
-
-        //UserDetails에 회원 정보 객체 담기
+        // UserDetails에 회원 정보 객체 담기
         PrincipalDetails principalDetails = new PrincipalDetails(customUserDto);
 
-        //스프링 시큐리티 인증 토큰 생성
+        // 스프링 시큐리티 인증 토큰 생성
         Authentication authToken = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
 
-        //세션에 사용자 등록
+        // 세션에 사용자 등록
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
     }
+
 }

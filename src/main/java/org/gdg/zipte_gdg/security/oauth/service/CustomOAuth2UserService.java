@@ -68,12 +68,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             String encodedPassword = passwordEncoder.encode("defaultPassword");
             Address address = Address.newAddress("미정", "미정", 11111);
             Member member = Member.createNewMember(email, username, encodedPassword, phoneNumber, address);
-            memberRepository.save(member);
+            Member save = memberRepository.save(member);
 
             // 처음 로그인 하는 유저 초기화
             roles.add(Role.OAUTH_FIRST_JOIN.getRole());
 
             CustomUserDto customUserDto = CustomUserDto.builder()
+                    .id(save.getId())
                     .email(email)
                     .username(username)
                     .roles(roles)
@@ -89,6 +90,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             }
 
             CustomUserDto customUserDto = CustomUserDto.builder()
+                    .id(save.getId())
                     .email(email)
                     .username(username)
                     .roles(roles)
