@@ -1,5 +1,6 @@
 package org.gdg.zipte_gdg.api.service.member;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -29,7 +30,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberResponseDto getOne(Long id) {
-        Member member = memberRepository.findById(id).orElseThrow();
+        Member member = memberRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Member with ID " + id + " not found"));
         return entityToDto(member);
     }
 
