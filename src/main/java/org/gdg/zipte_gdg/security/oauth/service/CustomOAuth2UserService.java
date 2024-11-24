@@ -3,9 +3,10 @@ package org.gdg.zipte_gdg.security.oauth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.gdg.zipte_gdg.domain.role.Role;
 import org.gdg.zipte_gdg.security.oauth.service.response.NaverResponse;
 import org.gdg.zipte_gdg.security.oauth.service.response.OAuth2UserResponse;
-import org.gdg.zipte_gdg.security.oauth.service.response.UserDTO;
+import org.gdg.zipte_gdg.security.oauth.service.response.CustomUserDto;
 import org.gdg.zipte_gdg.domain.member.Address;
 import org.gdg.zipte_gdg.domain.member.Member;
 import org.gdg.zipte_gdg.domain.member.MemberRepository;
@@ -16,6 +17,9 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +57,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // 기존 멤버 있는 지 파악
         Member existsmember = memberRepository.findByEmail(email);
+        List<String> roles = new ArrayList<>();
 //        log.info("[Mylog]:" + email);
 
         if (existsmember == null) {
@@ -65,30 +70,32 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             Member member = Member.createNewMember(email, username, encodedPassword, phoneNumber, address);
             memberRepository.save(member);
 
-            UserDTO userDTO = UserDTO.builder()
+            // 처음 로그인 하는 유저 초기화
+            roles.add(Role.OAUTH_FIRST_JOIN.getRole());
+
+            CustomUserDto customUserDto = CustomUserDto.builder()
                     .email(email)
                     .username(username)
-                    .role("ROLE_GREEN")
+                    .roles(roles)
                     .build();
-
-            return new PrincipalDetails(userDTO);
+            return new PrincipalDetails(customUserDto);
         } else {
             existsmember.changeEmail(oAuth2UserResponse.getEmail());
             Member save = memberRepository.save(existsmember);
+            List<Role> role = save.getRoles();
 
-            UserDTO userDTO = UserDTO.builder()
+            for (Role r : role) {
+                roles.add(r.getRole());
+            }
+
+            CustomUserDto customUserDto = CustomUserDto.builder()
                     .email(email)
                     .username(username)
-                    .role(String.valueOf(save.getMemberRole()))
+                    .roles(roles)
                     .build();
 
-            return new PrincipalDetails(userDTO);
+            return new PrincipalDetails(customUserDto);
         }
 
     }
-
-
-
-
-
 }

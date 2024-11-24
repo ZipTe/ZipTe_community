@@ -1,7 +1,7 @@
 package org.gdg.zipte_gdg.security.oauth.domain;
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.security.oauth.service.response.UserDTO;
+import org.gdg.zipte_gdg.security.oauth.service.response.CustomUserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class PrincipalDetails implements OAuth2User, UserDetails, Serializable {
-    private final UserDTO userDTO;
+    private final CustomUserDto customUserDto;
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -31,7 +31,7 @@ public class PrincipalDetails implements OAuth2User, UserDetails, Serializable {
             @Override
             public String getAuthority() {
 
-                return userDTO.getRole();
+                return customUserDto.getRoles().toString();
             }
         });
 
@@ -51,14 +51,14 @@ public class PrincipalDetails implements OAuth2User, UserDetails, Serializable {
 
     public String getUsername() {
 
-        return userDTO.getUsername();
+        return customUserDto.getUsername();
     }
 
     public String getEmail() {
-        return userDTO.getEmail();
+        return customUserDto.getEmail();
     }
 
     public Long getId() {
-        return userDTO.getId();
+        return customUserDto.getId();
     }
 }

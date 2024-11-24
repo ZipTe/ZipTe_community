@@ -6,7 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.security.oauth.service.response.UserDTO;
+import org.gdg.zipte_gdg.security.oauth.service.response.CustomUserDto;
 import org.gdg.zipte_gdg.security.oauth.domain.PrincipalDetails;
 import org.gdg.zipte_gdg.security.jwt.util.JWTUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
@@ -60,21 +61,22 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
         //토큰에서 username과 role 획득
-        String email = jwtUtil.getEmal(token);
+        String email = jwtUtil.getEmail(token);
         String username = jwtUtil.getUsername(token);
-        String role = jwtUtil.getRole(token);
+        List<String> roles = jwtUtil.getRoles(token); // 다중 권한 가져오기
         Long userId = jwtUtil.getUserId(token);
 
-        //userDTO를 생성하여 값 set
-        UserDTO userDTO = UserDTO.builder()
+        // CustomUserDto 생성
+        CustomUserDto customUserDto = CustomUserDto.builder()
                 .id(userId)
                 .email(email)
                 .username(username)
-                .role(role)
+                .roles(roles) // 다중 권한 설정
                 .build();
 
+
         //UserDetails에 회원 정보 객체 담기
-        PrincipalDetails principalDetails = new PrincipalDetails(userDTO);
+        PrincipalDetails principalDetails = new PrincipalDetails(customUserDto);
 
         //스프링 시큐리티 인증 토큰 생성
         Authentication authToken = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());

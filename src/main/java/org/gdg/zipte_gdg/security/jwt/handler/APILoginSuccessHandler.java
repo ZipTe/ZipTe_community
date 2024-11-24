@@ -18,6 +18,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.List;
+
 
 @Log4j2
 @RequiredArgsConstructor
@@ -30,37 +32,40 @@ public class APILoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandle
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         //OAuth2User
-        PrincipalDetails customUserDetails = (PrincipalDetails) authentication.getPrincipal();
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
-        Map<String, Object> valueMap = getStringObjectMap(authentication, customUserDetails);
+        Map<String, Object> valueMap = getStringObjectMap(authentication, principalDetails);
 
         String token = jwtUtil.generateToken(valueMap, 60);
 
         response.addCookie(createCookie("Authorization", token));
-        response.sendRedirect("http://localhost:8080");
+        response.sendRedirect("http://localhost:8080/api/member/myPage");
 //        PrintWriter printWriter = response.getWriter();
 //        printWriter.write(new Gson().toJson(valueMap));
 //        printWriter.write(token);
 //        printWriter.close();
     }
 
-    private static Map<String, Object> getStringObjectMap(Authentication authentication, PrincipalDetails customUserDetails) {
-        String username = customUserDetails.getUsername();
-        String email = customUserDetails.getEmail();
-        Long userId = customUserDetails.getId();
+    private static Map<String, Object> getStringObjectMap(Authentication authentication, PrincipalDetails principalDetails) {
+        String username = principalDetails.getUsername();
+        String email = principalDetails.getEmail();
+        Long userId = principalDetails.getId();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-        GrantedAuthority auth = iterator.next();
-        String role = auth.getAuthority();
+
+        // 모든 권한을 문자열 리스트로 변환
+        List<String> roles = authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
 
         Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("username", username);
         valueMap.put("email", email);
         valueMap.put("userId", userId);
-        valueMap.put("role", role);
+        valueMap.put("roles", roles); // 역할 목록 저장
         return valueMap;
     }
+
 
     private Cookie createCookie(String key, String value) {
 

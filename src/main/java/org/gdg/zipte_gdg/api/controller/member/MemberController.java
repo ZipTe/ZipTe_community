@@ -24,7 +24,9 @@ public class MemberController {
     }
 
     @PutMapping
-    public ApiResponse<MemberResponseDto> update(@RequestBody MemberRequestDto memberRequestDto){
+    public ApiResponse<MemberResponseDto> update(@RequestBody MemberRequestDto memberRequestDto, @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        memberRequestDto.setId(principalDetails.getId());
         return ApiResponse.created(memberService.addAddress(memberRequestDto));
     }
 
