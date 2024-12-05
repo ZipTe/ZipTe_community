@@ -48,6 +48,7 @@ public class MemberServiceImpl implements MemberService {
             // 회원에 주소를 추가합니다.
             member.addAddress(address);
             member.removeMemberRole(Role.OAUTH_FIRST_JOIN);
+            member.addMemberRole(Role.USER);
             // 회원 정보를 저장하고 DTO로 변환하여 반환합니다.
             memberRepository.save(member);
         } else {

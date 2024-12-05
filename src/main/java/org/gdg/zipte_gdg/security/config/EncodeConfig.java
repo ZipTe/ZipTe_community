@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.config;
+package org.gdg.zipte_gdg.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

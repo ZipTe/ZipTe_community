@@ -1,7 +1,8 @@
-package org.gdg.zipte_gdg.config;
+package org.gdg.zipte_gdg.security.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.gdg.zipte_gdg.domain.role.Role;
 import org.gdg.zipte_gdg.security.oauth.service.CustomOAuth2UserService;
 import org.gdg.zipte_gdg.security.jwt.filter.JWTFilter;
 import org.gdg.zipte_gdg.security.jwt.handler.APILoginSuccessHandler;
@@ -41,7 +42,11 @@ public class SecurityConfig {
                                         new AntPathRequestMatcher("/"),
                                         new AntPathRequestMatcher("/auth/success")
                                 ).permitAll()
+                                .requestMatchers(
+                                        new AntPathRequestMatcher("/api/review")
+                                ).hasRole("USER")
                                 .anyRequest().authenticated()
+
                 )
 
 
