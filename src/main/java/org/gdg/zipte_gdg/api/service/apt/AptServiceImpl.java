@@ -24,11 +24,11 @@ public class AptServiceImpl implements AptService {
     }
 
     @Override
-    public Mono<Object> getOne(String kaptCode) {
+    public Mono<Object> getOne(String apartment_name) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/find/")
-                        .queryParam("kaptCode", kaptCode)
+                        .queryParam("kaptName", apartment_name)
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
