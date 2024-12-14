@@ -7,4 +7,7 @@ import lombok.Data;
 @Builder
 public class AptResposnseDto {
 
+    private String kaptCode;
+    private String kaptName;
+
 }
