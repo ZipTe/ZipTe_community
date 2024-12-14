@@ -12,21 +12,20 @@ import org.gdg.zipte_gdg.domain.role.Role;
 import org.hibernate.annotations.Cascade;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
-public class Member implements UserDetails {
+public class Member implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,9 +36,6 @@ public class Member implements UserDetails {
 
     @Column(nullable = false)
     private String username;
-
-    @Column(nullable = false)
-    private String password;
 
     @Column
     private String phoneNumber;
@@ -82,19 +78,19 @@ public class Member implements UserDetails {
     private LocalDateTime createdAt;
 
     // 로직
-    public static Member createNewMember(String email, String username, String password, String phoneNumber, Address address) {
+    public static Member createNewMember(String email, String username, String phoneNumber, Address address) {
         List<Role> roles = new ArrayList<>();
 
         Member member = Member.builder()
                 .username(username)
                 .email(email)
-                .password(password)
                 .phoneNumber(phoneNumber)
                 .address(address)
                 .roles(roles)
                 .createdAt(LocalDateTime.now())
                 .build();
         member.addMemberRole(Role.OAUTH_FIRST_JOIN);
+        member.addMemberRole(Role.USER);
         return member;
     }
 
@@ -130,15 +126,20 @@ public class Member implements UserDetails {
         this.email = email;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.name())) // Role을 문자열로 변환
-                .collect(Collectors.toList());
+    // 유저 이름 추가 로직
+    public void changeUsername(String username) {
+        this.username = username;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
 
-
+    @Override
+    public String getPassword() {
+        return "";
+    }
 //    // --------------------------------- 양방향 필요한가
 //    // 리뷰 좋아요 추가 로직
 //    public void addReviewLike(ReviewLike reviewLike) {

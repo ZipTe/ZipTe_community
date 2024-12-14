@@ -2,11 +2,10 @@ package org.gdg.zipte_gdg.security.config;
 
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.domain.role.Role;
 import org.gdg.zipte_gdg.security.oauth.service.CustomOAuth2UserService;
-import org.gdg.zipte_gdg.security.jwt.filter.JWTFilter;
-import org.gdg.zipte_gdg.security.jwt.handler.APILoginSuccessHandler;
-import org.gdg.zipte_gdg.security.jwt.util.JWTUtil;
+import org.gdg.zipte_gdg.security.jwt.filter.TokenAuthenticationFilter;
+import org.gdg.zipte_gdg.security.jwt.handler.OAuth2LoginSuccessHandler;
+import org.gdg.zipte_gdg.security.jwt.util.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -21,8 +20,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService oAuth2UserService;
-    private final APILoginSuccessHandler loginSuccessHandler;
-    private final JWTUtil jwtUtil;
+    private final OAuth2LoginSuccessHandler loginSuccessHandler;
+    private final TokenProvider tokenProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,12 +40,18 @@ public class SecurityConfig {
                         request.requestMatchers(
                                         new AntPathRequestMatcher("/"),
                                         new AntPathRequestMatcher("/auth/success")
-                                ).permitAll()
-                                .requestMatchers(
-                                        new AntPathRequestMatcher("/api/review")
-                                ).hasRole("USER")
-                                .anyRequest().authenticated()
+                                ).permitAll()  // "/"와 "/auth/success" 경로는 누구나 접근 가능
 
+                                .requestMatchers(
+                                        new AntPathRequestMatcher("/api/review/*"),
+                                            new AntPathRequestMatcher("/api/order/myOrder")
+                                ).hasRole("USER")  // "/api/review" 경로는 "USER" 역할을 가진 사용자만 접근 가능
+
+//                                .requestMatchers(
+//                                        new AntPathRequestMatcher("/api/order/*")
+//                                ).hasAnyRole("USER", "ADMIN")  // USER 또는 ADMIN 역할을 가진 사용자만 접근 가능
+
+                                .anyRequest().authenticated()  // 그 외의 모든 요청은 인증된 사용자만 접근 가능
                 )
 
 
@@ -60,7 +65,8 @@ public class SecurityConfig {
                 )
 
                 // jwt 설정
-                .addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
+
+                .addFilterBefore(new TokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
 
 //                 인증 예외 핸들링
 //                .exceptionHandling(exceptionHandling -> exceptionHandling.disable())
