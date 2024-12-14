@@ -11,30 +11,18 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 @Log4j2
 @Getter
-public class PrincipalDetails implements OAuth2User, UserDetails, Serializable {
+public class PrincipalDetails implements OAuth2User, Serializable {
 
     private final Member member;
-//    private final Map<String, Object> attributes;
-//    private final String attributeKey;
 
     // 첫 번째 생성자: Member만 받는 생성자
     public PrincipalDetails(Member member) {
         this.member = member;
-//        this.attributes = Map.of(); // 기본값 빈 맵으로 설정
-//        this.attributeKey = "";
     }
-
-//    // 두 번째 생성자: Member와 속성(attributeKey)를 받는 생성자
-//    public PrincipalDetails(Member member, Map<String, Object> attributes, String attributeKey) {
-//        this.member = member;
-//        this.attributes = attributes;
-//        this.attributeKey = attributeKey;
-//    }
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -48,11 +36,6 @@ public class PrincipalDetails implements OAuth2User, UserDetails, Serializable {
         )).collect(Collectors.toList());
     }
 
-
-    @Override
-    public String getPassword() {
-        return "";
-    }
 
     @Override
     public String getName() {
