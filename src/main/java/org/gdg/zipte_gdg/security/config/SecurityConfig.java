@@ -48,12 +48,18 @@ public class SecurityConfig {
                                         new AntPathRequestMatcher("/api/order/*")
                                 ).hasAuthority(Role.USER.getRole())  // "/api/review" 경로는 "USER" 역할을 가진 사용자만 접근 가능
 
+                                .requestMatchers(new AntPathRequestMatcher("/api/member/myPage"))
+                                .hasAnyAuthority(Role.USER.getRole(), Role.OAUTH_FIRST_JOIN.getRole())
+
                                 .requestMatchers(
-                                        new AntPathRequestMatcher("/api/member/myPage")
-                                ).hasAuthority(Role.OAUTH_FIRST_JOIN.getRole())
-//                                .requestMatchers(
-//                                        new AntPathRequestMatcher("/api/order/*")
-//                                ).hasAnyRole("USER", "ADMIN")  // USER 또는 ADMIN 역할을 가진 사용자만 접근 가능
+                                        new AntPathRequestMatcher("/api/apt/price"),
+                                        new AntPathRequestMatcher("/api/apt/price/size"),
+                                        new AntPathRequestMatcher("/api/apt/price/apt")
+                                ).hasAnyAuthority(Role.USER.getRole())
+
+                                .requestMatchers(
+                                        new AntPathRequestMatcher("/api/apt/AI")
+                                ).hasAuthority(Role.VIP.getRole())  // "/api/review" 경로는 "USER" 역할을 가진 사용자만 접근 가능
 
                                 .anyRequest().authenticated()  // 그 외의 모든 요청은 인증된 사용자만 접근 가능
                 )

@@ -64,14 +64,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             Member savedMember = memberRepository.save(newMember);
 
             log.info("신규 사용자 등록: {}", savedMember.getId());
-            return new PrincipalDetails(savedMember,oAuth2UserAttributes,userNameAttributeName);
+            return new PrincipalDetails(savedMember);
         } else {
             // 기존 사용자 정보 업데이트
             existingMember.changeEmail(oAuth2UserResponse.getEmail());
             Member updatedMember = memberRepository.save(existingMember);
 
             log.info("기존 사용자 업데이트: {}", updatedMember);
-            return new PrincipalDetails(updatedMember,oAuth2UserAttributes,userNameAttributeName);
+            return new PrincipalDetails(updatedMember);
         }
     }
 
