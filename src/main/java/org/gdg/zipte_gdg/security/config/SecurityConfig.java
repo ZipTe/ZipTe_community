@@ -2,6 +2,7 @@ package org.gdg.zipte_gdg.security.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.gdg.zipte_gdg.domain.role.Role;
 import org.gdg.zipte_gdg.security.oauth.service.CustomOAuth2UserService;
 import org.gdg.zipte_gdg.security.jwt.filter.TokenAuthenticationFilter;
 import org.gdg.zipte_gdg.security.jwt.handler.OAuth2LoginSuccessHandler;
@@ -44,9 +45,12 @@ public class SecurityConfig {
 
                                 .requestMatchers(
                                         new AntPathRequestMatcher("/api/review/*"),
-                                            new AntPathRequestMatcher("/api/order/myOrder")
-                                ).hasRole("USER")  // "/api/review" 경로는 "USER" 역할을 가진 사용자만 접근 가능
+                                        new AntPathRequestMatcher("/api/order/*")
+                                ).hasAuthority(Role.USER.getRole())  // "/api/review" 경로는 "USER" 역할을 가진 사용자만 접근 가능
 
+                                .requestMatchers(
+                                        new AntPathRequestMatcher("/api/member/myPage")
+                                ).hasAuthority(Role.OAUTH_FIRST_JOIN.getRole())
 //                                .requestMatchers(
 //                                        new AntPathRequestMatcher("/api/order/*")
 //                                ).hasAnyRole("USER", "ADMIN")  // USER 또는 ADMIN 역할을 가진 사용자만 접근 가능
