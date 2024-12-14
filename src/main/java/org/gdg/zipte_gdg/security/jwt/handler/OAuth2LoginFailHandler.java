@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Log4j2
 @Component
-public class APILoginFailHandler implements AuthenticationFailureHandler {
+public class OAuth2LoginFailHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.info("----fail handler----"+exception);

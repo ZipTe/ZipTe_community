@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.security.jwt.util;
+package org.gdg.zipte_gdg.security.jwt.provider;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

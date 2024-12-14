@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.security.jwt.util;
+package org.gdg.zipte_gdg.security.jwt.provider;
 
 public class CustomJWTException extends RuntimeException {
 

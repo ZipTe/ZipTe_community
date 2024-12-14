@@ -6,7 +6,7 @@ import org.gdg.zipte_gdg.domain.role.Role;
 import org.gdg.zipte_gdg.security.oauth.service.CustomOAuth2UserService;
 import org.gdg.zipte_gdg.security.jwt.filter.TokenAuthenticationFilter;
 import org.gdg.zipte_gdg.security.jwt.handler.OAuth2LoginSuccessHandler;
-import org.gdg.zipte_gdg.security.jwt.util.TokenProvider;
+import org.gdg.zipte_gdg.security.jwt.provider.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
