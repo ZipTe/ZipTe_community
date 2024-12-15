@@ -1,64 +1,53 @@
 package org.gdg.zipte_gdg.security.oauth.domain;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.security.oauth.service.response.CustomUserDto;
+import lombok.extern.log4j.Log4j2;
+import org.gdg.zipte_gdg.domain.member.Member;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
+@Log4j2
+@Getter
+public class PrincipalDetails implements OAuth2User, Serializable {
 
-@RequiredArgsConstructor
-public class PrincipalDetails implements OAuth2User, UserDetails, Serializable {
-    private final CustomUserDto customUserDto;
+    private final Member member;
+
+    // 첫 번째 생성자: Member만 받는 생성자
+    public PrincipalDetails(Member member) {
+        this.member = member;
+    }
 
     @Override
     public Map<String, Object> getAttributes() {
-
         return null;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        Collection<GrantedAuthority> collection = new ArrayList<>();
-
-        collection.add(new GrantedAuthority() {
-
-            @Override
-            public String getAuthority() {
-
-                return customUserDto.getRoles().toString();
-            }
-        });
-
-        return collection;
+        return member.getRoles().stream().map(o -> new SimpleGrantedAuthority(
+                o.getRole()
+        )).collect(Collectors.toList());
     }
 
-    @Override
-    public String getPassword() {
-        return "";
-    }
 
     @Override
     public String getName() {
-
-        return "";
+        // OAuth2User의 고유 식별자 (예: 이메일)
+        return member.getEmail();
     }
 
     public String getUsername() {
-
-        return customUserDto.getUsername();
-    }
-
-    public String getEmail() {
-        return customUserDto.getEmail();
+        return member.getUsername();
     }
 
     public Long getId() {
-        return customUserDto.getId();
+        return member.getId();
     }
 }

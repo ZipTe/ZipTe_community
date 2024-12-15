@@ -6,12 +6,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
-public class Address {
+public class Address implements Serializable {
 
     private String city;
 

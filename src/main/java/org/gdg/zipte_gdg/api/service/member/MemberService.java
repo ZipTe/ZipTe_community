@@ -25,7 +25,7 @@ public interface MemberService {
 
     default Member dtoToEntity(MemberRequestDto memberRequestDto) {
         Address address = Address.newAddress(memberRequestDto.getCity(), memberRequestDto.getStreetAddress(), memberRequestDto.getZipCode());
-        return Member.createNewMember(memberRequestDto.getEmail(), memberRequestDto.getUsername(), memberRequestDto.getPassword(), memberRequestDto.getPhoneNumber(), address);
+        return Member.createNewMember(memberRequestDto.getEmail(), memberRequestDto.getUsername(), memberRequestDto.getPhoneNumber(), address);
     }
 
     default MemberResponseDto entityToDto(Member member) {
