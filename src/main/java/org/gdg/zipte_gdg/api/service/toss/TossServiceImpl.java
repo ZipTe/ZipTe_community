@@ -3,7 +3,7 @@ package org.gdg.zipte_gdg.api.service.toss;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.api.controller.Toss.request.ConfirmPaymentRequestDto;
+import org.gdg.zipte_gdg.api.controller.toss.request.ConfirmPaymentRequestDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +15,8 @@ import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-@Service
 @Log4j2
+@Service
 @Transactional
 public class TossServiceImpl implements TossService {
 

@@ -1,14 +1,14 @@
-package org.gdg.zipte_gdg.api.controller.Toss;
+package org.gdg.zipte_gdg.api.controller.toss;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.api.service.toss.PaymentService;
+import org.gdg.zipte_gdg.api.service.payment.PaymentService;
 import org.gdg.zipte_gdg.api.service.toss.TossService;
 import jakarta.servlet.http.HttpSession;
-import org.gdg.zipte_gdg.api.controller.Toss.request.ConfirmPaymentRequestDto;
-import org.gdg.zipte_gdg.api.controller.Toss.request.SaveAmountRequestDto;
+import org.gdg.zipte_gdg.api.controller.toss.request.ConfirmPaymentRequestDto;
+import org.gdg.zipte_gdg.api.controller.toss.request.SaveAmountRequestDto;
+import org.gdg.zipte_gdg.api.service.toss.response.TossPaymentErrorResponse;
 import org.gdg.zipte_gdg.api.service.toss.response.TossPaymentResponseDto;
-import org.gdg.zipte_gdg.domain.Toss.PaymentErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +39,7 @@ public class TossController {
         String amount = (String) session.getAttribute(saveAmountRequest.getOrderId());
         // 결제 전의 금액과 결제 후의 금액이 같은지 검증
         if(amount == null || !amount.equals(saveAmountRequest.getAmount()))
-            return ResponseEntity.badRequest().body(PaymentErrorResponse.builder().code(400).message("결제 금액 정보가 유효하지 않습니다.").build());
+            return ResponseEntity.badRequest().body(TossPaymentErrorResponse.builder().code(400).message("결제 금액 정보가 유효하지 않습니다.").build());
 
         // 검증에 사용했던 세션은 삭제
         session.removeAttribute(saveAmountRequest.getOrderId());
@@ -60,9 +60,9 @@ public class TossController {
         if (response.statusCode() == 200) {
                 // 결제 정보 데이터베이스 저장 시도
                 TossPaymentResponseDto payment = paymentService.savePayment(confirmPaymentRequest, response);
-                log.info("Payment to DB " + payment.toString());
-                log.info("Payment confirm successful");
-                log.info("Confirm payment response: "+ response);
+//                log.info("Payment to DB " + payment.toString());
+//                log.info("Payment confirm successful");
+                log.info("Confirm payment response: "+ response.body());
                 return ResponseEntity.ok(response.body()); // 성공 시 결제 객체 반환
             } else {
             // 결제가 승인되지 않음

@@ -1,9 +1,9 @@
-package org.gdg.zipte_gdg.api.service.toss;
+package org.gdg.zipte_gdg.api.service.payment;
 
 
-import org.gdg.zipte_gdg.api.controller.Toss.request.ConfirmPaymentRequestDto;
+import org.gdg.zipte_gdg.api.controller.toss.request.ConfirmPaymentRequestDto;
 import org.gdg.zipte_gdg.api.service.toss.response.TossPaymentResponseDto;
-import org.gdg.zipte_gdg.domain.Toss.TossPayment;
+import org.gdg.zipte_gdg.domain.toss.TossPayment;
 
 import java.net.http.HttpResponse;
 

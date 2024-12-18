@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.api.controller.Toss.request;
+package org.gdg.zipte_gdg.api.controller.toss.request;
 
 import lombok.Data;
 
