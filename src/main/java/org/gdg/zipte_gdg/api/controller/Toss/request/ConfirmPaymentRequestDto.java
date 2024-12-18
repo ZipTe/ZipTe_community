@@ -1,0 +1,14 @@
+package org.gdg.zipte_gdg.api.controller.Toss.request;
+
+import lombok.Data;
+
+@Data
+public class ConfirmPaymentRequestDto {
+
+    // 리액트에서 받는 DTO객체
+
+    private String paymentKey;
+    private String orderId;
+    private String amount;
+
+}
