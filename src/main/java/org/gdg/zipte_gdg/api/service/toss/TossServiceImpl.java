@@ -6,7 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.api.controller.Toss.request.ConfirmPaymentRequestDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.net.URI;
@@ -28,6 +27,7 @@ public class TossServiceImpl implements TossService {
     Base64.Encoder encoder = Base64.getEncoder();
     byte[] encodedBytes = encoder.encode((widgetSecretKey + ":").getBytes(StandardCharsets.UTF_8));
     String authorizations = "Basic " + new String(encodedBytes);
+
     // 오브젝트 매퍼 등록
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -37,7 +37,7 @@ public class TossServiceImpl implements TossService {
     @Override
     public HttpResponse<String> requestConfirm(ConfirmPaymentRequestDto confirmPaymentRequestDto) throws IOException, InterruptedException {
         String tossOrderId = confirmPaymentRequestDto.getOrderId();
-        String tossAmount = confirmPaymentRequestDto.getAmount();
+        int tossAmount = confirmPaymentRequestDto.getAmount();
         String tossPaymentKey = confirmPaymentRequestDto.getPaymentKey();
 
         // 승인 요청에 사용할 JSON 객체를 만듭니다.
@@ -48,7 +48,7 @@ public class TossServiceImpl implements TossService {
 
         // ObjectMapper를 사용하여 JSON 객체를 문자열로 변환
         String requestBody = objectMapper.writeValueAsString(requestObj);
-        log.info("requestBOdy: " + requestBody);
+//        log.info("requestBOdy: " + requestBody);
 
         // 결제 승인 API를 호출
         HttpRequest request = HttpRequest.newBuilder()
@@ -57,11 +57,9 @@ public class TossServiceImpl implements TossService {
                 .header("Content-Type", "application/json")
                 .method("POST", HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
-        log.info("Authorization : " + authorizations);
+//        log.info("Authorization : " + authorizations);
         return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-
-//        return null;
     }
 
     /**

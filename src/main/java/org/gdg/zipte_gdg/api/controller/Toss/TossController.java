@@ -2,10 +2,12 @@ package org.gdg.zipte_gdg.api.controller.Toss;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.gdg.zipte_gdg.api.service.toss.PaymentService;
 import org.gdg.zipte_gdg.api.service.toss.TossService;
 import jakarta.servlet.http.HttpSession;
 import org.gdg.zipte_gdg.api.controller.Toss.request.ConfirmPaymentRequestDto;
 import org.gdg.zipte_gdg.api.controller.Toss.request.SaveAmountRequestDto;
+import org.gdg.zipte_gdg.api.service.toss.response.TossPaymentResponseDto;
 import org.gdg.zipte_gdg.domain.Toss.PaymentErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ import java.net.http.HttpResponse;
 public class TossController {
 
     private final TossService tossService;
+    private final PaymentService paymentService;
 
     // 임시저장하기
     @PostMapping("/saveAmount")
@@ -56,9 +59,10 @@ public class TossController {
         // 응답 코드 확인
         if (response.statusCode() == 200) {
                 // 결제 정보 데이터베이스 저장 시도
-//                Payment payment = paymentService.savePayment(confirmPaymentRequest, response);
+                TossPaymentResponseDto payment = paymentService.savePayment(confirmPaymentRequest, response);
+                log.info("Payment to DB " + payment.toString());
                 log.info("Payment confirm successful");
-                log.info("Confirm payment response: {}", response);
+                log.info("Confirm payment response: "+ response);
                 return ResponseEntity.ok(response.body()); // 성공 시 결제 객체 반환
             } else {
             // 결제가 승인되지 않음

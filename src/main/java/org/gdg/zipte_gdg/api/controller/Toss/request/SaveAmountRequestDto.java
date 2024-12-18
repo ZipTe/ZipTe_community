@@ -6,6 +6,6 @@ import lombok.Data;
 public class SaveAmountRequestDto {
 
     private String orderId;
-    private String amount;
+    private int amount;
 
 }

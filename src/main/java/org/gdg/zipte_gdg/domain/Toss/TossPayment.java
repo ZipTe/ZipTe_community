@@ -16,38 +16,41 @@ import java.time.LocalDateTime;
 public class TossPayment {
 
     @Id
-    byte[] paymentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long paymentId;
 
     @Column(nullable = false, unique = true)
-    String tossPaymentKey;
+    private String tossPaymentKey;
 
     // 토스내부에서 관리하는 별도의 orderId가 존재함
     @Column(nullable = false)
-    String tossOrderId;
+    private String tossOrderId;
+//
+//    @OneToOne
+//    @JoinColumn(name = "order_id", nullable = false)
+//    private Order order;
 
-    @OneToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    Order order;
-
-    long totalAmount;
-
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
-    TossPaymentMethod tossPaymentMethod;
+    private int totalAmount;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
-    TossPaymentStatus tossPaymentStatus;
+//    @Column(nullable = false)
+    private TossPaymentMethod tossPaymentMethod;
 
-    @Column(nullable = false)
-    LocalDateTime requestedAt;
+    @Enumerated(value = EnumType.STRING)
+//    @Column(nullable = false)
+    private TossPaymentStatus tossPaymentStatus;
 
-    LocalDateTime approvedAt;
+//    @Column(nullable = false)
+    private LocalDateTime requestedAt;
 
-    public static TossPayment createPayment(String tossPaymentKey, String tossOrderId, Order order) {
+    private LocalDateTime approvedAt;
+
+    public static TossPayment createPayment(String tossPaymentKey, String tossOrderId, int totalAmount) {
         return TossPayment.builder()
                 .tossPaymentKey(tossPaymentKey)
                 .tossOrderId(tossOrderId)
+                .totalAmount(totalAmount)
+                .requestedAt(LocalDateTime.now())
                 .build();
 
     }

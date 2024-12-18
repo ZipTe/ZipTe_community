@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.gdg.zipte_gdg.domain.Toss.TossPayment;
 import org.gdg.zipte_gdg.domain.delivery.Delivery;
 import org.gdg.zipte_gdg.domain.member.Member;
 import org.gdg.zipte_gdg.domain.orderItem.OrderItem;
@@ -38,6 +39,9 @@ public class Order {
 
     @OneToOne(mappedBy = "order")
     private Delivery delivery;
+
+    @OneToOne(mappedBy = "order")
+    private TossPayment tossPayment;
 
     @CreatedDate
     private LocalDateTime orderDate;
