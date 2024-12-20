@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public interface OrderService {
 
     // 주문 생성
-    OrderResponseDto register(OrderRequestDto orderRequestDto);
+    OrderResponseDto order(OrderRequestDto orderRequestDto);
 
     // 주문 번호로 찾기
     OrderResponseDto getOne(Long id);
@@ -21,6 +21,7 @@ public interface OrderService {
     // 나의 주문 목록 조회 <User>
     PageResponseDto<OrderResponseDto> findMyOrders(PageRequestDto pageRequestDto, Long memberId);
 
+    // DTO로 출력
     default OrderResponseDto entityToDTO(Order order) {
         OrderResponseDto responseDto = OrderResponseDto.builder()
                 .id(order.getId())

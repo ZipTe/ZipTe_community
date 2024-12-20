@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
 
     @Override
-    public OrderResponseDto register(OrderRequestDto orderRequestDto) {
+    public OrderResponseDto order(OrderRequestDto orderRequestDto) {
 
         Member member = getMember(orderRequestDto);
         Address address = getAddress(orderRequestDto);

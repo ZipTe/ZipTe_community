@@ -23,7 +23,7 @@ public class OrderController {
     @PostMapping
     public ApiResponse<OrderResponseDto> create(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody OrderRequestDto orderRequestDto) {
         orderRequestDto.setMemberId(principalDetails.getId());
-        return ApiResponse.created(orderService.register(orderRequestDto));
+        return ApiResponse.created(orderService.order(orderRequestDto));
     }
 
     @GetMapping({"/{id}"})
