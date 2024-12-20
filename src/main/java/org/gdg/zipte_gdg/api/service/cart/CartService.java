@@ -2,6 +2,7 @@ package org.gdg.zipte_gdg.api.service.cart;
 
 
 import org.gdg.zipte_gdg.api.controller.cart.request.CartRequestDto;
+import org.gdg.zipte_gdg.api.controller.order.request.OrderRequestDto;
 import org.gdg.zipte_gdg.api.service.cart.response.CartItemResponseDto;
 import org.gdg.zipte_gdg.api.service.cart.response.CartResponseDto;
 import org.gdg.zipte_gdg.domain.cart.Cart;
@@ -20,7 +21,7 @@ public interface CartService {
     CartResponseDto getMyCart(Long memberId);
 
     // 카트에서 특정 아이템만 구매하기 + 구매한 아이템은 장바구니에서 삭제되도록
-
+    OrderRequestDto orderCartItem(CartRequestDto cartRequestDto);
 
 
     // 엔티티를 DTO로 변경

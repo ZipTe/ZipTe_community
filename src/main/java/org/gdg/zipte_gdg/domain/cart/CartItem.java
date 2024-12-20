@@ -49,8 +49,8 @@ public class CartItem {
         this.quantity= quantity;
     }
 
-    public void deleteCart() {
-        this.cart = null;
-    }
+//    public void deleteCart() {
+//        this.cart = null;
+//    }
 
 }

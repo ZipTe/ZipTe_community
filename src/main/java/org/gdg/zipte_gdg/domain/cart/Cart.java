@@ -25,7 +25,7 @@ public class Cart {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<CartItem> items = new ArrayList<>();
 
     // 생성 로직
@@ -46,6 +46,5 @@ public class Cart {
     public void removeItem(CartItem item) {
         // 아이템 추가
         items.remove(item);
-        item.deleteCart();
     }
 }
