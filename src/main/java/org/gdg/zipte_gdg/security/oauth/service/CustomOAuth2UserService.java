@@ -2,6 +2,8 @@ package org.gdg.zipte_gdg.security.oauth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.gdg.zipte_gdg.domain.cart.Cart;
+import org.gdg.zipte_gdg.domain.cart.CartRepository;
 import org.gdg.zipte_gdg.domain.role.Role;
 import org.gdg.zipte_gdg.security.oauth.service.response.NaverResponse;
 import org.gdg.zipte_gdg.security.oauth.service.response.OAuth2UserResponse;
@@ -25,6 +27,7 @@ import java.util.Map;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberRepository memberRepository;
+    private final CartRepository cartRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
@@ -62,6 +65,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             Member newMember = Member.createNewMember(email, username,  phoneNumber, address);
 //            newMember.addMemberRole(Role.OAUTH_FIRST_JOIN); // 초기 권한 설정
             Member savedMember = memberRepository.save(newMember);
+
+            // Cart도 같이 생성
+            Cart cart = Cart.CreateNewCart(savedMember);
+            cartRepository.save(cart);
 
             log.info("신규 사용자 등록: {}", savedMember.getId());
             return new PrincipalDetails(savedMember);
