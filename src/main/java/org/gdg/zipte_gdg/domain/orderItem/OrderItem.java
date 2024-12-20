@@ -33,6 +33,13 @@ public class OrderItem {
 
     private int price;
 
+    // 총 금액을 계산하는 필드
+    private int totalPrice;
+
+    // 로직
+    public void calculateTotalPrice() {
+        this.totalPrice = this.product.getPrice() * count;
+    }
     // 로직
     public void totalPrice() {
         this.price = this.product.getPrice() * count;

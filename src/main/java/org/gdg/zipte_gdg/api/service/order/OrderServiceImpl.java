@@ -6,6 +6,7 @@ import org.gdg.zipte_gdg.api.controller.order.request.OrderRequestDto;
 import org.gdg.zipte_gdg.api.controller.page.request.PageRequestDto;
 import org.gdg.zipte_gdg.api.service.order.response.OrderItemResponseDto;
 import org.gdg.zipte_gdg.api.service.order.response.OrderResponseDto;
+import org.gdg.zipte_gdg.api.service.order.response.PaymentOrderResponseDto;
 import org.gdg.zipte_gdg.api.service.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.domain.delivery.Delivery;
 import org.gdg.zipte_gdg.domain.delivery.DeliveryRepository;
@@ -41,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
 
     @Override
-    public OrderResponseDto order(OrderRequestDto orderRequestDto) {
+    public PaymentOrderResponseDto order(OrderRequestDto orderRequestDto) {
 
         Member member = getMember(orderRequestDto);
         Address address = getAddress(orderRequestDto);
@@ -53,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
         // 누가,어디로,무엇을 살것인지 정했기에 Order 가능
         Order order = Order.createNewOrder(member, delivery, orderItems);
         orderRepository.save(order);
-        return entityToDTO(order);
+        return entityToPaymentDTO(order);
     }
 
 

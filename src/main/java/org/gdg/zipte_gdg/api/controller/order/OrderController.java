@@ -7,6 +7,7 @@ import org.gdg.zipte_gdg.api.controller.page.request.PageRequestDto;
 import org.gdg.zipte_gdg.api.controller.response.ApiResponse;
 import org.gdg.zipte_gdg.api.service.order.response.OrderResponseDto;
 import org.gdg.zipte_gdg.api.service.order.OrderService;
+import org.gdg.zipte_gdg.api.service.order.response.PaymentOrderResponseDto;
 import org.gdg.zipte_gdg.api.service.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.security.oauth.domain.PrincipalDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,10 +20,8 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderService orderService;
-
     @PostMapping
-    public ApiResponse<OrderResponseDto> create(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody OrderRequestDto orderRequestDto) {
-        orderRequestDto.setMemberId(principalDetails.getId());
+    public ApiResponse<PaymentOrderResponseDto> create(@RequestBody OrderRequestDto orderRequestDto) {
         return ApiResponse.created(orderService.order(orderRequestDto));
     }
 
