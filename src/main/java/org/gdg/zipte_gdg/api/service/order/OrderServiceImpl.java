@@ -107,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private static Address getAddress(OrderRequestDto orderRequestDto) {
-        return Address.newAddress(orderRequestDto.getCity(), orderRequestDto.getStreetAddress(), orderRequestDto.getZipcode());
+        return Address.newAddress(orderRequestDto.getDetailAddress(), orderRequestDto.getStreetAddress(), orderRequestDto.getZipcode());
     }
 
     private Delivery getDelivery(OrderRequestDto orderRequestDto, Address address) {

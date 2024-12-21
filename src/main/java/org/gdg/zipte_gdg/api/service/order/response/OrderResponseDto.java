@@ -19,7 +19,7 @@ public class OrderResponseDto {
     private String memberName;
 
     // 주소
-    private String city;
+    private String detailAddress;
     private String streetAddress;
     private int zipcode;
 

@@ -13,7 +13,7 @@ public class MemberRequestDto {
     private String username;
     private String password;
     private String phoneNumber;
-    private String city;
     private String streetAddress;
+    private String detailAddress;
     private int zipCode;
 }

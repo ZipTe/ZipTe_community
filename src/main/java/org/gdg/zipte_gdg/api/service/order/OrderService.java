@@ -30,7 +30,7 @@ public interface OrderService {
                 .id(order.getId())
                 .memberId(order.getMember().getId())
                 .memberName(order.getMember().getUsername())
-                .city(order.getDelivery().getAddress().getCity())
+                .detailAddress(order.getDelivery().getAddress().getDetailAddress())
                 .streetAddress(order.getDelivery().getAddress().getStreetAddress())
                 .zipcode(order.getDelivery().getAddress().getZipcode())
                 .orderDesc(order.getDelivery().getOrderDesc())
@@ -62,9 +62,13 @@ public interface OrderService {
         // 총 금액 계산
         int amount = 0;
         for (OrderItem item : order.getOrderItems()) {
-            item.calculateTotalPrice();  // 각 item에 대해 totalPrice 계산
-            amount += item.getTotalPrice(); // 총 금액 누적
+            item.totalPrice();  // 각 item에 대해 totalPrice 계산
+            amount += item.getPrice(); // 총 금액 누적
         }
+
+        // 고객 전화번호 포맷 변경
+        String phoneNumber = formatPhoneNumber(order.getMember().getPhoneNumber());
+
 
         // PaymentOrderResponseDto 생성
         PaymentOrderResponseDto responseDto = PaymentOrderResponseDto.builder()
@@ -73,7 +77,7 @@ public interface OrderService {
                 .amount(String.valueOf(amount)) // 총 금액을 String으로 변환하여 설정
                 .customerName(order.getMember().getUsername()) // 고객 이름
                 .customerEmail(order.getMember().getEmail()) // 고객 이메일
-                .customerMobilePhone(order.getMember().getPhoneNumber()) // 고객 전화번호
+                .customerMobilePhone(phoneNumber) // 고객 전화번호
                 .build();
 
         return responseDto;
@@ -100,6 +104,11 @@ public interface OrderService {
         }
     }
 
+    // 전화번호 포맷을 "01000000000" 형식으로 맞추는 메소드
+    private String formatPhoneNumber(String phoneNumber) {
+        // 전화번호에서 "-"을 제거하고 숫자만 남기기
+        return phoneNumber.replaceAll("[^0-9]", "");
+    }
 
 
 

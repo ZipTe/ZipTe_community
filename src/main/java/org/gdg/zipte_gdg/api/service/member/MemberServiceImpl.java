@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
         // 회원의 역할이 ROLE_FIRST_JOIN_OAUTH_USER인지 확인합니다.
         if (member.getRoles().contains(Role.OAUTH_FIRST_JOIN)) {
             // 주소를 새로 생성합니다.
-            Address address = Address.newAddress(memberRequestDto.getCity(), memberRequestDto.getStreetAddress(), memberRequestDto.getZipCode());
+            Address address = Address.newAddress(memberRequestDto.getDetailAddress(), memberRequestDto.getStreetAddress(), memberRequestDto.getZipCode());
 
             // 회원에 주소를 추가합니다.
             member.addAddress(address);

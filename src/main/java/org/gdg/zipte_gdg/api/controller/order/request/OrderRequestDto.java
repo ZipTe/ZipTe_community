@@ -13,8 +13,8 @@ public class OrderRequestDto {
     private Long memberId;
 
     // 주소
-    private String city;
     private String streetAddress;
+    private String detailAddress;
     private int zipcode;
 
     // 사용자 입력 사항
