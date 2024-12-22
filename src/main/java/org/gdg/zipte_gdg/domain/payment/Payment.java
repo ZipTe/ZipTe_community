@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.domain.toss;
+package org.gdg.zipte_gdg.domain.payment;
 
 
 import jakarta.persistence.*;
@@ -11,7 +11,7 @@ import org.gdg.zipte_gdg.domain.order.Order;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class TossPayment {
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,24 +34,13 @@ public class TossPayment {
     @Column(nullable = false)
     private String tossOrderName;
 
-//    @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private String tossPaymentMethod;
 
-//    @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private String tossPaymentStatus;
 
-//    @Column(nullable = false)
     private String requestedAt;
 
-//    public static TossPayment createPayment(String tossPaymentKey, String tossOrderId, int totalAmount) {
-//        return TossPayment.builder()
-//                .tossPaymentKey(tossPaymentKey)
-//                .tossOrderId(tossOrderId)
-//                .totalAmount(totalAmount)
-//                .requestedAt(.now())
-//                .build();
-//
-//    }
+
 }
