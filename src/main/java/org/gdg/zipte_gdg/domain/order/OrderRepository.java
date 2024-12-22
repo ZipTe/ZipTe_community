@@ -9,8 +9,12 @@ import org.springframework.data.domain.Pageable;
 
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    //TossOrderId로 조회
+    Optional<Order> findByTossOrderId(String tossOrderId);
 
     @Query("SELECT oi FROM OrderItem oi WHERE oi.order.id = :orderId")
     List<OrderItem> findOrderItemsByOrderId(@Param("orderId") Long orderId);

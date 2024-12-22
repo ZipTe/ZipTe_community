@@ -28,6 +28,7 @@ public interface OrderService {
     default OrderResponseDto entityToDTO(Order order) {
         OrderResponseDto responseDto = OrderResponseDto.builder()
                 .id(order.getId())
+                .tossOrderId(order.getTossOrderId())
                 .memberId(order.getMember().getId())
                 .memberName(order.getMember().getUsername())
                 .detailAddress(order.getDelivery().getAddress().getDetailAddress())
@@ -72,7 +73,7 @@ public interface OrderService {
 
         // PaymentOrderResponseDto 생성
         PaymentOrderResponseDto responseDto = PaymentOrderResponseDto.builder()
-                .orderId(String.valueOf(order.getId())) // 주문 ID를 String으로 변환
+                .orderId(order.getTossOrderId()) // 주문 ID를 String으로 변환
                 .orderName(orderName) // 첫번째 상품 외 X건
                 .amount(String.valueOf(amount)) // 총 금액을 String으로 변환하여 설정
                 .customerName(order.getMember().getUsername()) // 고객 이름

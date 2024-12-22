@@ -13,6 +13,7 @@ public class OrderResponseDto {
 
     // 오더
     private Long id;
+    private String tossOrderId;
 
     // 멤버
     private Long memberId;

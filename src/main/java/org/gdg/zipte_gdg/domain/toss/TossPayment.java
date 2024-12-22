@@ -3,6 +3,7 @@ package org.gdg.zipte_gdg.domain.toss;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.gdg.zipte_gdg.domain.order.Order;
 
 @Entity
 @Getter
@@ -23,9 +24,9 @@ public class TossPayment {
     @Column(nullable = false)
     private String tossOrderId;
 
-//    @OneToOne
-//    @JoinColumn(name = "order_id", nullable = false)
-//    private Order order;
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 
     // 총 가격
     private int totalAmount;
