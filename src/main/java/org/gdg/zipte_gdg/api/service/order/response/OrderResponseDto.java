@@ -12,24 +12,25 @@ import java.util.List;
 public class OrderResponseDto {
 
     // 오더
-    private Long id;
+    private String tossOrderId;
 
     // 멤버
-    private Long memberId;
     private String memberName;
 
     // 주소
-    private String city;
     private String streetAddress;
+    private String detailAddress;
     private int zipcode;
-
-    // 사용자 입력 사항
-    private String orderDesc;
-    private String deliveryDesc;
 
     // 아이템
     private List<OrderItemResponseDto> items; // 여러 상품 정보를 담는 리스트
 
+    // 오더 주문 상황
     private OrderStatus orderStatus;
+    private String orderDesc;
+
+    // 배송 상황
     private DeliveryStatus deliveryStatus;
+    private String deliveryDesc;
+
 }

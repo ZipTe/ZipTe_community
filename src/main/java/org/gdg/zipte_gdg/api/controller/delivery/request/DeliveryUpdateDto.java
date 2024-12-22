@@ -30,8 +30,8 @@ public class DeliveryUpdateDto {
     @Builder
     public static class DeliveryAddressDto {
         private Long id;
-        private String city;
         private String streetAddress;
+        private String detailAddress;
         private int zipCode;  // Zip code
     }
 

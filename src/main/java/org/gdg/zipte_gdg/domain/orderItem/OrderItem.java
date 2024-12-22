@@ -45,7 +45,6 @@ public class OrderItem {
                 .build();
 
         // 비즈니스 로직
-        product.removeStock(count);
         orderItem.totalPrice();
         return orderItem;
     }

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.api.controller.member.request.MemberRequestDto;
 import org.gdg.zipte_gdg.api.service.member.response.MemberResponseDto;
+import org.gdg.zipte_gdg.domain.cart.Cart;
+import org.gdg.zipte_gdg.domain.cart.CartRepository;
 import org.gdg.zipte_gdg.domain.member.Address;
 import org.gdg.zipte_gdg.domain.member.Member;
 import org.gdg.zipte_gdg.domain.member.MemberRepository;
@@ -19,13 +21,22 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final CartRepository cartRepository;
 
     @Override
     public MemberResponseDto register(MemberRequestDto memberRequestDto) {
         Member member = dtoToEntity(memberRequestDto);
         Member savedMember = memberRepository.save(member);
 
+        // 멤버별 장바구니 최초 생성
+        createFirstCart(savedMember);
+
         return entityToDto(savedMember);
+    }
+
+    private void createFirstCart(Member savedMember) {
+        Cart cart = Cart.CreateNewCart(savedMember);
+        cartRepository.save(cart);
     }
 
     @Override
@@ -43,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
         // 회원의 역할이 ROLE_FIRST_JOIN_OAUTH_USER인지 확인합니다.
         if (member.getRoles().contains(Role.OAUTH_FIRST_JOIN)) {
             // 주소를 새로 생성합니다.
-            Address address = Address.newAddress(memberRequestDto.getCity(), memberRequestDto.getStreetAddress(), memberRequestDto.getZipCode());
+            Address address = Address.newAddress(memberRequestDto.getDetailAddress(), memberRequestDto.getStreetAddress(), memberRequestDto.getZipCode());
 
             // 회원에 주소를 추가합니다.
             member.addAddress(address);

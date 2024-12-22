@@ -24,7 +24,7 @@ public interface MemberService {
     MemberResponseDto addAddress(MemberRequestDto memberRequestDto);
 
     default Member dtoToEntity(MemberRequestDto memberRequestDto) {
-        Address address = Address.newAddress(memberRequestDto.getCity(), memberRequestDto.getStreetAddress(), memberRequestDto.getZipCode());
+        Address address = Address.newAddress(memberRequestDto.getDetailAddress(), memberRequestDto.getStreetAddress(), memberRequestDto.getZipCode());
         return Member.createNewMember(memberRequestDto.getEmail(), memberRequestDto.getUsername(), memberRequestDto.getPhoneNumber(), address);
     }
 
@@ -43,7 +43,7 @@ public interface MemberService {
                 .email(member.getEmail())
                 .username(member.getUsername())
                 .phoneNumber(member.getPhoneNumber())
-                .city(address != null ? address.getCity() : "")
+                .detailAddress(address != null ? address.getDetailAddress() : "")
                 .streetAddress(address != null ? address.getStreetAddress() : "")
                 .roles(roleList)
                 .zipCode(address != null ? address.getZipcode() : 00000)

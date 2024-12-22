@@ -43,8 +43,8 @@ public class DeliveryServiceImpl implements DeliveryService {
         // 주소 업데이트
         if (deliveryUpdateDto.getAddress() != null) {
             Address address = Address.builder()
-                    .city(deliveryUpdateDto.getAddress().getCity() != null ? deliveryUpdateDto.getAddress().getCity() : delivery.getAddress().getCity())
                     .streetAddress(deliveryUpdateDto.getAddress().getStreetAddress() != null ? deliveryUpdateDto.getAddress().getStreetAddress() : delivery.getAddress().getStreetAddress())
+                    .detailAddress(deliveryUpdateDto.getAddress().getDetailAddress() != null ? deliveryUpdateDto.getAddress().getDetailAddress() : delivery.getAddress().getDetailAddress())
                     .zipcode(deliveryUpdateDto.getAddress().getZipCode() != 0 ? deliveryUpdateDto.getAddress().getZipCode() : delivery.getAddress().getZipcode())
                     .build();
             delivery.changeAddress(address);

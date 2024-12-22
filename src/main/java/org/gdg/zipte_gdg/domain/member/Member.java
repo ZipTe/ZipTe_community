@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.gdg.zipte_gdg.domain.cart.Cart;
 import org.gdg.zipte_gdg.domain.comment.Comment;
 import org.gdg.zipte_gdg.domain.rating.Rating;
 import org.gdg.zipte_gdg.domain.review.Review;
@@ -61,6 +62,9 @@ public class Member implements UserDetails, Serializable {
     @Builder.Default
     private List<Rating> ratings = new ArrayList<>();
 
+    // 장바구니 생성
+    @OneToOne(mappedBy = "member")
+    private Cart cart;
 //    // 하트 준 목록
 //    @OneToMany(mappedBy = "member")
 //    @Builder.Default

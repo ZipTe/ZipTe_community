@@ -15,7 +15,7 @@ public interface DeliveryService {
     default DeliveryResponseDto entityToDto(Delivery delivery) {
         return DeliveryResponseDto.builder()
                 .id(delivery.getId())
-                .city(delivery.getAddress().getCity())
+                .detailAddress(delivery.getAddress().getDetailAddress())
                 .streetAddress(delivery.getAddress().getStreetAddress())
                 .zipCode(delivery.getAddress().getZipcode())
                 .orderDesc(delivery.getOrderDesc())

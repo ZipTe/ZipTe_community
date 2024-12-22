@@ -13,6 +13,7 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "orders")
@@ -20,13 +21,16 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Getter
-
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
+
+    @Column(name = "tossOrder_id", nullable = false, unique = true, updatable = false)
+    @Builder.Default
+    private String tossOrderId = UUID.randomUUID().toString();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -46,7 +50,7 @@ public class Order {
     private OrderStatus status;
 
     // 비즈니스 로직 추가
-    public static Order createNewOrder(Member member,Delivery delivery,List<OrderItem> orderItems) {
+    public static Order createNewOrder(Member member, Delivery delivery, List<OrderItem> orderItems) {
         Order order = Order.builder()
                 .member(member)
                 .delivery(delivery)
@@ -78,5 +82,4 @@ public class Order {
         this.delivery = new_delivery;
         this.delivery.update(new_delivery.getAddress());
     }
-
 }

@@ -8,7 +8,7 @@ import lombok.Data;
 public class DeliveryResponseDto {
 
     private Long id;
-    private String city;
+    private String detailAddress;
     private String streetAddress;
     private int zipCode;
     private String orderDesc;
