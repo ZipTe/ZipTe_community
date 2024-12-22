@@ -2,7 +2,6 @@ package org.gdg.zipte_gdg.api.service.cart;
 
 
 import org.gdg.zipte_gdg.api.controller.cart.request.CartRequestDto;
-import org.gdg.zipte_gdg.api.controller.order.request.OrderRequestDto;
 import org.gdg.zipte_gdg.api.service.cart.response.CartItemResponseDto;
 import org.gdg.zipte_gdg.api.service.cart.response.CartResponseDto;
 import org.gdg.zipte_gdg.domain.cart.Cart;
@@ -20,10 +19,6 @@ public interface CartService {
     // 카트 조회 하기
     CartResponseDto getMyCart(Long memberId);
 
-    // 카트에서 특정 아이템만 구매하기 + 구매한 아이템은 장바구니에서 삭제되도록
-    OrderRequestDto orderCartItem(CartRequestDto cartRequestDto);
-
-
     // 엔티티를 DTO로 변경
     default CartResponseDto EntityToDto(Cart cart) {
         CartResponseDto responseDto = CartResponseDto.builder()
@@ -38,6 +33,8 @@ public interface CartService {
                     .productId(item.getProduct().getId())
                     .productName(item.getProduct().getPname())
                     .quantity(item.getQuantity())
+                    .price(item.getProduct().getPrice())
+                    .totalPrice(item.getProduct().getPrice() * item.getQuantity())
                     .build();
 
             responseDto.getItems().add(itemDto); // 리스트에 추가

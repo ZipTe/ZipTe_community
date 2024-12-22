@@ -11,6 +11,7 @@ public class CartItemResponseDto {
     private String productName;  // 상품 이름
     private int quantity;  // 상품 수량
     private int price; // 상품가격
+    private int totalPrice; // 상품가격
 
 }
 
