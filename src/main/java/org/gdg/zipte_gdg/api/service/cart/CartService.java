@@ -19,7 +19,6 @@ public interface CartService {
     // 카트 조회 하기
     CartResponseDto getMyCart(Long memberId);
 
-    // 엔티티를 DTO로 변경
     default CartResponseDto EntityToDto(Cart cart) {
         CartResponseDto responseDto = CartResponseDto.builder()
                 .id(cart.getId())
@@ -29,17 +28,22 @@ public interface CartService {
 
         // 각 OrderItem에 대해 정보를 DTO로 변환하여 리스트에 추가
         cart.getItems().forEach(item -> {
+            // 첫 번째 이미지를 가져오는 대신 이미지가 없으면 기본 이미지로 설정
+            String fileName = item.getProduct().getProductImages().isEmpty() ? "default.jpeg" : item.getProduct().getProductImages().get(0).getFileName();
+
             CartItemResponseDto itemDto = CartItemResponseDto.builder()
                     .productId(item.getProduct().getId())
                     .productName(item.getProduct().getPname())
                     .quantity(item.getQuantity())
                     .price(item.getProduct().getPrice())
                     .totalPrice(item.getProduct().getPrice() * item.getQuantity())
+                    .productImage(fileName) // 이미지가 없으면 기본 이미지 설정
                     .build();
 
             responseDto.getItems().add(itemDto); // 리스트에 추가
         });
-        return responseDto;
 
+        return responseDto;
     }
+
 }

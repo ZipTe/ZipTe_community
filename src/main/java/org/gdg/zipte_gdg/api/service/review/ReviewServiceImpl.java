@@ -105,7 +105,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public PageResponseDto<ReviewResponseDto> getListByAptId(PageRequestDto pageRequestDto, Long aptId) {
-        log.info("=== getList ===");
+//        log.info("=== getList ===");
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
 
@@ -132,7 +132,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public PageResponseDto<ReviewResponseDto> getListByAptIdOrderByCountView(PageRequestDto pageRequestDto, Long aptId) {
-        log.info("=== getList ===");
+//        log.info("=== getList ===");
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
 
@@ -159,7 +159,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public PageResponseDto<ReviewResponseDto> getListByAptIdOrderByRating(PageRequestDto pageRequestDto, Long aptId) {
-        log.info("=== getList ===");
+//        log.info("=== getList ===");
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
 
@@ -187,7 +187,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public PageResponseDto<ReviewResponseDto> getReviewsByMemberId(PageRequestDto pageRequestDto, Long memberId) {
-        log.info("=== getListById ===");
+//        log.info("=== getListById ===");
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage() - 1, pageRequestDto.getSize(), Sort.by("id").descending());
 
