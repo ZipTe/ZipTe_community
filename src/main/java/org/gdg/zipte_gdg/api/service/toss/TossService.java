@@ -10,10 +10,9 @@ import java.net.http.HttpResponse;
 @Service
 public interface TossService {
 
-    // 토스에게 요청하는 서비스
+    // 결제 검증 요청
     HttpResponse<String> requestConfirm(ConfirmPaymentRequestDto confirmPaymentRequestDto) throws IOException, InterruptedException;
-    HttpResponse<String> requestPaymentCancel(String paymentKey, String cancelReason) throws IOException, InterruptedException;
 
-    // orderId로 결제 내역 조회하기
-    ResponseEntity<String> getOne(String orderId) throws IOException, InterruptedException;
+    // 결제 취소 요청
+    HttpResponse<String> requestPaymentCancel(String paymentKey, String cancelReason) throws IOException, InterruptedException;
 }

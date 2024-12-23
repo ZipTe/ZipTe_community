@@ -8,12 +8,10 @@ import jakarta.servlet.http.HttpSession;
 import org.gdg.zipte_gdg.api.controller.toss.request.ConfirmPaymentRequestDto;
 import org.gdg.zipte_gdg.api.controller.toss.request.SaveAmountRequestDto;
 import org.gdg.zipte_gdg.api.service.toss.response.TossPaymentErrorResponse;
-import org.gdg.zipte_gdg.api.service.toss.response.TossPaymentResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.io.IOException;
 import java.net.http.HttpResponse;
 
 @Log4j2
@@ -60,7 +58,7 @@ public class TossController {
         // 응답 코드 확인
         if (response.statusCode() == 200) {
             // 결제 정보 데이터베이스 저장 시도
-            TossPaymentResponseDto payment = paymentService.savePayment(confirmPaymentRequest, response);
+            paymentService.savePayment(confirmPaymentRequest, response);
             return ResponseEntity.ok(response.body()); // 성공 시 결제 객체 반환
         } else {
             // 결제가 승인되지 않음
@@ -69,12 +67,6 @@ public class TossController {
                     .body("결제 승인 실패: " + response.body());
         }
     }
-
-    @GetMapping("/{orderId}")
-    public ResponseEntity<?> getPayment(@PathVariable("orderId") String orderId) throws IOException, InterruptedException {
-        return tossService.getOne(orderId);
-    }
-
 
     /**
      * 결제 취소 요청

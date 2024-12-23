@@ -25,7 +25,7 @@ public class TossServiceImpl implements TossService {
 //    @Value("${payment.toss.secret_key}")
 //    String widgetSecretKey;
 
-    String widgetSecretKey = "test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R";
+    String widgetSecretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
     Base64.Encoder encoder = Base64.getEncoder();
     byte[] encodedBytes = encoder.encode((widgetSecretKey + ":").getBytes(StandardCharsets.UTF_8));
     String authorizations = "Basic " + new String(encodedBytes);
@@ -76,25 +76,4 @@ public class TossServiceImpl implements TossService {
                 .build();
         return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 }
-
-    @Override
-    public ResponseEntity<String> getOne(String orderId) throws IOException, InterruptedException {
-        // RESTful API 경로를 사용하여 orderId 포함
-        String url = "https://api.tosspayments.com/v1/payments/orders/" + URLEncoder.encode(orderId, StandardCharsets.UTF_8);
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("Authorization", authorizations)
-                .header("Content-Type", "application/json")
-                .GET() // HTTP GET 메서드 사용
-                .build();
-
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-
-        // HttpResponse의 내용을 ResponseEntity로 변환
-        return ResponseEntity.status(response.statusCode())
-                .body(response.body());
-    }
-
-
-
 }
