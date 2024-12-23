@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -49,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id).orElseThrow();
 
         List<ProductImage> productImages = productRepository.selectProductImages(id);
-        log.info("MyLog"+ productImages);
+//        log.info("MyLog"+ productImages);
 
         ProductResponseDto productResponseDto = entityToDto(product);
 
@@ -59,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public PageResponseDto<ProductResponseDto> findAll(PageRequestDto pageRequestDto) {
-        log.info("=== getList ===");
+//        log.info("=== getList ===");
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
         Page<Object[]> result = productRepository.selectList(pageable);

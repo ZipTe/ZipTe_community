@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.config;
+package org.gdg.zipte_gdg.security.config;
 
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
