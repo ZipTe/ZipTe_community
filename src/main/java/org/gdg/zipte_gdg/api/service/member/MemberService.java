@@ -2,9 +2,9 @@ package org.gdg.zipte_gdg.api.service.member;
 
 import org.gdg.zipte_gdg.api.controller.member.request.MemberRequestDto;
 import org.gdg.zipte_gdg.api.service.member.response.MemberResponseDto;
-import org.gdg.zipte_gdg.domain.member.Address;
-import org.gdg.zipte_gdg.domain.member.Member;
-import org.gdg.zipte_gdg.domain.role.Role;
+import org.gdg.zipte_gdg.domain.User.member.Address;
+import org.gdg.zipte_gdg.domain.User.member.Member;
+import org.gdg.zipte_gdg.domain.User.role.Role;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

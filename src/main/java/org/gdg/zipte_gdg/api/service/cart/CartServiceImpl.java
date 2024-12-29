@@ -6,15 +6,14 @@ import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.api.controller.cart.request.CartItemRequestDto;
 import org.gdg.zipte_gdg.api.controller.cart.request.CartRequestDto;
 import org.gdg.zipte_gdg.api.service.cart.response.CartResponseDto;
-import org.gdg.zipte_gdg.domain.cart.Cart;
-import org.gdg.zipte_gdg.domain.cart.CartItem;
-import org.gdg.zipte_gdg.domain.cart.CartItemRepository;
-import org.gdg.zipte_gdg.domain.cart.CartRepository;
-import org.gdg.zipte_gdg.domain.product.Product;
-import org.gdg.zipte_gdg.domain.product.ProductRepository;
+import org.gdg.zipte_gdg.domain.eCommerce.cart.Cart;
+import org.gdg.zipte_gdg.domain.eCommerce.cart.CartItem;
+import org.gdg.zipte_gdg.domain.eCommerce.cart.CartItemRepository;
+import org.gdg.zipte_gdg.domain.eCommerce.cart.CartRepository;
+import org.gdg.zipte_gdg.domain.eCommerce.product.Product;
+import org.gdg.zipte_gdg.domain.eCommerce.product.ProductRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

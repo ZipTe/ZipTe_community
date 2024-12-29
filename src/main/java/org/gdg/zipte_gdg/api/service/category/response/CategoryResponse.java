@@ -1,7 +1,7 @@
 package org.gdg.zipte_gdg.api.service.category.response;
 
 import lombok.Data;
-import org.gdg.zipte_gdg.domain.category.Category;
+import org.gdg.zipte_gdg.domain.eCommerce.category.Category;
 
 import java.util.ArrayList;
 import java.util.List;

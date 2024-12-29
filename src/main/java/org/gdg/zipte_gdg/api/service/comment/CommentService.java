@@ -2,7 +2,7 @@ package org.gdg.zipte_gdg.api.service.comment;
 
 import org.gdg.zipte_gdg.api.controller.comment.request.CommentRequestDto;
 import org.gdg.zipte_gdg.api.service.comment.response.CommentResponseDto;
-import org.gdg.zipte_gdg.domain.comment.Comment;
+import org.gdg.zipte_gdg.domain.apartMent.comment.Comment;
 
 public interface CommentService {
 

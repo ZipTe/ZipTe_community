@@ -5,12 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.gdg.zipte_gdg.api.controller.comment.request.CommentRequestDto;
 import org.gdg.zipte_gdg.api.service.comment.response.CommentResponseDto;
-import org.gdg.zipte_gdg.domain.comment.Comment;
-import org.gdg.zipte_gdg.domain.comment.CommentRepository;
-import org.gdg.zipte_gdg.domain.member.Member;
-import org.gdg.zipte_gdg.domain.member.MemberRepository;
-import org.gdg.zipte_gdg.domain.review.Review;
-import org.gdg.zipte_gdg.domain.review.ReviewRepository;
+import org.gdg.zipte_gdg.domain.apartMent.comment.Comment;
+import org.gdg.zipte_gdg.domain.apartMent.comment.CommentRepository;
+import org.gdg.zipte_gdg.domain.User.member.Member;
+import org.gdg.zipte_gdg.domain.User.member.MemberRepository;
+import org.gdg.zipte_gdg.domain.apartMent.review.Review;
+import org.gdg.zipte_gdg.domain.apartMent.review.ReviewRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

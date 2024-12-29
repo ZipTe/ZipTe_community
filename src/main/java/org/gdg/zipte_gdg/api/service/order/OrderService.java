@@ -3,10 +3,9 @@ package org.gdg.zipte_gdg.api.service.order;
 
 import org.gdg.zipte_gdg.api.controller.order.request.OrderRequestDto;
 import org.gdg.zipte_gdg.api.service.order.response.PaymentOrderResponseDto;
-import org.gdg.zipte_gdg.domain.order.Order;
-import org.gdg.zipte_gdg.domain.orderItem.OrderItem;
+import org.gdg.zipte_gdg.domain.eCommerce.order.Order;
+import org.gdg.zipte_gdg.domain.eCommerce.orderItem.OrderItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface OrderService {

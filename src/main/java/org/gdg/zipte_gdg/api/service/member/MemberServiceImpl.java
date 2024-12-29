@@ -6,12 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.api.controller.member.request.MemberRequestDto;
 import org.gdg.zipte_gdg.api.service.member.response.MemberResponseDto;
-import org.gdg.zipte_gdg.domain.cart.Cart;
-import org.gdg.zipte_gdg.domain.cart.CartRepository;
-import org.gdg.zipte_gdg.domain.member.Address;
-import org.gdg.zipte_gdg.domain.member.Member;
-import org.gdg.zipte_gdg.domain.member.MemberRepository;
-import org.gdg.zipte_gdg.domain.role.Role;
+import org.gdg.zipte_gdg.domain.eCommerce.cart.Cart;
+import org.gdg.zipte_gdg.domain.eCommerce.cart.CartRepository;
+import org.gdg.zipte_gdg.domain.User.member.Address;
+import org.gdg.zipte_gdg.domain.User.member.Member;
+import org.gdg.zipte_gdg.domain.User.member.MemberRepository;
+import org.gdg.zipte_gdg.domain.User.role.Role;
 import org.springframework.stereotype.Service;
 
 @Log4j2

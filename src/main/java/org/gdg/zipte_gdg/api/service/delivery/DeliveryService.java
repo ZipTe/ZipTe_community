@@ -2,7 +2,7 @@ package org.gdg.zipte_gdg.api.service.delivery;
 
 import org.gdg.zipte_gdg.api.controller.delivery.request.DeliveryUpdateDto;
 import org.gdg.zipte_gdg.api.service.delivery.response.DeliveryResponseDto;
-import org.gdg.zipte_gdg.domain.delivery.Delivery;
+import org.gdg.zipte_gdg.domain.eCommerce.delivery.Delivery;
 
 public interface DeliveryService {
 

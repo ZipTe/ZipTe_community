@@ -3,7 +3,7 @@ package org.gdg.zipte_gdg.api.controller.delivery.request;
 import lombok.Builder;
 import lombok.Data;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.gdg.zipte_gdg.domain.delivery.DeliveryStatus;
+import org.gdg.zipte_gdg.domain.eCommerce.delivery.DeliveryStatus;
 
 @Data
 @Builder

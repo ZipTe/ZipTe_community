@@ -5,7 +5,7 @@ import org.gdg.zipte_gdg.api.controller.page.request.PageRequestDto;
 import org.gdg.zipte_gdg.api.controller.product.request.ProductRequestDto;
 import org.gdg.zipte_gdg.api.service.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.product.response.ProductResponseDto;
-import org.gdg.zipte_gdg.domain.product.Product;
+import org.gdg.zipte_gdg.domain.eCommerce.product.Product;
 
 public interface ProductService {
 

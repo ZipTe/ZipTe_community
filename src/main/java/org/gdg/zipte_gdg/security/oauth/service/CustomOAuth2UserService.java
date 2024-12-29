@@ -2,14 +2,13 @@ package org.gdg.zipte_gdg.security.oauth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.domain.cart.Cart;
-import org.gdg.zipte_gdg.domain.cart.CartRepository;
-import org.gdg.zipte_gdg.domain.role.Role;
+import org.gdg.zipte_gdg.domain.eCommerce.cart.Cart;
+import org.gdg.zipte_gdg.domain.eCommerce.cart.CartRepository;
 import org.gdg.zipte_gdg.security.oauth.service.response.NaverResponse;
 import org.gdg.zipte_gdg.security.oauth.service.response.OAuth2UserResponse;
-import org.gdg.zipte_gdg.domain.member.Address;
-import org.gdg.zipte_gdg.domain.member.Member;
-import org.gdg.zipte_gdg.domain.member.MemberRepository;
+import org.gdg.zipte_gdg.domain.User.member.Address;
+import org.gdg.zipte_gdg.domain.User.member.Member;
+import org.gdg.zipte_gdg.domain.User.member.MemberRepository;
 import org.gdg.zipte_gdg.security.oauth.domain.PrincipalDetails;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -17,8 +16,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Service

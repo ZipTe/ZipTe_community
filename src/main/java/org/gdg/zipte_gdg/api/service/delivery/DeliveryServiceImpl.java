@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.api.controller.delivery.request.DeliveryUpdateDto;
 import org.gdg.zipte_gdg.api.service.delivery.response.DeliveryResponseDto;
-import org.gdg.zipte_gdg.domain.delivery.Delivery;
-import org.gdg.zipte_gdg.domain.delivery.DeliveryRepository;
-import org.gdg.zipte_gdg.domain.delivery.DeliveryStatus;
-import org.gdg.zipte_gdg.domain.member.Address;
+import org.gdg.zipte_gdg.domain.eCommerce.delivery.Delivery;
+import org.gdg.zipte_gdg.domain.eCommerce.delivery.DeliveryRepository;
+import org.gdg.zipte_gdg.domain.eCommerce.delivery.DeliveryStatus;
+import org.gdg.zipte_gdg.domain.User.member.Address;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

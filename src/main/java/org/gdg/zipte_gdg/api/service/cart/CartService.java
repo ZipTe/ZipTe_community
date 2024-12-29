@@ -4,7 +4,7 @@ package org.gdg.zipte_gdg.api.service.cart;
 import org.gdg.zipte_gdg.api.controller.cart.request.CartRequestDto;
 import org.gdg.zipte_gdg.api.service.cart.response.CartItemResponseDto;
 import org.gdg.zipte_gdg.api.service.cart.response.CartResponseDto;
-import org.gdg.zipte_gdg.domain.cart.Cart;
+import org.gdg.zipte_gdg.domain.eCommerce.cart.Cart;
 
 import java.util.ArrayList;
 

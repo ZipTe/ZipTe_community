@@ -8,8 +8,8 @@ import org.gdg.zipte_gdg.api.service.order.response.OrderResponseDto;
 import org.gdg.zipte_gdg.api.service.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.payment.response.PaymentResponseDto;
 import org.gdg.zipte_gdg.api.service.toss.response.TossPaymentResponseDto;
-import org.gdg.zipte_gdg.domain.order.Order;
-import org.gdg.zipte_gdg.domain.payment.Payment;
+import org.gdg.zipte_gdg.domain.eCommerce.order.Order;
+import org.gdg.zipte_gdg.domain.eCommerce.payment.Payment;
 
 import java.net.http.HttpResponse;
 import java.util.ArrayList;

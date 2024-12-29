@@ -3,8 +3,8 @@ package org.gdg.zipte_gdg.api.service.category;
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte_gdg.api.controller.category.request.CategoryRequestDto;
 import org.gdg.zipte_gdg.api.service.category.response.CategoryResponse;
-import org.gdg.zipte_gdg.domain.category.Category;
-import org.gdg.zipte_gdg.domain.category.CategoryRepository;
+import org.gdg.zipte_gdg.domain.eCommerce.category.Category;
+import org.gdg.zipte_gdg.domain.eCommerce.category.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

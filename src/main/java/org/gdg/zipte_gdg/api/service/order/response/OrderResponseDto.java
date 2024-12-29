@@ -2,8 +2,8 @@ package org.gdg.zipte_gdg.api.service.order.response;
 
 import lombok.Builder;
 import lombok.Data;
-import org.gdg.zipte_gdg.domain.delivery.DeliveryStatus;
-import org.gdg.zipte_gdg.domain.order.OrderStatus;
+import org.gdg.zipte_gdg.domain.eCommerce.delivery.DeliveryStatus;
+import org.gdg.zipte_gdg.domain.eCommerce.order.OrderStatus;
 
 import java.util.List;
 

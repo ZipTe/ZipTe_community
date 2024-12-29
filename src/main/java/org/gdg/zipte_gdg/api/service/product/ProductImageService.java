@@ -1,6 +1,6 @@
 package org.gdg.zipte_gdg.api.service.product;
 
-import org.gdg.zipte_gdg.domain.product.Product;
+import org.gdg.zipte_gdg.domain.eCommerce.product.Product;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
