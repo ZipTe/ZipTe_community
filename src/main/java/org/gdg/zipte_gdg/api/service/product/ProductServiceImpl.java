@@ -27,20 +27,6 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductImageService productImageService;
-
-    @Override
-    public ProductResponseDto register(ProductRequestDto productRequestDto) {
-        Product product = dtoToEntity(productRequestDto);
-        Product save = productRepository.save(product);
-
-        List<String> uploads = productImageService.saveFiles(save, productRequestDto.getFiles());
-        ProductResponseDto productResponseDto = entityToDto(save);
-        productResponseDto.setUploadFileNames(uploads);
-
-        return productResponseDto;
-    }
-
 
     @Override
     public ProductResponseDto findById(Long id) {
@@ -48,7 +34,6 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id).orElseThrow();
 
         List<ProductImage> productImages = productRepository.selectProductImages(id);
-//        log.info("MyLog"+ productImages);
 
         ProductResponseDto productResponseDto = entityToDto(product);
 
@@ -58,7 +43,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public PageResponseDto<ProductResponseDto> findAll(PageRequestDto pageRequestDto) {
-//        log.info("=== getList ===");
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
         Page<Object[]> result = productRepository.selectList(pageable);

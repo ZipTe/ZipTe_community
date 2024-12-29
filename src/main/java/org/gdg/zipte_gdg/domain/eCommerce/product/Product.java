@@ -38,7 +38,7 @@ public class Product {
     private LocalDateTime createdAt;
 
     //생성
-    public static Product createNewProduct(String pname, String pdesc, int price, int stock) {
+    public static Product of(String pname, String pdesc, int price, int stock) {
         return Product.builder()
                 .pname(pname)
                 .pdesc(pdesc)
