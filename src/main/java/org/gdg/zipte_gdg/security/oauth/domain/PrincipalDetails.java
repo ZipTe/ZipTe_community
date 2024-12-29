@@ -2,7 +2,7 @@ package org.gdg.zipte_gdg.security.oauth.domain;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.domain.User.member.Member;
+import org.gdg.zipte_gdg.domain.user.member.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
