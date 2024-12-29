@@ -1,8 +1,8 @@
 package org.gdg.zipte_gdg.api.service.shopping.categorySet;
 
 import org.gdg.zipte_gdg.api.controller.shopping.categorySet.request.CategorySetRequestDto;
+import org.gdg.zipte_gdg.api.service.shopping.category.response.CategoryResponseNoChildren;
 import org.gdg.zipte_gdg.domain.page.request.PageRequestDto;
-import org.gdg.zipte_gdg.api.service.shopping.category.response.CategoryResponse;
 import org.gdg.zipte_gdg.domain.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponseDto;
 import org.gdg.zipte_gdg.api.service.shopping.categorySet.response.CategorySetResponse;
@@ -25,10 +25,19 @@ public interface CategorySetService {
     // 카테고리 및 아이템 관련
 
     default CategorySetResponse entityToDto(CategorySet categorySet) {
-        Product product = categorySet.getProduct();
+        ProductResponseDto productResponseDto = getProductResponse(categorySet);
 
-        Category category = categorySet.getCategory();
-        CategoryResponse categoryResponse = new CategoryResponse(category);
+        CategoryResponseNoChildren categoryResponse = getCategoryResponse(categorySet);
+
+        return new CategorySetResponse(categoryResponse,productResponseDto);
+    }
+
+
+
+    //
+
+    private static ProductResponseDto getProductResponse(CategorySet categorySet) {
+        Product product = categorySet.getProduct();
 
         ProductResponseDto productResponseDto = ProductResponseDto.builder()
                 .id(product.getId())
@@ -37,8 +46,17 @@ public interface CategorySetService {
                 .price(product.getPrice())
                 .pdesc(product.getPdesc())
                 .build();
+        return productResponseDto;
+    }
 
-        return new CategorySetResponse(categoryResponse,productResponseDto);
+    private static CategoryResponseNoChildren getCategoryResponse(CategorySet categorySet) {
+        Category category = categorySet.getCategory();
+
+        CategoryResponseNoChildren categoryResponse = CategoryResponseNoChildren.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .build();
+        return categoryResponse;
     }
 
     // Product관련
