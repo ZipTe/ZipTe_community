@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte_gdg.domain.shopping.product.Product;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @AllArgsConstructor
@@ -36,13 +36,50 @@ public class ProductManager {
     private boolean active;
 
     // 판매 시작일
-    private LocalDateTime saleStartDate;
+    private Date saleStartDate;
 
     // 판매 종료일
-    private LocalDateTime saleEndDate;
+    private Date saleEndDate;
 
     // 쿠폰 코드
     private String couponCode;
 
+    // 최대 할인 금액
+    private int maxSalePrice;
+
+    // 상품관리 설명
+    private String description;
+
+
+    // 프로덕트와 함께 만들어지기에 고치는 것으로 불러서 고친다
+    // ProductManager 클래스
+    public static ProductManager of(Product product, int discountRate, boolean active, String description) {
+        return ProductManager.builder()
+                .product(product)
+                .discountRate(discountRate)
+                .active(active)
+                .description(description)
+                .build();
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public void setSaleStartDate(Date saleStartDate) {
+        this.saleStartDate = saleStartDate;
+    }
+
+    public void setSaleEndDate(Date saleEndDate) {
+        this.saleEndDate = saleEndDate;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
 }

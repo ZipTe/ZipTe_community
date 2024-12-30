@@ -34,10 +34,6 @@ public class Product {
 
     private String manufacturer;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<ProductManager> managers = new ArrayList<>();
-
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
     @Builder.Default
     private List<ProductImage> productImages = new ArrayList<>();
@@ -53,14 +49,6 @@ public class Product {
                 .price(price)
                 .createdAt(LocalDateTime.now())
                 .build();
-
-        // 기본 ProductManager 추가
-        ProductManager defaultManager = ProductManager.builder()
-                .product(product)
-                .discountRate(0)
-                .active(false)
-                .build();
-        product.managers.add(defaultManager);
 
         return product;
     }
@@ -85,5 +73,4 @@ public class Product {
     public void removeProductImage(ProductImage productImage) {
         this.productImages.remove(productImage);
     }
-
 }

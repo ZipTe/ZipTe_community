@@ -16,6 +16,8 @@ import org.gdg.zipte_gdg.domain.shopping.product.ProductImage;
 import org.gdg.zipte_gdg.domain.shopping.product.ProductRepository;
 import org.gdg.zipte_gdg.domain.shopping.categorySet.CategorySet;
 import org.gdg.zipte_gdg.domain.shopping.categorySet.CategorySetRepository;
+import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
+import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManagerRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,10 +33,11 @@ import java.util.List;
 @Log4j2
 public class CategorySetServiceImpl implements CategorySetService {
 
+    private final CategoryRepository categoryRepository;
     private final CategorySetRepository categorySetRepository;
     private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
     private final ProductImageService productImageService;
+    private final ProductManagerRepository productManagerRepository;
 
     @Override
     public CategorySetResponse create(CategorySetRequestDto request) {
@@ -43,6 +46,10 @@ public class CategorySetServiceImpl implements CategorySetService {
         Product newProduct = Product.of(request.getPname(),
                 request.getPdesc(), request.getPrice(), request.getStock());
         Product product = productRepository.save(newProduct);
+
+        //상품 매니저 저장
+        ProductManager newProductManager = ProductManager.of(product, 0, true,"basic");
+        productManagerRepository.save(newProductManager);
 
         // 상품 사진
         List<String> uploads = productImageService.saveFiles(product, request.getFiles());

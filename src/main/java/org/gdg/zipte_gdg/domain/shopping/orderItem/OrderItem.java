@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte_gdg.domain.shopping.order.Order;
-import org.gdg.zipte_gdg.domain.shopping.product.Product;
 import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
 
 @Entity
@@ -34,9 +33,9 @@ public class OrderItem {
 
     private int price;
 
-    // 로직
-    public void totalPrice() {
-        this.price = this.productManager.getProduct().getPrice() * count;
+    public void getTotalPrice() {
+        double priceAfterDiscount = this.productManager.getProduct().getPrice() * (1 - this.productManager.getDiscountRate() / 100.0);
+        this.price = (int) Math.round(priceAfterDiscount * count);
     }
 
     public static OrderItem createOrderItem(ProductManager productManager, int count) {
@@ -46,7 +45,7 @@ public class OrderItem {
                 .build();
 
         // 비즈니스 로직
-        orderItem.totalPrice();
+        orderItem.getTotalPrice();
         return orderItem;
     }
 

@@ -20,7 +20,7 @@ public interface OrderService {
         // 총 금액 계산
         int amount = 0;
         for (OrderItem item : order.getOrderItems()) {
-            item.totalPrice();  // 각 item에 대해 totalPrice 계산
+            item.getTotalPrice();  // 각 item에 대해 totalPrice 계산
             amount += item.getPrice(); // 총 금액 누적
         }
 
@@ -64,10 +64,8 @@ public interface OrderService {
 
     // 전화번호 포맷을 "01000000000" 형식으로 맞추는 메소드
     private String formatPhoneNumber(String phoneNumber) {
-        // 전화번호에서 "-"을 제거하고 숫자만 남기기
         return phoneNumber.replaceAll("[^0-9]", "");
     }
-
 
 
 }
