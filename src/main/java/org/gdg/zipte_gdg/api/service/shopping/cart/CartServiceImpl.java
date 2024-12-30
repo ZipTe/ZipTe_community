@@ -12,6 +12,8 @@ import org.gdg.zipte_gdg.domain.shopping.cart.CartItemRepository;
 import org.gdg.zipte_gdg.domain.shopping.cart.CartRepository;
 import org.gdg.zipte_gdg.domain.shopping.product.Product;
 import org.gdg.zipte_gdg.domain.shopping.product.ProductRepository;
+import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
+import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManagerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +26,7 @@ public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private final ProductRepository productRepository;
-
+    private final ProductManagerRepository productManagerRepository;
     @Override
     public CartResponseDto setItem(CartRequestDto cartRequestDto) {
         Long memberId = cartRequestDto.getMemberId();
@@ -33,12 +34,11 @@ public class CartServiceImpl implements CartService {
 
         List<CartItemRequestDto> items = cartRequestDto.getItems();
         items.forEach(item -> {
-            Product product = productRepository.findById(item.getProductId())
-                    .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+            ProductManager productmanger = productManagerRepository.findByProductId(item.getProductId());
 
             // 기존 CartItem이 있는지 확인
             CartItem existingCartItem = cart.getItems().stream()
-                    .filter(cartItem -> cartItem.getProduct().getId().equals(product.getId()))
+                    .filter(cartItem -> cartItem.getProductManager().getProduct().getId().equals(productmanger.getProduct().getId()))
                     .findFirst()
                     .orElse(null);
 
@@ -48,7 +48,7 @@ public class CartServiceImpl implements CartService {
                 cartItemRepository.save(existingCartItem);
             } else {
                 // 없으면 새로 추가
-                CartItem newCartItem = CartItem.createCartItem(product, cart, item.getQuantity());
+                CartItem newCartItem = CartItem.createCartItem(productmanger, cart, item.getQuantity());
                 CartItem savedCartItem = cartItemRepository.save(newCartItem);
                 cart.addItem(savedCartItem);
             }
@@ -67,7 +67,7 @@ public class CartServiceImpl implements CartService {
 
             // 장바구니에서 해당 상품 검색
             CartItem cartItem = cart.getItems().stream()
-                    .filter(ci -> ci.getProduct().getId().equals(item.getProductId()))
+                    .filter(ci -> ci.getProductManager().getProduct().getId().equals(item.getProductId()))
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Item not found in cart"));
 

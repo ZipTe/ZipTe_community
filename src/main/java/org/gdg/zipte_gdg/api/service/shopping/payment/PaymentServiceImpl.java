@@ -61,7 +61,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         // 결제가 완료 되어야 재고를 없앤다
         order.getOrderItems().forEach(orderItem -> {
-            orderItem.getProduct().removeStock(orderItem.getCount());
+            orderItem.getProductManager().getProduct().removeStock(orderItem.getCount());
         });
 
         // 결제 정보 저장

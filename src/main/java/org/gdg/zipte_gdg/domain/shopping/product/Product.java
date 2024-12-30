@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,6 +32,12 @@ public class Product {
 
     private int stock;
 
+    private String manufacturer;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<ProductManager> managers = new ArrayList<>();
+
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
     @Builder.Default
     private List<ProductImage> productImages = new ArrayList<>();
@@ -39,13 +46,23 @@ public class Product {
 
     //생성
     public static Product of(String pname, String pdesc, int price, int stock) {
-        return Product.builder()
+        Product product = Product.builder()
                 .pname(pname)
                 .pdesc(pdesc)
                 .stock(stock)
                 .price(price)
                 .createdAt(LocalDateTime.now())
                 .build();
+
+        // 기본 ProductManager 추가
+        ProductManager defaultManager = ProductManager.builder()
+                .product(product)
+                .discountRate(0)
+                .active(false)
+                .build();
+        product.managers.add(defaultManager);
+
+        return product;
     }
 
     // 로직

@@ -5,6 +5,7 @@ import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartRequestDto;
 import org.gdg.zipte_gdg.api.service.shopping.cart.response.CartItemResponseDto;
 import org.gdg.zipte_gdg.api.service.shopping.cart.response.CartResponseDto;
 import org.gdg.zipte_gdg.domain.shopping.cart.Cart;
+import org.gdg.zipte_gdg.domain.shopping.product.Product;
 
 import java.util.ArrayList;
 
@@ -29,14 +30,16 @@ public interface CartService {
         // 각 OrderItem에 대해 정보를 DTO로 변환하여 리스트에 추가
         cart.getItems().forEach(item -> {
             // 첫 번째 이미지를 가져오는 대신 이미지가 없으면 기본 이미지로 설정
-            String fileName = item.getProduct().getProductImages().isEmpty() ? "default.jpeg" : item.getProduct().getProductImages().get(0).getFileName();
+            Product product = item.getProductManager().getProduct();
+
+            String fileName = product.getProductImages().isEmpty() ? "default.jpeg" : product.getProductImages().get(0).getFileName();
 
             CartItemResponseDto itemDto = CartItemResponseDto.builder()
-                    .productId(item.getProduct().getId())
-                    .productName(item.getProduct().getPname())
+                    .productId(product.getId())
+                    .productName(product.getPname())
                     .quantity(item.getQuantity())
-                    .price(item.getProduct().getPrice())
-                    .totalPrice(item.getProduct().getPrice() * item.getQuantity())
+                    .price(product.getPrice())
+                    .totalPrice(product.getPrice() * item.getQuantity())
                     .productImage(fileName) // 이미지가 없으면 기본 이미지 설정
                     .build();
 

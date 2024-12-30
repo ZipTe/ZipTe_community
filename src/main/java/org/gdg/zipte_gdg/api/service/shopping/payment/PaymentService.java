@@ -64,8 +64,8 @@ public interface PaymentService {
         // 각 OrderItem에 대해 정보를 DTO로 변환하여 리스트에 추가
         order.getOrderItems().forEach(orderItem -> {
             OrderItemResponseDto itemDto = OrderItemResponseDto.builder()
-                    .productId(orderItem.getProduct().getId())
-                    .productName(orderItem.getProduct().getPname())
+                    .productId(orderItem.getProductManager().getProduct().getId())
+                    .productName(orderItem.getProductManager().getProduct().getPname())
                     .count(orderItem.getCount())
                     .price(orderItem.getPrice())
                     .build();

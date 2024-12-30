@@ -13,6 +13,12 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ProductImage {
 
+    /*
+        프로덕트는 상품의 생성을 하는 엔티티
+        아이디, 이름, 수량, 제조사, 사진등을 넣는다.
+     */
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pimage_id")

@@ -49,7 +49,7 @@ public interface OrderService {
         }
 
         // 첫 번째 상품명
-        String firstProductName = orderItems.get(0).getProduct().getPname();
+        String firstProductName = orderItems.get(0).getProductManager().getProduct().getPname();
 
         // 나머지 상품 수
         int remainingCount = orderItems.size() - 1;

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte_gdg.domain.shopping.order.Order;
 import org.gdg.zipte_gdg.domain.shopping.product.Product;
+import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
 
 @Entity
 @NoArgsConstructor
@@ -23,7 +24,7 @@ public class OrderItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private Product product;
+    private ProductManager productManager;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
@@ -35,12 +36,12 @@ public class OrderItem {
 
     // 로직
     public void totalPrice() {
-        this.price = this.product.getPrice() * count;
+        this.price = this.productManager.getProduct().getPrice() * count;
     }
 
-    public static OrderItem createOrderItem(Product product, int count) {
+    public static OrderItem createOrderItem(ProductManager productManager, int count) {
         OrderItem orderItem = OrderItem.builder()
-                .product(product)
+                .productManager(productManager)
                 .count(count)
                 .build();
 
@@ -49,9 +50,6 @@ public class OrderItem {
         return orderItem;
     }
 
-    public void cancelOrderItem(int count) {
-        this.product.addStock(count);
-    }
 
     public void setOrder(Order order) {
         this.order = order;

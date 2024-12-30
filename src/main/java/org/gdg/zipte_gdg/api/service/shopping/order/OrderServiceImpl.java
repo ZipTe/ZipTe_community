@@ -6,6 +6,8 @@ import org.gdg.zipte_gdg.api.controller.shopping.order.request.OrderRequestDto;
 import org.gdg.zipte_gdg.api.service.shopping.order.response.PaymentOrderResponseDto;
 import org.gdg.zipte_gdg.domain.shopping.delivery.Delivery;
 import org.gdg.zipte_gdg.domain.shopping.delivery.DeliveryRepository;
+import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
+import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManagerRepository;
 import org.gdg.zipte_gdg.domain.user.member.Address;
 import org.gdg.zipte_gdg.domain.user.member.Member;
 import org.gdg.zipte_gdg.domain.user.member.MemberRepository;
@@ -13,7 +15,6 @@ import org.gdg.zipte_gdg.domain.shopping.order.Order;
 import org.gdg.zipte_gdg.domain.shopping.order.OrderRepository;
 import org.gdg.zipte_gdg.domain.shopping.orderItem.OrderItem;
 import org.gdg.zipte_gdg.domain.shopping.orderItem.OrderItemRepository;
-import org.gdg.zipte_gdg.domain.shopping.product.Product;
 import org.gdg.zipte_gdg.domain.shopping.product.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemRepository orderItemRepository;
     private final DeliveryRepository deliveryRepository;
     private final MemberRepository memberRepository;
-    private final ProductRepository productRepository;
+    private final ProductManagerRepository productManagerRepository;
 
     @Override
     public PaymentOrderResponseDto order(OrderRequestDto orderRequestDto) {
@@ -67,14 +68,13 @@ public class OrderServiceImpl implements OrderService {
     private List<OrderItem> getOrderItems(OrderRequestDto orderRequestDto) {
         return orderRequestDto.getItems().stream()
                 .map(itemDto -> {
-                    Product product = getProduct(itemDto.getProductId());
+                    ProductManager product = getProduct(itemDto.getProductId());
                     return OrderItem.createOrderItem(product, itemDto.getCount());
                 })
                 .toList();
     }
 
-    private Product getProduct(Long id) {
-        Optional<Product> byId1 = productRepository.findById(id);
-        return byId1.orElseThrow();
+    private ProductManager getProduct(Long id) {
+        return productManagerRepository.findByProductId(id);
     }
 }

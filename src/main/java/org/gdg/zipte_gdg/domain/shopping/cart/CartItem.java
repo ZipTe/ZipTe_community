@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte_gdg.domain.shopping.product.Product;
+import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
 
 @Entity
 @AllArgsConstructor
@@ -24,14 +25,14 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private ProductManager productManager;
 
     private int quantity;
 
     // CartItem 생성 로직
-    public static CartItem createCartItem(Product product,Cart cart, int quantity) {
+    public static CartItem createCartItem(ProductManager productManager,Cart cart, int quantity) {
         return CartItem.builder()
-                .product(product)
+                .productManager(productManager)
                 .cart(cart)
                 .quantity(quantity)
                 .build();
