@@ -1,6 +1,6 @@
 package org.gdg.zipte_gdg.api.service.shopping.category;
 
-import org.gdg.zipte_gdg.api.controller.shopping.category.request.CategoryRequest;
+import org.gdg.zipte_gdg.api.controller.admin.shopping.request.CategoryRequest;
 import org.gdg.zipte_gdg.api.service.shopping.category.response.CategoryResponse;
 
 import java.util.*;

@@ -4,7 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.api.controller.user.member.request.MemberRequest;
+import org.gdg.zipte_gdg.api.controller.user.request.MemberRequest;
 import org.gdg.zipte_gdg.api.service.user.member.response.MemberResponse;
 import org.gdg.zipte_gdg.domain.user.member.Address;
 import org.gdg.zipte_gdg.domain.user.member.Member;

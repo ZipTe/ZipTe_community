@@ -1,6 +1,6 @@
 package org.gdg.zipte_gdg.api.service.shopping.categorySet;
 
-import org.gdg.zipte_gdg.api.controller.shopping.categorySet.request.CategorySetRequest;
+import org.gdg.zipte_gdg.api.controller.admin.shopping.request.CategorySetRequest;
 import org.gdg.zipte_gdg.api.service.shopping.productManger.response.DiscountProductResponse;
 import org.gdg.zipte_gdg.domain.page.request.PageRequestDto;
 import org.gdg.zipte_gdg.domain.page.response.PageResponseDto;

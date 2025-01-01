@@ -19,16 +19,19 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    // 리뷰 작성
     @PostMapping
     public ApiResponse<ReviewResponseDto> create(ReviewRequest reviewRequest) {
         return ApiResponse.created(reviewService.register(reviewRequest));
     }
 
+    // 특정 회원의 리뷰 조회
     @GetMapping("/list/member/{memberId}")
     public ApiResponse<PageResponseDto<ReviewResponseDto>> getListById(@PathVariable("memberId") Long memberId, PageRequestDto pageRequestDto) {
         return ApiResponse.created(reviewService.getReviewsByMemberId(pageRequestDto, memberId));
     }
 
+    // 특정 아파트 리뷰 조회
     @GetMapping("/list/apt/{aptId}")
     public ApiResponse<PageResponseDto<ReviewResponseDto>> getListByAptId(
             @PathVariable("aptId") Long aptId,
@@ -46,17 +49,10 @@ public class ReviewController {
         }
     }
 
+    // 리뷰 상세 정보
     @GetMapping("/{reviewId}")
     public ApiResponse<ReviewResponseWithCommentDto> getReviewsWithComments(@PathVariable("reviewId") Long reviewId) {
-        log.info("Logs" + reviewId);
         return ApiResponse.created(reviewService.getOne(reviewId));
     }
-
-    // ----------필요없는 것 --------
-    //    @GetMapping("/list")
-//    public ApiResponse<PageResponseDto<ReviewResponseDto>> getList(PageRequestDto pageRequestDto) {
-//        return ApiResponse.created(reviewService.getList(pageRequestDto));
-//    }
-
 
 }

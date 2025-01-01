@@ -3,7 +3,7 @@ package org.gdg.zipte_gdg.api.service.shopping.categorySet;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.api.controller.shopping.categorySet.request.CategorySetRequest;
+import org.gdg.zipte_gdg.api.controller.admin.shopping.request.CategorySetRequest;
 import org.gdg.zipte_gdg.api.service.shopping.category.response.CategoryNoChildrenResponse;
 import org.gdg.zipte_gdg.api.service.shopping.productManger.response.DiscountProductResponse;
 import org.gdg.zipte_gdg.domain.page.request.PageRequestDto;

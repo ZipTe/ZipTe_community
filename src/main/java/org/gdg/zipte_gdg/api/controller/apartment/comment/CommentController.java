@@ -19,9 +19,15 @@ public class CommentController {
 
     private final CommentService commentService;
 
+
+    // 댓글 작성하기
     @PostMapping
     ApiResponse<CommentResponseDto> register(@RequestBody CommentRequest commentRequest) {
         return ApiResponse.ok(commentService.register(commentRequest));
     }
 
+    // 댓글 수정하기
+
+
+    // 댓글 삭제하기
 }

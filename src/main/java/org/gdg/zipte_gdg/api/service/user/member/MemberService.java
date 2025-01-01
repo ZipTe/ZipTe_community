@@ -1,6 +1,6 @@
 package org.gdg.zipte_gdg.api.service.user.member;
 
-import org.gdg.zipte_gdg.api.controller.user.member.request.MemberRequest;
+import org.gdg.zipte_gdg.api.controller.user.request.MemberRequest;
 import org.gdg.zipte_gdg.api.service.user.member.response.MemberResponse;
 
 public interface MemberService {

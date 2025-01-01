@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.api.controller.shopping.category.request;
+package org.gdg.zipte_gdg.api.controller.admin.shopping.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

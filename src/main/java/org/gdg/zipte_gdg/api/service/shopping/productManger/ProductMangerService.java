@@ -1,13 +1,10 @@
 package org.gdg.zipte_gdg.api.service.shopping.productManger;
 
-import org.gdg.zipte_gdg.api.controller.shopping.productManger.request.ProductManagerRequest;
-import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponse;
+import org.gdg.zipte_gdg.api.controller.admin.shopping.request.ProductManagerRequest;
 import org.gdg.zipte_gdg.api.service.shopping.productManger.response.DiscountProductResponse;
 import org.gdg.zipte_gdg.api.service.shopping.productManger.response.ProductManagerResponse;
 import org.gdg.zipte_gdg.domain.page.request.PageRequestDto;
 import org.gdg.zipte_gdg.domain.page.response.PageResponseDto;
-import org.gdg.zipte_gdg.domain.shopping.product.Product;
-import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
 
 public interface ProductMangerService {
 
