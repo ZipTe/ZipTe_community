@@ -2,13 +2,27 @@ package org.gdg.zipte_gdg.api.service.shopping.productManger;
 
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte_gdg.api.controller.shopping.productManger.request.ProductManagerRequest;
+import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponseDto;
+import org.gdg.zipte_gdg.api.service.shopping.productManger.response.DiscountProductResponse;
 import org.gdg.zipte_gdg.api.service.shopping.productManger.response.ProductManagerResponse;
+import org.gdg.zipte_gdg.domain.page.request.PageRequestDto;
+import org.gdg.zipte_gdg.domain.page.response.PageResponseDto;
+import org.gdg.zipte_gdg.domain.shopping.categorySet.CategorySet;
 import org.gdg.zipte_gdg.domain.shopping.product.Product;
+import org.gdg.zipte_gdg.domain.shopping.product.ProductImage;
 import org.gdg.zipte_gdg.domain.shopping.product.ProductRepository;
 import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
 import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManagerRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -37,5 +51,41 @@ public class ProductMangerServiceImpl implements ProductMangerService {
         ProductManager manager = productManagerRepository.save(productManager);
 
         return entityToDto(manager);
+    }
+
+    @Override
+    public PageResponseDto<DiscountProductResponse> findAll(PageRequestDto pageRequestDto) {
+
+        Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
+        Page<Object[]> result = productManagerRepository.selectList(pageable);
+
+        List<DiscountProductResponse> dtoList = result.get().map(arr -> {
+            ProductManager productManager =(ProductManager) arr[0];
+            ProductImage productImage = (ProductImage) arr[1];
+
+            String imageStr = (productImage != null) ? productImage.getFileName() : "No image found";
+            DiscountProductResponse dto = entityToDiscountDto(productManager);
+            dto.setUploadFileNames(Collections.singletonList(imageStr));
+
+            return dto;
+        }).toList();
+
+        long total = result.getTotalElements();
+        return new PageResponseDto<>(dtoList, pageRequestDto, total);
+    }
+
+    @Override
+    public DiscountProductResponse findById(Long id) {
+
+        ProductManager productManager = productManagerRepository.findByProductId(id);
+        CategorySet category = productManagerRepository.findCategoryByProductId(id);
+        List<ProductImage> productImages = productRepository.selectProductImages(id);
+
+        DiscountProductResponse discountProductResponse = entityToDiscountDto(productManager);
+        discountProductResponse.setUploadFileNames(productImages.stream().map(ProductImage::getFileName).collect(Collectors.toList()));
+        discountProductResponse.setCategory(category.getCategory().getName());
+
+        return discountProductResponse;
+
     }
 }
