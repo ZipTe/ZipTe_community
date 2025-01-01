@@ -1,10 +1,10 @@
 package org.gdg.zipte_gdg.api.controller.shopping.delivery;
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.api.controller.shopping.delivery.request.DeliveryUpdateDto;
+import org.gdg.zipte_gdg.api.controller.shopping.delivery.request.DeliveryRequest;
 import org.gdg.zipte_gdg.api.response.ApiResponse;
 import org.gdg.zipte_gdg.api.service.shopping.delivery.DeliveryService;
-import org.gdg.zipte_gdg.api.service.shopping.delivery.response.DeliveryResponseDto;
+import org.gdg.zipte_gdg.api.service.shopping.delivery.response.DeliveryResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,14 +14,16 @@ public class DeliveryController {
 
     private final DeliveryService deliveryService;
 
+    // 배송 조회
     @GetMapping("/{deliveryId}")
-    public ApiResponse<DeliveryResponseDto> getOne (@PathVariable("deliveryId") Long deliveryId) {
+    public ApiResponse<DeliveryResponse> getOne (@PathVariable("deliveryId") Long deliveryId) {
         return ApiResponse.created(deliveryService.findById(deliveryId));
     }
 
+    // 배송 관련 정보 수정
     @PutMapping("/{deliveryId}")
-    public ApiResponse<DeliveryResponseDto> updateState(@PathVariable("deliveryId")Long deliveryId, @RequestBody DeliveryUpdateDto deliveryUpdateDto) {
-        deliveryUpdateDto.setId(deliveryId);
-        return ApiResponse.created(deliveryService.updateOne(deliveryUpdateDto));
+    public ApiResponse<DeliveryResponse> updateState(@PathVariable("deliveryId")Long deliveryId, @RequestBody DeliveryRequest deliveryRequest) {
+        deliveryRequest.setId(deliveryId);
+        return ApiResponse.created(deliveryService.updateOne(deliveryRequest));
     }
 }

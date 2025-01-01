@@ -2,18 +2,20 @@ package org.gdg.zipte_gdg.api.controller.shopping.product;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.gdg.zipte_gdg.api.controller.shopping.categorySet.request.CategorySetRequestDto;
+import org.gdg.zipte_gdg.api.service.shopping.category.CategoryService;
+import org.gdg.zipte_gdg.api.service.shopping.category.response.CategoryResponse;
+import org.gdg.zipte_gdg.api.service.shopping.productManger.ProductMangerService;
+import org.gdg.zipte_gdg.api.service.shopping.productManger.response.DiscountProductResponse;
 import org.gdg.zipte_gdg.domain.page.request.PageRequestDto;
 import org.gdg.zipte_gdg.api.response.ApiResponse;
 import org.gdg.zipte_gdg.api.service.shopping.categorySet.CategorySetService;
-import org.gdg.zipte_gdg.api.service.shopping.categorySet.response.CategorySetResponse;
 import org.gdg.zipte_gdg.domain.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.shopping.product.ProductImageService;
-import org.gdg.zipte_gdg.api.service.shopping.product.ProductService;
-import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponseDto;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -21,27 +23,44 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/product")
 public class ProductController {
 
-    private final ProductService productService;
-    private final CategorySetService categorySetService;
     private final ProductImageService productImageService;
+    private final ProductMangerService productMangerService;
+    private final CategoryService categoryService;
+    private final CategorySetService categorySetService;
 
-    @PostMapping
-    public ApiResponse<CategorySetResponse> create(CategorySetRequestDto categorySetRequestDto) {
-        return ApiResponse.created(categorySetService.create(categorySetRequestDto));
-    }
-
+    // 상품 정보 전부 조회
     @GetMapping("/list")
-    public ApiResponse<PageResponseDto<ProductResponseDto>> getList(PageRequestDto pageRequestDto) {
-        return ApiResponse.created(productService.findAll(pageRequestDto));
+    public ApiResponse<PageResponseDto<DiscountProductResponse>> getList(PageRequestDto pageRequestDto) {
+        return ApiResponse.created(productMangerService.findAll(pageRequestDto));
     }
 
-    @GetMapping("/{productId}")
-    public ApiResponse<ProductResponseDto> get(@PathVariable Long productId) {
-        return ApiResponse.created(productService.findById(productId));
+    // 상품 상세 조회
+    @GetMapping("/{id}")
+    public ApiResponse<DiscountProductResponse> findById(@PathVariable Long id) {
+        return ApiResponse.created(productMangerService.findById(id));
     }
 
+    // 사진 정보 보기
     @GetMapping("/view/{fileName}")
     public ResponseEntity<Resource> getFile(@PathVariable String fileName) {
         return productImageService.getFile(fileName);
+    }
+
+    // 카테고리 모두 보기
+    @GetMapping("/category")
+    public ApiResponse<List<CategoryResponse>> findAll() {
+        return ApiResponse.created(categoryService.findAll());
+    }
+
+    // 카테고리 상세 조회
+    @GetMapping("/category/{id}")
+    public ApiResponse<CategoryResponse> getCategory(@PathVariable Long id) {
+        return ApiResponse.created(categoryService.getCategory(id));
+    }
+
+    // 카테고리별 아이템 조회
+    @GetMapping("/category/list/{id}")
+    public ApiResponse<PageResponseDto<DiscountProductResponse>> getDiscountProductAll(@PathVariable("id") Long id, PageRequestDto pageRequestDto) {
+        return ApiResponse.created(categorySetService.findAll(id,pageRequestDto));
     }
 }

@@ -27,7 +27,6 @@ public class AptController {
     @GetMapping()
     public Mono<ApiResponse<Object>> getOne(@RequestParam String apartment_name){
 
-        log.info("MyLog : "+apartment_name);
         final var response = aptService.getOne(apartment_name);
         return response.flatMap(data -> Mono.just(ApiResponse.ok(data)));
     }

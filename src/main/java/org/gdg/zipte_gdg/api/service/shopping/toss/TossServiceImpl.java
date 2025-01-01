@@ -3,7 +3,7 @@ package org.gdg.zipte_gdg.api.service.shopping.toss;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.api.controller.shopping.toss.request.ConfirmPaymentRequestDto;
+import org.gdg.zipte_gdg.api.controller.shopping.toss.request.ConfirmPaymentRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,10 +35,10 @@ public class TossServiceImpl implements TossService {
      * 토스에게 결제 승인 요청
      */
     @Override
-    public HttpResponse<String> requestConfirm(ConfirmPaymentRequestDto confirmPaymentRequestDto) throws IOException, InterruptedException {
-        String tossOrderId = confirmPaymentRequestDto.getOrderId();
-        int tossAmount = confirmPaymentRequestDto.getAmount();
-        String tossPaymentKey = confirmPaymentRequestDto.getPaymentKey();
+    public HttpResponse<String> requestConfirm(ConfirmPaymentRequest confirmPaymentRequest) throws IOException, InterruptedException {
+        String tossOrderId = confirmPaymentRequest.getOrderId();
+        int tossAmount = confirmPaymentRequest.getAmount();
+        String tossPaymentKey = confirmPaymentRequest.getPaymentKey();
 
         // 승인 요청에 사용할 JSON 객체를 만듭니다.
         JsonNode requestObj = objectMapper.createObjectNode()

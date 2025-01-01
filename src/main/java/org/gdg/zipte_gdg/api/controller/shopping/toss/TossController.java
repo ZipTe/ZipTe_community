@@ -5,8 +5,8 @@ import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.api.service.shopping.payment.PaymentService;
 import org.gdg.zipte_gdg.api.service.shopping.toss.TossService;
 import jakarta.servlet.http.HttpSession;
-import org.gdg.zipte_gdg.api.controller.shopping.toss.request.ConfirmPaymentRequestDto;
-import org.gdg.zipte_gdg.api.controller.shopping.toss.request.SaveAmountRequestDto;
+import org.gdg.zipte_gdg.api.controller.shopping.toss.request.ConfirmPaymentRequest;
+import org.gdg.zipte_gdg.api.controller.shopping.toss.request.SaveAmountRequest;
 import org.gdg.zipte_gdg.api.service.shopping.toss.response.TossPaymentErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ public class TossController {
 
     // 임시저장하기
     @PostMapping("/saveAmount")
-    public ResponseEntity<?> tempsave(HttpSession session, @RequestBody SaveAmountRequestDto saveAmountRequest) {
+    public ResponseEntity<?> tempsave(HttpSession session, @RequestBody SaveAmountRequest saveAmountRequest) {
         session.setAttribute(saveAmountRequest.getOrderId(), saveAmountRequest.getAmount());
         return ResponseEntity.ok("Payment temp save successful");
     }
@@ -33,7 +33,7 @@ public class TossController {
 
     // 임시저장한 내용과 동일한지 파악
     @PostMapping("/verifyAmount")
-    public ResponseEntity<?> verifyAmount(HttpSession session, @RequestBody SaveAmountRequestDto saveAmountRequest) {
+    public ResponseEntity<?> verifyAmount(HttpSession session, @RequestBody SaveAmountRequest saveAmountRequest) {
 
         String amount = (String) session.getAttribute(saveAmountRequest.getOrderId());
         // 결제 전의 금액과 결제 후의 금액이 같은지 검증
@@ -48,7 +48,7 @@ public class TossController {
 
     // 리액트에서 결제한 내용 얻기
     @PostMapping("/confirm")
-    public ResponseEntity<?> confirmPayment(@RequestBody ConfirmPaymentRequestDto confirmPaymentRequest) throws Exception {
+    public ResponseEntity<?> confirmPayment(@RequestBody ConfirmPaymentRequest confirmPaymentRequest) throws Exception {
 
         log.info("Confirm payment request:" + confirmPaymentRequest);
 

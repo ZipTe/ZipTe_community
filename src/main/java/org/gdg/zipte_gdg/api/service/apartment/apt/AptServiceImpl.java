@@ -2,7 +2,7 @@ package org.gdg.zipte_gdg.api.service.apartment.apt;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.api.controller.apartment.apt.request.AptRequestDto;
+import org.gdg.zipte_gdg.api.controller.apartment.apt.request.AptRequest;
 import org.gdg.zipte_gdg.api.service.apartment.apt.response.AptResposnseDto;
 import org.gdg.zipte_gdg.domain.apartment.apt.AptRepository;
 import org.springframework.http.MediaType;
@@ -19,7 +19,7 @@ public class AptServiceImpl implements AptService {
     private final WebClient webClient;
 
     @Override
-    public AptResposnseDto register(AptRequestDto aptRequestDto) {
+    public AptResposnseDto register(AptRequest aptRequest) {
         return null;
     }
 
