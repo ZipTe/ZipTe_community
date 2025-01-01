@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class ReviewRequestDto {
+public class ReviewRequest {
 
     private Long id;
     private String title;

@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.api.controller.shopping.categorySet.request;
+package org.gdg.zipte_gdg.api.controller.shopping.product.request;
 
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +9,9 @@ import java.util.List;
 
 @Data
 @Builder
-public class CategorySetRequestDto {
+public class ProductRequest {
 
-    // 아이템 생성 관련
+    private Long id;
     private String pname;
     private String pdesc;
     private int price;
@@ -19,10 +19,5 @@ public class CategorySetRequestDto {
 
     @Builder.Default
     private List<MultipartFile> files = new ArrayList<>();
-
-    // 이미 존재하는 카테고리와 연결
-    private Long categoryId;
-
-
 
 }

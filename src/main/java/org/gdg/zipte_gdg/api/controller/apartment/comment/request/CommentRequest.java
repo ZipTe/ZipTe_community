@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class CommentRequestDto {
+public class CommentRequest {
 
     private Long id;
     private Long memberId;

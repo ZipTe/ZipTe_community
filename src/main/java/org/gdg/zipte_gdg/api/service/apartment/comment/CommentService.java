@@ -1,13 +1,13 @@
 package org.gdg.zipte_gdg.api.service.apartment.comment;
 
-import org.gdg.zipte_gdg.api.controller.apartment.comment.request.CommentRequestDto;
+import org.gdg.zipte_gdg.api.controller.apartment.comment.request.CommentRequest;
 import org.gdg.zipte_gdg.api.service.apartment.comment.response.CommentResponseDto;
 import org.gdg.zipte_gdg.domain.apartment.comment.Comment;
 
 public interface CommentService {
 
     // 댓글 등록
-    CommentResponseDto register(CommentRequestDto commentRequestDto);
+    CommentResponseDto register(CommentRequest commentRequest);
 
     // 댓글 수정
 

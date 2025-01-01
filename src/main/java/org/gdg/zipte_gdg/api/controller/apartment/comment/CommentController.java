@@ -2,7 +2,7 @@ package org.gdg.zipte_gdg.api.controller.apartment.comment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.api.controller.apartment.comment.request.CommentRequestDto;
+import org.gdg.zipte_gdg.api.controller.apartment.comment.request.CommentRequest;
 import org.gdg.zipte_gdg.api.response.ApiResponse;
 import org.gdg.zipte_gdg.api.service.apartment.comment.CommentService;
 import org.gdg.zipte_gdg.api.service.apartment.comment.response.CommentResponseDto;
@@ -20,8 +20,8 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    ApiResponse<CommentResponseDto> register(@RequestBody CommentRequestDto commentRequestDto) {
-        return ApiResponse.ok(commentService.register(commentRequestDto));
+    ApiResponse<CommentResponseDto> register(@RequestBody CommentRequest commentRequest) {
+        return ApiResponse.ok(commentService.register(commentRequest));
     }
 
 }

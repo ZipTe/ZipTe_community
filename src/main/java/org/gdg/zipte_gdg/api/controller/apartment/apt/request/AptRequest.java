@@ -5,5 +5,5 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AptRequestDto {
+public class AptRequest {
 }

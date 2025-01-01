@@ -7,7 +7,7 @@ import org.gdg.zipte_gdg.domain.shopping.delivery.DeliveryStatus;
 
 @Data
 @Builder
-public class DeliveryUpdateDto {
+public class DeliveryRequest {
 
     @NotNull
     private Long id;  // Delivery ID

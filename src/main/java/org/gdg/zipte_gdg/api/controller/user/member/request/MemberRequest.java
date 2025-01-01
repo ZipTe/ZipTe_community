@@ -1,12 +1,11 @@
 package org.gdg.zipte_gdg.api.controller.user.member.request;
 
-import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class MemberRequestDto {
+public class MemberRequest {
 
     private Long id;
     private String email;

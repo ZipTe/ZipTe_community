@@ -1,13 +1,13 @@
 package org.gdg.zipte_gdg.api.service.apartment.apt;
 
-import org.gdg.zipte_gdg.api.controller.apartment.apt.request.AptRequestDto;
+import org.gdg.zipte_gdg.api.controller.apartment.apt.request.AptRequest;
 import org.gdg.zipte_gdg.api.service.apartment.apt.response.AptResposnseDto;
 import reactor.core.publisher.Mono;
 
 public interface AptService {
 
     // 생성
-    AptResposnseDto register (AptRequestDto aptRequestDto);
+    AptResposnseDto register (AptRequest aptRequest);
 
     // 찾기
 //    AptResposnseDto getOne(Long id);

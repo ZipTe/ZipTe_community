@@ -1,10 +1,10 @@
 package org.gdg.zipte_gdg.api.controller.shopping.cart;
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartRequestDto;
+import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartRequest;
 import org.gdg.zipte_gdg.api.response.ApiResponse;
 import org.gdg.zipte_gdg.api.service.shopping.cart.CartService;
-import org.gdg.zipte_gdg.api.service.shopping.cart.response.CartResponseDto;
+import org.gdg.zipte_gdg.api.service.shopping.cart.response.CartResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,19 +15,19 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping()
-    public ApiResponse<CartResponseDto> addItem(@RequestBody CartRequestDto cartRequestDto) {
+    public ApiResponse<CartResponse> addItem(@RequestBody CartRequest cartRequest) {
 
-        return ApiResponse.created(cartService.setItem(cartRequestDto));
+        return ApiResponse.created(cartService.setItem(cartRequest));
     }
 
     @DeleteMapping()
-    public ApiResponse<CartResponseDto> removeItem(@RequestBody CartRequestDto cartRequestDto) {
+    public ApiResponse<CartResponse> removeItem(@RequestBody CartRequest cartRequest) {
 
-        return ApiResponse.created(cartService.removeItem(cartRequestDto));
+        return ApiResponse.created(cartService.removeItem(cartRequest));
     }
 
     @GetMapping("/{memberId}")
-    public ApiResponse<CartResponseDto> getOne(@PathVariable Long memberId) {
+    public ApiResponse<CartResponse> getOne(@PathVariable Long memberId) {
         return ApiResponse.created(cartService.getMyCart(memberId));
     }
 

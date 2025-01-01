@@ -3,7 +3,7 @@ package org.gdg.zipte_gdg.api.service.apartment.comment;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.gdg.zipte_gdg.api.controller.apartment.comment.request.CommentRequestDto;
+import org.gdg.zipte_gdg.api.controller.apartment.comment.request.CommentRequest;
 import org.gdg.zipte_gdg.api.service.apartment.comment.response.CommentResponseDto;
 import org.gdg.zipte_gdg.domain.apartment.comment.Comment;
 import org.gdg.zipte_gdg.domain.apartment.comment.CommentRepository;
@@ -26,15 +26,15 @@ public class CommentServiceImpl implements CommentService {
     private final ReviewRepository reviewRepository;
 
     @Override
-    public CommentResponseDto register(CommentRequestDto commentRequestDto) {
+    public CommentResponseDto register(CommentRequest commentRequest) {
 
-        Optional<Member> byId = memberRepository.findById(commentRequestDto.getMemberId());
+        Optional<Member> byId = memberRepository.findById(commentRequest.getMemberId());
         Member member = byId.orElseThrow();
 
-        Optional<Review> byId1 = reviewRepository.findById(commentRequestDto.getReviewId());
+        Optional<Review> byId1 = reviewRepository.findById(commentRequest.getReviewId());
         Review review = byId1.orElseThrow();
 
-        Comment comment = Comment.addNewComment(review, member, commentRequestDto.getContent());
+        Comment comment = Comment.addNewComment(review, member, commentRequest.getContent());
         Comment saved = commentRepository.save(comment);
 
         return entityToDto(saved);

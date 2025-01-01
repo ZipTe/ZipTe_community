@@ -2,8 +2,8 @@ package org.gdg.zipte_gdg.api.service.shopping.order;
 
 import lombok.RequiredArgsConstructor;
 
-import org.gdg.zipte_gdg.api.controller.shopping.order.request.OrderRequestDto;
-import org.gdg.zipte_gdg.api.service.shopping.order.response.PaymentOrderResponseDto;
+import org.gdg.zipte_gdg.api.controller.shopping.order.request.OrderRequest;
+import org.gdg.zipte_gdg.api.service.shopping.order.response.TossOrderResponse;
 import org.gdg.zipte_gdg.domain.shopping.delivery.Delivery;
 import org.gdg.zipte_gdg.domain.shopping.delivery.DeliveryRepository;
 import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
@@ -37,39 +37,39 @@ public class OrderServiceImpl implements OrderService {
     private final ProductManagerRepository productManagerRepository;
 
     @Override
-    public PaymentOrderResponseDto order(OrderRequestDto orderRequestDto) {
+    public TossOrderResponse order(OrderRequest orderRequest) {
 
-        Member member = getMember(orderRequestDto);
-        Address address = getAddress(orderRequestDto);
-        Delivery delivery = getDelivery(orderRequestDto, address);
-        List<OrderItem> orderItems = getOrderItems(orderRequestDto);
+        Member member = getMember(orderRequest);
+        Address address = getAddress(orderRequest);
+        Delivery delivery = getDelivery(orderRequest, address);
+        List<OrderItem> orderItems = getOrderItems(orderRequest);
 
         orderItemRepository.saveAll(orderItems);
 
         // 누가,어디로,무엇을 살것인지 정했기에 Order 가능
         Order order = Order.createNewOrder(member, delivery, orderItems);
         orderRepository.save(order);
-        return entityToPaymentDTO(order);
+        return TossOrderResponse.of(order);
     }
 
     //extract한 메소드
 
-    private Member getMember(OrderRequestDto orderRequestDto) {
-        Optional<Member> byId = memberRepository.findById(orderRequestDto.getMemberId());
+    private Member getMember(OrderRequest orderRequest) {
+        Optional<Member> byId = memberRepository.findById(orderRequest.getMemberId());
         return byId.orElseThrow();
     }
 
-    private static Address getAddress(OrderRequestDto orderRequestDto) {
-        return Address.newAddress(orderRequestDto.getDetailAddress(), orderRequestDto.getStreetAddress(), orderRequestDto.getZipcode());
+    private static Address getAddress(OrderRequest orderRequest) {
+        return Address.newAddress(orderRequest.getDetailAddress(), orderRequest.getStreetAddress(), orderRequest.getZipcode());
     }
 
-    private Delivery getDelivery(OrderRequestDto orderRequestDto, Address address) {
-        Delivery delivery = Delivery.createNewDelivery(address, orderRequestDto.getOrderDesc(), orderRequestDto.getDeliveryDesc());
+    private Delivery getDelivery(OrderRequest orderRequest, Address address) {
+        Delivery delivery = Delivery.createNewDelivery(address, orderRequest.getOrderDesc(), orderRequest.getDeliveryDesc());
         return deliveryRepository.save(delivery);
     }
 
-    private List<OrderItem> getOrderItems(OrderRequestDto orderRequestDto) {
-        return orderRequestDto.getItems().stream()
+    private List<OrderItem> getOrderItems(OrderRequest orderRequest) {
+        return orderRequest.getItems().stream()
                 .map(itemDto -> {
                     ProductManager productManager = getProduct(itemDto.getProductId());
                     return OrderItem.createOrderItem(productManager, itemDto.getCount());

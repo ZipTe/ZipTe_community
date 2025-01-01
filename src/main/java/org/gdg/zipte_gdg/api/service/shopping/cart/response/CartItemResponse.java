@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CartItemResponseDto {
+public class CartItemResponse {
 
     private Long productId;  // 상품 ID
     private String productName;  // 상품 이름

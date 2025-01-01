@@ -2,7 +2,7 @@ package org.gdg.zipte_gdg.api.controller.shopping.category;
 
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte_gdg.api.controller.shopping.category.request.CategoryRequestDto;
+import org.gdg.zipte_gdg.api.controller.shopping.category.request.CategoryRequest;
 import org.gdg.zipte_gdg.api.response.ApiResponse;
 import org.gdg.zipte_gdg.api.service.shopping.category.CategoryService;
 import org.gdg.zipte_gdg.api.service.shopping.category.response.CategoryResponse;
@@ -23,8 +23,8 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ApiResponse<CategoryResponse> save(@RequestBody CategoryRequestDto categoryRequestDto) {
-        return ApiResponse.created(categoryService.save(categoryRequestDto));
+    public ApiResponse<CategoryResponse> save(@RequestBody CategoryRequest categoryRequest) {
+        return ApiResponse.created(categoryService.save(categoryRequest));
     }
 
     @GetMapping("/{id}")

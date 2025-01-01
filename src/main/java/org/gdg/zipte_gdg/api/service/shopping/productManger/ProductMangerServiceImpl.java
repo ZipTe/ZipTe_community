@@ -2,7 +2,7 @@ package org.gdg.zipte_gdg.api.service.shopping.productManger;
 
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte_gdg.api.controller.shopping.productManger.request.ProductManagerRequest;
-import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponseDto;
+import org.gdg.zipte_gdg.api.service.shopping.category.response.CategoryNoChildrenResponse;
 import org.gdg.zipte_gdg.api.service.shopping.productManger.response.DiscountProductResponse;
 import org.gdg.zipte_gdg.api.service.shopping.productManger.response.ProductManagerResponse;
 import org.gdg.zipte_gdg.domain.page.request.PageRequestDto;
@@ -50,7 +50,7 @@ public class ProductMangerServiceImpl implements ProductMangerService {
         productManager.setCouponCode(request.getCouponCode());
         ProductManager manager = productManagerRepository.save(productManager);
 
-        return entityToDto(manager);
+        return ProductManagerResponse.of(manager);
     }
 
     @Override
@@ -64,10 +64,10 @@ public class ProductMangerServiceImpl implements ProductMangerService {
             ProductImage productImage = (ProductImage) arr[1];
 
             String imageStr = (productImage != null) ? productImage.getFileName() : "No image found";
-            DiscountProductResponse dto = entityToDiscountDto(productManager);
-            dto.setUploadFileNames(Collections.singletonList(imageStr));
+            DiscountProductResponse discountProductResponse = DiscountProductResponse.of(productManager);
+            discountProductResponse.getProductResponse().setUploadFileNames(Collections.singletonList(imageStr));
 
-            return dto;
+            return discountProductResponse;
         }).toList();
 
         long total = result.getTotalElements();
@@ -78,12 +78,15 @@ public class ProductMangerServiceImpl implements ProductMangerService {
     public DiscountProductResponse findById(Long id) {
 
         ProductManager productManager = productManagerRepository.findByProductId(id);
-        CategorySet category = productManagerRepository.findCategoryByProductId(id);
-        List<ProductImage> productImages = productRepository.selectProductImages(id);
+        DiscountProductResponse discountProductResponse = DiscountProductResponse.of(productManager);
 
-        DiscountProductResponse discountProductResponse = entityToDiscountDto(productManager);
-        discountProductResponse.setUploadFileNames(productImages.stream().map(ProductImage::getFileName).collect(Collectors.toList()));
-        discountProductResponse.setCategory(category.getCategory().getName());
+        CategorySet category = productManagerRepository.findCategoryByProductId(id);
+        CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.of(category.getCategory());
+        discountProductResponse.setCategoryResponse(responseNoChildren);
+
+
+        List<ProductImage> productImages = productRepository.selectProductImages(id);
+        discountProductResponse.getProductResponse().setUploadFileNames(productImages.stream().map(ProductImage::getFileName).collect(Collectors.toList()));
 
         return discountProductResponse;
 

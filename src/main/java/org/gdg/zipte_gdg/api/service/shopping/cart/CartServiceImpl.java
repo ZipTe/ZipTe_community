@@ -3,36 +3,35 @@ package org.gdg.zipte_gdg.api.service.shopping.cart;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartItemRequestDto;
-import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartRequestDto;
-import org.gdg.zipte_gdg.api.service.shopping.cart.response.CartResponseDto;
+import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartItemRequest;
+import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartRequest;
+import org.gdg.zipte_gdg.api.service.shopping.cart.response.CartResponse;
 import org.gdg.zipte_gdg.domain.shopping.cart.Cart;
 import org.gdg.zipte_gdg.domain.shopping.cart.CartItem;
 import org.gdg.zipte_gdg.domain.shopping.cart.CartItemRepository;
 import org.gdg.zipte_gdg.domain.shopping.cart.CartRepository;
-import org.gdg.zipte_gdg.domain.shopping.product.Product;
-import org.gdg.zipte_gdg.domain.shopping.product.ProductRepository;
 import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
 import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManagerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Log4j2
 @Service
 @Transactional
 @RequiredArgsConstructor
-@Log4j2
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final ProductManagerRepository productManagerRepository;
+
     @Override
-    public CartResponseDto setItem(CartRequestDto cartRequestDto) {
-        Long memberId = cartRequestDto.getMemberId();
+    public CartResponse setItem(CartRequest cartRequest) {
+        Long memberId = cartRequest.getMemberId();
         Cart cart = cartRepository.findByMemberId(memberId);
 
-        List<CartItemRequestDto> items = cartRequestDto.getItems();
+        List<CartItemRequest> items = cartRequest.getItems();
         items.forEach(item -> {
             ProductManager productmanger = productManagerRepository.findByProductId(item.getProductId());
 
@@ -54,15 +53,15 @@ public class CartServiceImpl implements CartService {
             }
         });
 
-        return EntityToDto(cart);
+        return CartResponse.of(cart);
     }
 
     @Override
-    public CartResponseDto removeItem(CartRequestDto cartRequestDto) {
-        Long memberId = cartRequestDto.getMemberId();
+    public CartResponse removeItem(CartRequest cartRequest) {
+        Long memberId = cartRequest.getMemberId();
         Cart cart = cartRepository.findByMemberId(memberId);
 
-        List<CartItemRequestDto> items = cartRequestDto.getItems();
+        List<CartItemRequest> items = cartRequest.getItems();
         items.forEach(item -> {
 
             // 장바구니에서 해당 상품 검색
@@ -76,13 +75,13 @@ public class CartServiceImpl implements CartService {
             cartItemRepository.delete(cartItem);
         });
 
-        return EntityToDto(cart);
+        return CartResponse.of(cart);
     }
 
     @Override
-    public CartResponseDto getMyCart(Long memberId) {
+    public CartResponse getMyCart(Long memberId) {
         Cart cart = cartRepository.findByMemberId(memberId);
 
-        return EntityToDto(cart);
+        return CartResponse.of(cart);
     }
 }

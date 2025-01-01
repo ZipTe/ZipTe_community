@@ -4,10 +4,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.api.controller.user.member.request.MemberRequestDto;
-import org.gdg.zipte_gdg.api.service.user.member.response.MemberResponseDto;
-import org.gdg.zipte_gdg.domain.shopping.cart.Cart;
-import org.gdg.zipte_gdg.domain.shopping.cart.CartRepository;
+import org.gdg.zipte_gdg.api.controller.user.member.request.MemberRequest;
+import org.gdg.zipte_gdg.api.service.user.member.response.MemberResponse;
 import org.gdg.zipte_gdg.domain.user.member.Address;
 import org.gdg.zipte_gdg.domain.user.member.Member;
 import org.gdg.zipte_gdg.domain.user.member.MemberRepository;
@@ -21,40 +19,23 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private final CartRepository cartRepository;
 
     @Override
-    public MemberResponseDto register(MemberRequestDto memberRequestDto) {
-        Member member = dtoToEntity(memberRequestDto);
-        Member savedMember = memberRepository.save(member);
-
-        // 멤버별 장바구니 최초 생성
-        createFirstCart(savedMember);
-
-        return entityToDto(savedMember);
-    }
-
-    private void createFirstCart(Member savedMember) {
-        Cart cart = Cart.CreateNewCart(savedMember);
-        cartRepository.save(cart);
-    }
-
-    @Override
-    public MemberResponseDto getOne(Long id) {
+    public MemberResponse getOne(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Member with ID " + id + " not found"));
-        return entityToDto(member);
+        return MemberResponse.of(member);
     }
 
     @Override
-    public MemberResponseDto addAddress(MemberRequestDto memberRequestDto) {
+    public MemberResponse addAddress(MemberRequest memberRequest) {
         // 회원 정보를 가져옵니다.
-        Member member = memberRepository.findById(memberRequestDto.getId()).orElseThrow();
+        Member member = memberRepository.findById(memberRequest.getId()).orElseThrow();
 
         // 회원의 역할이 ROLE_FIRST_JOIN_OAUTH_USER인지 확인합니다.
         if (member.getRoles().contains(Role.OAUTH_FIRST_JOIN)) {
             // 주소를 새로 생성합니다.
-            Address address = Address.newAddress(memberRequestDto.getDetailAddress(), memberRequestDto.getStreetAddress(), memberRequestDto.getZipCode());
+            Address address = Address.newAddress(memberRequest.getDetailAddress(), memberRequest.getStreetAddress(), memberRequest.getZipCode());
 
             // 회원에 주소를 추가합니다.
             member.addAddress(address);
@@ -68,7 +49,7 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalStateException("주소 추가는 첫 번째 OAuth 회원만 가능합니다.");
         }
 
-        return entityToDto(member);
+        return MemberResponse.of(member);
     }
 
 }

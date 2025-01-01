@@ -1,7 +1,7 @@
 package org.gdg.zipte_gdg.api.service.apartment.review;
 
 import org.gdg.zipte_gdg.domain.page.request.PageRequestDto;
-import org.gdg.zipte_gdg.api.controller.apartment.review.request.ReviewRequestDto;
+import org.gdg.zipte_gdg.api.controller.apartment.review.request.ReviewRequest;
 import org.gdg.zipte_gdg.domain.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.apartment.review.response.ReviewResponseDto;
 import org.gdg.zipte_gdg.api.service.apartment.review.response.ReviewResponseWithCommentDto;
@@ -13,7 +13,7 @@ import java.util.Date;
 public interface ReviewService {
 
     // 리뷰 등록
-    ReviewResponseDto register(ReviewRequestDto reviewRequestDto);
+    ReviewResponseDto register(ReviewRequest reviewRequest);
 
     // 리뷰 수정
 

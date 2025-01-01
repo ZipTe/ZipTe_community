@@ -3,8 +3,8 @@ package org.gdg.zipte_gdg.api.service.shopping.productManger.response;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
-import org.gdg.zipte_gdg.api.service.shopping.category.response.CategoryResponse;
-import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponseDto;
+import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponse;
+import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
 
 import java.util.Date;
 
@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 public class ProductManagerResponse {
 
-    private ProductResponseDto product;
+    private ProductResponse product;
 
     private int discountRate;
     private String couponCode;
@@ -21,4 +21,15 @@ public class ProductManagerResponse {
     private Date saleStartDate;
     private Date saleEndDate;
 
+    public static ProductManagerResponse of(ProductManager productManager) {
+        return ProductManagerResponse.builder()
+                .product(ProductResponse.of(productManager.getProduct()))
+                .discountRate(productManager.getDiscountRate())
+                .active(productManager.isActive())
+                .saleStartDate(productManager.getSaleStartDate())
+                .saleEndDate(productManager.getSaleEndDate())
+                .couponCode(productManager.getCouponCode())
+                .build();
+
+    }
 }

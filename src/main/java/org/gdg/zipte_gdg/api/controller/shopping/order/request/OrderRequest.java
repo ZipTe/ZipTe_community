@@ -4,7 +4,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class OrderRequestDto {
+public class OrderRequest {
 
     // 오더
     private Long id;
@@ -22,6 +22,6 @@ public class OrderRequestDto {
     private String deliveryDesc;
 
     // 아이템
-    private List<OrderItemRequestDto> items; // 여러 상품 정보를 담는 리스트
+    private List<OrderItemRequest> items; // 여러 상품 정보를 담는 리스트
 
 }

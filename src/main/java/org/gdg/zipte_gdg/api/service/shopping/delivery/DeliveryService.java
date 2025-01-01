@@ -1,27 +1,14 @@
 package org.gdg.zipte_gdg.api.service.shopping.delivery;
 
-import org.gdg.zipte_gdg.api.controller.shopping.delivery.request.DeliveryUpdateDto;
-import org.gdg.zipte_gdg.api.service.shopping.delivery.response.DeliveryResponseDto;
-import org.gdg.zipte_gdg.domain.shopping.delivery.Delivery;
+import org.gdg.zipte_gdg.api.controller.shopping.delivery.request.DeliveryRequest;
+import org.gdg.zipte_gdg.api.service.shopping.delivery.response.DeliveryResponse;
 
 public interface DeliveryService {
 
     // 찾기
-    DeliveryResponseDto findById(Long id);
+    DeliveryResponse findById(Long id);
 
     // 배송 상태 수정
-    DeliveryResponseDto updateOne(DeliveryUpdateDto deliveryUpdateDto);
-
-    default DeliveryResponseDto entityToDto(Delivery delivery) {
-        return DeliveryResponseDto.builder()
-                .id(delivery.getId())
-                .detailAddress(delivery.getAddress().getDetailAddress())
-                .streetAddress(delivery.getAddress().getStreetAddress())
-                .zipCode(delivery.getAddress().getZipcode())
-                .orderDesc(delivery.getOrderDesc())
-                .deliveryDesc(delivery.getDeliveryDesc())
-                .status(String.valueOf(delivery.getStatus()))
-                .build();
-    }
+    DeliveryResponse updateOne(DeliveryRequest deliveryRequest);
 
 }

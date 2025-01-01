@@ -2,7 +2,7 @@ package org.gdg.zipte_gdg.api.controller.shopping.product;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.gdg.zipte_gdg.api.controller.shopping.categorySet.request.CategorySetRequestDto;
+import org.gdg.zipte_gdg.api.controller.shopping.categorySet.request.CategorySetRequest;
 import org.gdg.zipte_gdg.domain.page.request.PageRequestDto;
 import org.gdg.zipte_gdg.api.response.ApiResponse;
 import org.gdg.zipte_gdg.api.service.shopping.categorySet.CategorySetService;
@@ -10,7 +10,7 @@ import org.gdg.zipte_gdg.api.service.shopping.categorySet.response.CategorySetRe
 import org.gdg.zipte_gdg.domain.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.shopping.product.ProductImageService;
 import org.gdg.zipte_gdg.api.service.shopping.product.ProductService;
-import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponseDto;
+import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponse;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,17 +26,17 @@ public class ProductController {
     private final ProductImageService productImageService;
 
     @PostMapping
-    public ApiResponse<CategorySetResponse> create(CategorySetRequestDto categorySetRequestDto) {
-        return ApiResponse.created(categorySetService.create(categorySetRequestDto));
+    public ApiResponse<CategorySetResponse> create(CategorySetRequest categorySetRequest) {
+        return ApiResponse.created(categorySetService.create(categorySetRequest));
     }
 
     @GetMapping("/list")
-    public ApiResponse<PageResponseDto<ProductResponseDto>> getList(PageRequestDto pageRequestDto) {
+    public ApiResponse<PageResponseDto<ProductResponse>> getList(PageRequestDto pageRequestDto) {
         return ApiResponse.created(productService.findAll(pageRequestDto));
     }
 
     @GetMapping("/{productId}")
-    public ApiResponse<ProductResponseDto> get(@PathVariable Long productId) {
+    public ApiResponse<ProductResponse> get(@PathVariable Long productId) {
         return ApiResponse.created(productService.findById(productId));
     }
 

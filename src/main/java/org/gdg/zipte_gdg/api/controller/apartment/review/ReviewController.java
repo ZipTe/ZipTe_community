@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte_gdg.domain.page.request.PageRequestDto;
 import org.gdg.zipte_gdg.api.response.ApiResponse;
-import org.gdg.zipte_gdg.api.controller.apartment.review.request.ReviewRequestDto;
+import org.gdg.zipte_gdg.api.controller.apartment.review.request.ReviewRequest;
 import org.gdg.zipte_gdg.domain.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.apartment.review.ReviewService;
 import org.gdg.zipte_gdg.api.service.apartment.review.response.ReviewResponseDto;
@@ -20,8 +20,8 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ApiResponse<ReviewResponseDto> create(ReviewRequestDto reviewRequestDto) {
-        return ApiResponse.created(reviewService.register(reviewRequestDto));
+    public ApiResponse<ReviewResponseDto> create(ReviewRequest reviewRequest) {
+        return ApiResponse.created(reviewService.register(reviewRequest));
     }
 
     @GetMapping("/list/member/{memberId}")
