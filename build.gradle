@@ -31,7 +31,18 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     // Spring Security
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    // JWT 관련 기능
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+
+    // Redis 관련 기능
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.session:spring-session-data-redis'
 
     // https://mvnrepository.com/artifact/net.coobird/thumbnailator / 썸네일
     implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.19'
@@ -39,6 +50,13 @@ dependencies {
     // JPA 관련 툴
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'com.h2database:h2'
+
+    // 외부 API
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    //Swagger
+    implementation 'io.springfox:springfox-swagger2:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
     // test 관련 툴
     testCompileOnly 'org.projectlombok:lombok'
