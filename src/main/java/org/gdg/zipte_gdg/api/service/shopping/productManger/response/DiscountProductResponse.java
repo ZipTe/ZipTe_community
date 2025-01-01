@@ -13,11 +13,12 @@ import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
 @Getter
 public class DiscountProductResponse {
 
-    // 상품 관련 정보
-    private ProductResponse productResponse;
 
     // 카테고리 관련 정보
-    private CategoryNoChildrenResponse categoryResponse;
+    private CategoryNoChildrenResponse category;
+
+    // 상품 관련 정보
+    private ProductResponse product;
 
     // 가격 정보 추가
     private int discountRate;
@@ -40,7 +41,7 @@ public class DiscountProductResponse {
         }
 
         return DiscountProductResponse.builder()
-                .productResponse(prdouctResponse)
+                .product(prdouctResponse)
                 .discountRate(entity.getDiscountRate())
                 .discountPrice((int) discountPrice) // 할인된 가격 (소수점 버림)
                 .build();

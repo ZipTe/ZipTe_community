@@ -63,9 +63,15 @@ public class ProductMangerServiceImpl implements ProductMangerService {
             ProductManager productManager =(ProductManager) arr[0];
             ProductImage productImage = (ProductImage) arr[1];
 
+            // 카테고리 정보 넣기
+            CategorySet category = productManagerRepository.findCategoryByProductId(productManager.getProduct().getId());
+            CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.of(category.getCategory());
+
+
             String imageStr = (productImage != null) ? productImage.getFileName() : "No image found";
             DiscountProductResponse discountProductResponse = DiscountProductResponse.of(productManager);
-            discountProductResponse.getProductResponse().setUploadFileNames(Collections.singletonList(imageStr));
+            discountProductResponse.getProduct().setUploadFileNames(Collections.singletonList(imageStr));
+            discountProductResponse.setCategory(responseNoChildren);
 
             return discountProductResponse;
         }).toList();
@@ -82,11 +88,11 @@ public class ProductMangerServiceImpl implements ProductMangerService {
 
         CategorySet category = productManagerRepository.findCategoryByProductId(id);
         CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.of(category.getCategory());
-        discountProductResponse.setCategoryResponse(responseNoChildren);
+        discountProductResponse.setCategory(responseNoChildren);
 
 
         List<ProductImage> productImages = productRepository.selectProductImages(id);
-        discountProductResponse.getProductResponse().setUploadFileNames(productImages.stream().map(ProductImage::getFileName).collect(Collectors.toList()));
+        discountProductResponse.getProduct().setUploadFileNames(productImages.stream().map(ProductImage::getFileName).collect(Collectors.toList()));
 
         return discountProductResponse;
 
