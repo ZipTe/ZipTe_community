@@ -4,7 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.api.controller.user.request.MemberRequest;
+import org.gdg.zipte_gdg.api.controller.user.member.request.MemberRequest;
 import org.gdg.zipte_gdg.api.service.user.member.response.MemberResponse;
 import org.gdg.zipte_gdg.domain.user.member.Address;
 import org.gdg.zipte_gdg.domain.user.member.Member;
@@ -35,7 +35,7 @@ public class MemberServiceImpl implements MemberService {
         // 회원의 역할이 ROLE_FIRST_JOIN_OAUTH_USER인지 확인합니다.
         if (member.getRoles().contains(Role.OAUTH_FIRST_JOIN)) {
             // 주소를 새로 생성합니다.
-            Address address = Address.newAddress(memberRequest.getDetailAddress(), memberRequest.getStreetAddress(), memberRequest.getZipCode());
+            Address address = Address.of(memberRequest.getDetailAddress(), memberRequest.getStreetAddress(), memberRequest.getZipCode());
 
             // 회원에 주소를 추가합니다.
             member.addAddress(address);

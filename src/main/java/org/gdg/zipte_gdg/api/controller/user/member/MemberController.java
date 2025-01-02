@@ -1,8 +1,8 @@
-package org.gdg.zipte_gdg.api.controller.user;
+package org.gdg.zipte_gdg.api.controller.user.member;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.api.controller.user.request.MemberRequest;
+import org.gdg.zipte_gdg.api.controller.user.member.request.MemberRequest;
 import org.gdg.zipte_gdg.api.response.ApiResponse;
 import org.gdg.zipte_gdg.api.service.user.member.MemberService;
 import org.gdg.zipte_gdg.api.service.user.member.response.MemberResponse;

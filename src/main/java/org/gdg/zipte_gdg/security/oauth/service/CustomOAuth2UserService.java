@@ -57,7 +57,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         if (existingMember == null) {
             // 신규 사용자 생성
-            Address address = Address.newAddress("미정", "미정", 11111);
+            Address address = Address.of("미정", "미정", 11111);
 
             Member newMember = Member.createNewMember(email, username,  phoneNumber, address);
 //            newMember.addMemberRole(Role.OAUTH_FIRST_JOIN); // 초기 권한 설정
