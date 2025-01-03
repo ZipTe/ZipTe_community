@@ -3,9 +3,9 @@ package org.gdg.zipte_gdg.api.service.shopping.cart.response;
 import lombok.Builder;
 import lombok.Data;
 import org.gdg.zipte_gdg.api.service.shopping.productManger.response.DiscountProductResponse;
-import org.gdg.zipte_gdg.domain.shopping.cart.CartItem;
-import org.gdg.zipte_gdg.domain.shopping.product.Product;
-import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
+import org.gdg.zipte_gdg.domain.order.cart.CartItem;
+import org.gdg.zipte_gdg.domain.product.product.Product;
+import org.gdg.zipte_gdg.domain.product.productManger.ProductManager;
 
 import java.util.*;
 

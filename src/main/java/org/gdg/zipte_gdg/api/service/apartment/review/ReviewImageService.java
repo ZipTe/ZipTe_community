@@ -1,6 +1,6 @@
 package org.gdg.zipte_gdg.api.service.apartment.review;
 
-import org.gdg.zipte_gdg.domain.apartment.review.Review;
+import org.gdg.zipte_gdg.domain.review.review.Review;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;

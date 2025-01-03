@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.gdg.zipte_gdg.domain.shopping.category.Category;
+import org.gdg.zipte_gdg.domain.product.category.Category;
 
 @Data
 @AllArgsConstructor

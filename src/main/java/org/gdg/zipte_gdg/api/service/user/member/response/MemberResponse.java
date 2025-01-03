@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.gdg.zipte_gdg.domain.user.member.Address;
 import org.gdg.zipte_gdg.domain.user.member.Member;
-import org.gdg.zipte_gdg.domain.user.role.Role;
+import org.gdg.zipte_gdg.domain.user.member.Role;
 
 import java.util.Collections;
 import java.util.List;

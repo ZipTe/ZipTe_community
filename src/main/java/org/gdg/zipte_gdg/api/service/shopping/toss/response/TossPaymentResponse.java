@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.gdg.zipte_gdg.domain.shopping.payment.Payment;
+import org.gdg.zipte_gdg.domain.order.payment.Payment;
 
 @Data
 @Builder

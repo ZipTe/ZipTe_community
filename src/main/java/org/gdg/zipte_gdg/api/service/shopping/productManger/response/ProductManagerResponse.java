@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponse;
-import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
+import org.gdg.zipte_gdg.domain.product.productManger.ProductManager;
 
 import java.util.Date;
 

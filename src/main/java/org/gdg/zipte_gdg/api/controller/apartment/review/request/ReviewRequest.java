@@ -12,13 +12,21 @@ import java.util.List;
 @Builder
 public class ReviewRequest {
 
-    private Long id;
+    // 멤버 관리
+    private Long memberId;
+
+    // 원하는 아파트 관리
+    private Long aptId;
+
+    // 리뷰 내용
     private String title;
     private String content;
-    private Long memberId;
-    private Long aptId;
-    private int ratingScore;
-    private LocalDateTime updatedAt;
+
+    // 리뷰 평점
+    private int transportConditionRating;
+    private int environmentConditionRating;
+    private int apartmentManagementRating;
+    private int livingEnvironmentRating;
 
     @Builder.Default
     private List<MultipartFile> files = new ArrayList<>();

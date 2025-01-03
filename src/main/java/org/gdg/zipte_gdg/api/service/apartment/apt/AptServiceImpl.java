@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte_gdg.api.controller.apartment.apt.request.AptRequest;
 import org.gdg.zipte_gdg.api.service.apartment.apt.response.AptResposnseDto;
-import org.gdg.zipte_gdg.domain.apartment.apt.AptRepository;
+import org.gdg.zipte_gdg.domain.apt.apt.AptRepository;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;

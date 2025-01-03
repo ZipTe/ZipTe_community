@@ -7,12 +7,12 @@ import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartDeleteRequest;
 import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartItemRequest;
 import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartRequest;
 import org.gdg.zipte_gdg.api.service.shopping.cart.response.CartResponse;
-import org.gdg.zipte_gdg.domain.shopping.cart.Cart;
-import org.gdg.zipte_gdg.domain.shopping.cart.CartItem;
-import org.gdg.zipte_gdg.domain.shopping.cart.CartItemRepository;
-import org.gdg.zipte_gdg.domain.shopping.cart.CartRepository;
-import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
-import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManagerRepository;
+import org.gdg.zipte_gdg.domain.order.cart.Cart;
+import org.gdg.zipte_gdg.domain.order.cart.CartItem;
+import org.gdg.zipte_gdg.domain.order.cart.CartItemRepository;
+import org.gdg.zipte_gdg.domain.order.cart.CartRepository;
+import org.gdg.zipte_gdg.domain.product.productManger.ProductManager;
+import org.gdg.zipte_gdg.domain.product.productManger.ProductManagerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

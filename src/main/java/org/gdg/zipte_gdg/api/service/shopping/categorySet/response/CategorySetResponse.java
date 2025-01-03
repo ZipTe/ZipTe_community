@@ -6,9 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte_gdg.api.service.shopping.category.response.CategoryNoChildrenResponse;
 import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponse;
-import org.gdg.zipte_gdg.domain.shopping.category.Category;
-import org.gdg.zipte_gdg.domain.shopping.categorySet.CategorySet;
-import org.gdg.zipte_gdg.domain.shopping.product.Product;
+import org.gdg.zipte_gdg.domain.product.category.Category;
+import org.gdg.zipte_gdg.domain.product.categorySet.CategorySet;
+import org.gdg.zipte_gdg.domain.product.product.Product;
 
 
 @Data

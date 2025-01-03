@@ -1,7 +1,7 @@
 package org.gdg.zipte_gdg.api.service.shopping.payment.response;
 
 import lombok.*;
-import org.gdg.zipte_gdg.domain.shopping.payment.Payment;
+import org.gdg.zipte_gdg.domain.order.payment.Payment;
 
 import java.util.List;
 import java.util.stream.Collectors;

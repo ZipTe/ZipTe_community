@@ -5,7 +5,7 @@ import org.gdg.zipte_gdg.api.controller.apartment.review.request.ReviewRequest;
 import org.gdg.zipte_gdg.domain.page.response.PageResponseDto;
 import org.gdg.zipte_gdg.api.service.apartment.review.response.ReviewResponseDto;
 import org.gdg.zipte_gdg.api.service.apartment.review.response.ReviewResponseWithCommentDto;
-import org.gdg.zipte_gdg.domain.apartment.review.Review;
+import org.gdg.zipte_gdg.domain.review.review.Review;
 
 import java.time.ZoneId;
 import java.util.Date;

@@ -3,10 +3,10 @@ package org.gdg.zipte_gdg.api.service.shopping.payment.response;
 import lombok.Builder;
 import lombok.Data;
 import org.gdg.zipte_gdg.api.service.shopping.delivery.response.DeliveryResponse;
-import org.gdg.zipte_gdg.domain.shopping.delivery.Delivery;
-import org.gdg.zipte_gdg.domain.shopping.order.Order;
-import org.gdg.zipte_gdg.domain.shopping.order.OrderStatus;
-import org.gdg.zipte_gdg.domain.shopping.orderItem.OrderItem;
+import org.gdg.zipte_gdg.domain.order.delivery.Delivery;
+import org.gdg.zipte_gdg.domain.order.order.Order;
+import org.gdg.zipte_gdg.domain.order.order.OrderStatus;
+import org.gdg.zipte_gdg.domain.order.orderItem.OrderItem;
 
 import java.util.List;
 

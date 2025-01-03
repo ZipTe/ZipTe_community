@@ -13,6 +13,4 @@ public class CommentRequest {
     private Long memberId;
     private Long reviewId;
     private String content;
-    private LocalDateTime updatedAt;
-
 }

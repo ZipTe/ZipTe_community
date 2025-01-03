@@ -2,8 +2,8 @@ package org.gdg.zipte_gdg.api.service.shopping.cart.response;
 
 import lombok.Builder;
 import lombok.Data;
-import org.gdg.zipte_gdg.domain.shopping.cart.Cart;
-import org.gdg.zipte_gdg.domain.shopping.cart.CartItem;
+import org.gdg.zipte_gdg.domain.order.cart.Cart;
+import org.gdg.zipte_gdg.domain.order.cart.CartItem;
 
 import java.util.List;
 

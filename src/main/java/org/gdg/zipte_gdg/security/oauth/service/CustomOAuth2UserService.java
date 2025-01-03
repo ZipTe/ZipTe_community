@@ -2,8 +2,8 @@ package org.gdg.zipte_gdg.security.oauth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte_gdg.domain.shopping.cart.Cart;
-import org.gdg.zipte_gdg.domain.shopping.cart.CartRepository;
+import org.gdg.zipte_gdg.domain.order.cart.Cart;
+import org.gdg.zipte_gdg.domain.order.cart.CartRepository;
 import org.gdg.zipte_gdg.security.oauth.service.response.NaverResponse;
 import org.gdg.zipte_gdg.security.oauth.service.response.OAuth2UserResponse;
 import org.gdg.zipte_gdg.domain.user.member.Address;

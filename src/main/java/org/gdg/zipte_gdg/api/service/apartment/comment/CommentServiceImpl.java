@@ -4,16 +4,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.gdg.zipte_gdg.api.controller.apartment.comment.request.CommentRequest;
-import org.gdg.zipte_gdg.api.service.apartment.comment.response.CommentResponseDto;
-import org.gdg.zipte_gdg.domain.apartment.comment.Comment;
-import org.gdg.zipte_gdg.domain.apartment.comment.CommentRepository;
+import org.gdg.zipte_gdg.api.service.apartment.comment.response.CommentResponse;
+import org.gdg.zipte_gdg.domain.review.comment.Comment;
+import org.gdg.zipte_gdg.domain.review.comment.CommentRepository;
 import org.gdg.zipte_gdg.domain.user.member.Member;
 import org.gdg.zipte_gdg.domain.user.member.MemberRepository;
-import org.gdg.zipte_gdg.domain.apartment.review.Review;
-import org.gdg.zipte_gdg.domain.apartment.review.ReviewRepository;
+import org.gdg.zipte_gdg.domain.review.review.Review;
+import org.gdg.zipte_gdg.domain.review.review.ReviewRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -26,18 +24,15 @@ public class CommentServiceImpl implements CommentService {
     private final ReviewRepository reviewRepository;
 
     @Override
-    public CommentResponseDto register(CommentRequest commentRequest) {
+    public CommentResponse register(CommentRequest commentRequest) {
 
-        Optional<Member> byId = memberRepository.findById(commentRequest.getMemberId());
-        Member member = byId.orElseThrow();
-
-        Optional<Review> byId1 = reviewRepository.findById(commentRequest.getReviewId());
-        Review review = byId1.orElseThrow();
+        Member member = memberRepository.findById(commentRequest.getMemberId()).orElseThrow();
+        Review review = reviewRepository.findById(commentRequest.getReviewId()).orElseThrow();
 
         Comment comment = Comment.of(review, member, commentRequest.getContent());
         Comment saved = commentRepository.save(comment);
 
-        return entityToDto(saved);
+        return CommentResponse.from(saved);
     }
 
 }

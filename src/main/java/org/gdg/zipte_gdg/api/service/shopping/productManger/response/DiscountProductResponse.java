@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.Getter;
 import org.gdg.zipte_gdg.api.service.shopping.category.response.CategoryNoChildrenResponse;
 import org.gdg.zipte_gdg.api.service.shopping.product.response.ProductResponse;
-import org.gdg.zipte_gdg.domain.shopping.product.Product;
-import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
+import org.gdg.zipte_gdg.domain.product.product.Product;
+import org.gdg.zipte_gdg.domain.product.productManger.ProductManager;
 
 @Data
 @Builder

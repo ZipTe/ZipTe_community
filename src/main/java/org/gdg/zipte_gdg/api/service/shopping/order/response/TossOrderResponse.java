@@ -3,8 +3,8 @@ package org.gdg.zipte_gdg.api.service.shopping.order.response;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
-import org.gdg.zipte_gdg.domain.shopping.order.Order;
-import org.gdg.zipte_gdg.domain.shopping.orderItem.OrderItem;
+import org.gdg.zipte_gdg.domain.order.order.Order;
+import org.gdg.zipte_gdg.domain.order.orderItem.OrderItem;
 
 import java.util.List;
 

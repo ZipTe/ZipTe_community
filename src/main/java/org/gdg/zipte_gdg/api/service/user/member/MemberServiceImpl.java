@@ -9,7 +9,7 @@ import org.gdg.zipte_gdg.api.service.user.member.response.MemberResponse;
 import org.gdg.zipte_gdg.domain.user.member.Address;
 import org.gdg.zipte_gdg.domain.user.member.Member;
 import org.gdg.zipte_gdg.domain.user.member.MemberRepository;
-import org.gdg.zipte_gdg.domain.user.role.Role;
+import org.gdg.zipte_gdg.domain.user.member.Role;
 import org.springframework.stereotype.Service;
 
 @Log4j2

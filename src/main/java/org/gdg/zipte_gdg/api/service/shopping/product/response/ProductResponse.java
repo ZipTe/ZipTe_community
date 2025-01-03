@@ -3,7 +3,7 @@ package org.gdg.zipte_gdg.api.service.shopping.product.response;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
-import org.gdg.zipte_gdg.domain.shopping.product.Product;
+import org.gdg.zipte_gdg.domain.product.product.Product;
 
 import java.util.ArrayList;
 import java.util.List;
