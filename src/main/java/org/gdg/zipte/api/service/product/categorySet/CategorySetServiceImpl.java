@@ -3,7 +3,7 @@ package org.gdg.zipte.api.service.product.categorySet;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte.api.controller.admin.shopping.request.CategorySetRequest;
+import org.gdg.zipte.api.controller.admin.product.request.ProductRequest;
 import org.gdg.zipte.api.service.product.category.response.CategoryNoChildrenResponse;
 import org.gdg.zipte.api.service.product.productManger.response.DiscountProductResponse;
 import org.gdg.zipte.domain.page.request.PageRequestDto;
@@ -43,7 +43,7 @@ public class CategorySetServiceImpl implements CategorySetService {
     private final ProductManagerRepository productManagerRepository;
 
     @Override
-    public CategorySetResponse create(CategorySetRequest request) {
+    public CategorySetResponse create(ProductRequest request) {
 
         // 상품 생성
         Product newProduct = Product.of(request.getPname(),

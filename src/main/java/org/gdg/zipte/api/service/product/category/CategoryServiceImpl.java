@@ -1,7 +1,7 @@
 package org.gdg.zipte.api.service.product.category;
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte.api.controller.admin.shopping.request.CategoryRequest;
+import org.gdg.zipte.api.controller.admin.product.request.CategoryRequest;
 import org.gdg.zipte.api.service.product.category.response.CategoryResponse;
 import org.gdg.zipte.domain.product.category.Category;
 import org.gdg.zipte.domain.product.category.CategoryRepository;

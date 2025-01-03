@@ -1,7 +1,7 @@
 package org.gdg.zipte.api.service.product.productManger;
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte.api.controller.admin.shopping.request.ProductManagerRequest;
+import org.gdg.zipte.api.controller.admin.product.request.ProductManagerRequest;
 import org.gdg.zipte.api.service.product.category.response.CategoryNoChildrenResponse;
 import org.gdg.zipte.api.service.product.productManger.response.DiscountProductResponse;
 import org.gdg.zipte.api.service.product.productManger.response.ProductManagerResponse;

@@ -1,6 +1,6 @@
 package org.gdg.zipte.api.service.product.productManger;
 
-import org.gdg.zipte.api.controller.admin.shopping.request.ProductManagerRequest;
+import org.gdg.zipte.api.controller.admin.product.request.ProductManagerRequest;
 import org.gdg.zipte.api.service.product.productManger.response.DiscountProductResponse;
 import org.gdg.zipte.api.service.product.productManger.response.ProductManagerResponse;
 import org.gdg.zipte.domain.page.request.PageRequestDto;

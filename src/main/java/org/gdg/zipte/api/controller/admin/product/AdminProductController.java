@@ -1,9 +1,9 @@
-package org.gdg.zipte.api.controller.admin.shopping;
+package org.gdg.zipte.api.controller.admin.product;
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte.api.controller.admin.shopping.request.CategoryRequest;
-import org.gdg.zipte.api.controller.admin.shopping.request.CategorySetRequest;
-import org.gdg.zipte.api.controller.admin.shopping.request.ProductManagerRequest;
+import org.gdg.zipte.api.controller.admin.product.request.CategoryRequest;
+import org.gdg.zipte.api.controller.admin.product.request.ProductRequest;
+import org.gdg.zipte.api.controller.admin.product.request.ProductManagerRequest;
 import org.gdg.zipte.api.response.ApiResponse;
 import org.gdg.zipte.api.service.product.category.CategoryService;
 import org.gdg.zipte.api.service.product.category.response.CategoryResponse;
@@ -29,8 +29,8 @@ public class AdminProductController {
 
     // 상품 추가
     @PostMapping
-    public ApiResponse<CategorySetResponse> create(CategorySetRequest categorySetRequest) {
-        return ApiResponse.created(categorySetService.create(categorySetRequest));
+    public ApiResponse<CategorySetResponse> create(ProductRequest productRequest) {
+        return ApiResponse.created(categorySetService.create(productRequest));
     }
 
     // 상품 자체 목록 조회

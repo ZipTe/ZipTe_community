@@ -1,4 +1,4 @@
-package org.gdg.zipte.api.controller.admin.shopping.request;
+package org.gdg.zipte.api.controller.admin.product.request;
 
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class CategorySetRequest {
+public class ProductRequest {
 
     // 아이템 생성 관련
     private String pname;

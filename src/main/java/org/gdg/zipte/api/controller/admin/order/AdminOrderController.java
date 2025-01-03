@@ -1,4 +1,4 @@
-package org.gdg.zipte.api.controller.admin.shopping;
+package org.gdg.zipte.api.controller.admin.order;
 
 
 import lombok.RequiredArgsConstructor;
