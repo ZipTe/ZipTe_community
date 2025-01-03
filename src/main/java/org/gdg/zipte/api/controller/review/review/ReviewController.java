@@ -7,8 +7,7 @@ import org.gdg.zipte.api.response.ApiResponse;
 import org.gdg.zipte.api.controller.review.review.request.ReviewRequest;
 import org.gdg.zipte.domain.page.response.PageResponseDto;
 import org.gdg.zipte.api.service.review.review.ReviewService;
-import org.gdg.zipte.api.service.review.review.response.ReviewResponseDto;
-import org.gdg.zipte.api.service.review.review.response.ReviewResponseWithCommentDto;
+import org.gdg.zipte.api.service.review.review.response.ReviewResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,19 +20,19 @@ public class ReviewController {
 
     // 리뷰 작성
     @PostMapping
-    public ApiResponse<ReviewResponseDto> create(ReviewRequest reviewRequest) {
-        return ApiResponse.created(reviewService.register(reviewRequest));
+    public ApiResponse<ReviewResponse> create(ReviewRequest reviewRequest) {
+        return ApiResponse.created(reviewService.create(reviewRequest));
     }
 
     // 특정 회원의 리뷰 조회
     @GetMapping("/list/member/{memberId}")
-    public ApiResponse<PageResponseDto<ReviewResponseDto>> getListById(@PathVariable("memberId") Long memberId, PageRequestDto pageRequestDto) {
+    public ApiResponse<PageResponseDto<ReviewResponse>> getListById(@PathVariable("memberId") Long memberId, PageRequestDto pageRequestDto) {
         return ApiResponse.created(reviewService.getReviewsByMemberId(pageRequestDto, memberId));
     }
 
     // 특정 아파트 리뷰 조회
     @GetMapping("/list/apt/{aptId}")
-    public ApiResponse<PageResponseDto<ReviewResponseDto>> getListByAptId(
+    public ApiResponse<PageResponseDto<ReviewResponse>> getListByAptId(
             @PathVariable("aptId") Long aptId,
             PageRequestDto pageRequestDto,
             @RequestParam(value = "orderBy", defaultValue = "date") String orderBy) {
@@ -51,7 +50,7 @@ public class ReviewController {
 
     // 리뷰 상세 정보
     @GetMapping("/{reviewId}")
-    public ApiResponse<ReviewResponseWithCommentDto> getReviewsWithComments(@PathVariable("reviewId") Long reviewId) {
+    public ApiResponse<ReviewResponse> getReviewsWithComments(@PathVariable("reviewId") Long reviewId) {
         return ApiResponse.created(reviewService.getOne(reviewId));
     }
 

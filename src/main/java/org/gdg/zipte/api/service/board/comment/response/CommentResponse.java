@@ -1,9 +1,10 @@
-package org.gdg.zipte.api.service.review.comment.response;
+package org.gdg.zipte.api.service.board.comment.response;
 
 import lombok.Builder;
 import lombok.Data;
-import org.gdg.zipte.domain.review.comment.Comment;
+import org.gdg.zipte.domain.board.comment.Comment;
 
+import java.util.*;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,11 +14,9 @@ public class CommentResponse {
     private Long id;
     private String content;
 
-    private Long memberId;
     private String author;
 
-    private Long reviewId;
-    private String reviewTitle;
+    private String boardTitle;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -27,13 +26,20 @@ public class CommentResponse {
         return CommentResponse.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
-                .memberId(comment.getMember().getId())
                 .author(comment.getMember().getUsername())
-                .reviewId(comment.getReview().getId())
-                .reviewTitle(comment.getReview().getTitle())
+                .boardTitle(comment.getBoard().getTitle())
                 .createdAt(comment.getCreatedAt())
                 .updatedAt(comment.getUpdatedAt())
                 .build();
+    }
+
+    // 생성자
+    public static List<CommentResponse> froms(List<Comment> comments) {
+        List<CommentResponse> responses = new ArrayList<>();
+
+        comments.forEach(comment -> responses.add(CommentResponse.from(comment)));
+        return responses;
+
     }
 
 }

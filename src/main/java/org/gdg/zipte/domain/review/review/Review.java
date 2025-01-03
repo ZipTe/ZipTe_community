@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte.domain.apt.apt.Apt;
-import org.gdg.zipte.domain.review.comment.Comment;
 import org.gdg.zipte.domain.user.member.Member;
 import org.gdg.zipte.domain.review.rating.Rating;
 import org.hibernate.annotations.ColumnDefault;
@@ -55,9 +54,6 @@ public class Review {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "review")
-    @Builder.Default
-    private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "review")
     @Builder.Default
@@ -76,10 +72,6 @@ public class Review {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-    }
-
-    public void addComment(Comment comment) {
-        this.comments.add(comment);
     }
 
     public void addReviewImage(ReviewImage reviewImage) {

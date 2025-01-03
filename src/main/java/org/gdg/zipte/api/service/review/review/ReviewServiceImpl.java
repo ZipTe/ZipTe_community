@@ -4,13 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte.domain.page.request.PageRequestDto;
 import org.gdg.zipte.api.controller.review.review.request.ReviewRequest;
-import org.gdg.zipte.api.service.review.comment.response.CommentResponseWithReviewDto;
 import org.gdg.zipte.domain.page.response.PageResponseDto;
-import org.gdg.zipte.api.service.review.review.response.ReviewResponseDto;
-import org.gdg.zipte.api.service.review.review.response.ReviewResponseWithCommentDto;
+import org.gdg.zipte.api.service.review.review.response.ReviewResponse;
 import org.gdg.zipte.domain.apt.apt.Apt;
 import org.gdg.zipte.domain.apt.apt.AptRepository;
-import org.gdg.zipte.domain.review.comment.Comment;
 import org.gdg.zipte.domain.user.member.Member;
 import org.gdg.zipte.domain.user.member.MemberRepository;
 import org.gdg.zipte.domain.review.rating.Rating;
@@ -40,140 +37,99 @@ public class ReviewServiceImpl implements ReviewService {
     private final AptRepository aptRepository;
     private final RatingRepository ratingRepository;
 
+    // 등록
     @Override
-    public ReviewResponseDto register(ReviewRequest reviewRequest) {
-        Member member = getMember(reviewRequest);
-        Apt apt = getApt(reviewRequest);
-        Rating rating = getRating(reviewRequest, member, apt);
+    public ReviewResponse create(ReviewRequest request) {
 
-        Review review = Review.of(member, apt, reviewRequest.getTitle(), reviewRequest.getContent(), rating);
-        Review savedReview = reviewRepository.save(review);
+        Member member = memberRepository.findById(request.getMemberId()).orElseThrow();
+        Apt apt = aptRepository.findById(request.getAptId()).orElseThrow();
+        Rating rating = getRating(request, member, apt);
 
-        List<String> uploads = reviewImageService.saveFiles(savedReview, reviewRequest.getFiles());
+        // 리뷰 생성
+        Review result = Review.of(member, apt, request.getTitle(), request.getContent(), rating);
+        Review review = reviewRepository.save(result);
 
+        // DTO생성
+        ReviewResponse reviewResponse = ReviewResponse.from(review);
 
-        ReviewResponseDto reviewResponseDto = entityToDto(savedReview);
-        reviewResponseDto.setUploadFileNames(uploads);
+        List<String> uploads = reviewImageService.saveFiles(review, request.getFiles());
+        reviewResponse.setUploadFileNames(uploads);
 
-        return reviewResponseDto;
+        return reviewResponse;
     }
 
+    private Rating getRating(ReviewRequest request, Member member, Apt apt) {
+        Rating rating = Rating.of(member, apt, request.getTransport(), request.getEnvironment(), request.getApartmentManagement(), request.getLivingEnvironment());
+        return ratingRepository.save(rating);
+    }
 
-
+    // 조회
     @Override
-    public ReviewResponseWithCommentDto getOne(Long reviewId) {
+    public ReviewResponse getOne(Long reviewId) {
 
         Review review = reviewRepository.findById(reviewId).orElseThrow();
+
+        // API 호출할 때마다 조회수 증가
         review.addCount();
         reviewRepository.save(review);
 
-        ReviewResponseWithCommentDto reviewResponseDto = entityToCommentDto(review);
+        ReviewResponse response = ReviewResponse.from(review);
+        response.setUploadFileNames(review.getReviewImages().stream().map(ReviewImage::getFileName).collect(Collectors.toList()));
 
-//        List<Comment> commentsWithReview = reviewRepository.findCommentsWithReview(reviewId);
-//        List<ReviewImage> reviewImages = reviewRepository.selectReviewImages(reviewId);
-        log.info("LOG " + review.getReviewImages());
-
-//        // 댓글을 DTO로 변환합니다.
-//        List<CommentResponseWithReviewDto> commentResponseDtos = commentsWithReview.stream()
-//                .map(this::commentEntityToDto) // 댓글 엔티티를 DTO로 변환하는 메서드를 호출합니다.
-//                .collect(Collectors.toList());
-//
-        // 댓글을 DTO로 변환합니다.
-        List<CommentResponseWithReviewDto> commentResponseDtos = review.getComments().stream()
-                .map(this::commentEntityToDto) // 댓글 엔티티를 DTO로 변환하는 메서드를 호출합니다.
-                .collect(Collectors.toList());
-
-        // 리뷰 DTO에 댓글을 설정합니다.
-        reviewResponseDto.setComments(commentResponseDtos);
-        reviewResponseDto.setUploadFileNames(review.getReviewImages().stream().map(ReviewImage::getFileName).collect(Collectors.toList()));
-
-        return reviewResponseDto;
+        return response;
     }
-
-    private CommentResponseWithReviewDto commentEntityToDto(Comment comment) {
-        return CommentResponseWithReviewDto.builder()
-                .id(comment.getId())
-                .memberId(comment.getMember().getId())
-                .author(comment.getMember().getUsername())
-                .content(comment.getContent())
-                .createdAt(comment.getCreatedAt())
-                .updatedAt(comment.getUpdatedAt())
-                .build();
-    }
-
-//
+    //
 
     @Override
-    public PageResponseDto<ReviewResponseDto> getListByAptId(PageRequestDto pageRequestDto, Long aptId) {
-//        log.info("=== getList ===");
+    public PageResponseDto<ReviewResponse> getListByAptId(PageRequestDto pageRequestDto, Long aptId) {
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
-
         Page<Object[]> result = reviewRepository.selectListbyAptId(aptId, pageable);
 
-        log.info(result);
 
-
-        List<ReviewResponseDto> dtoList = result.get().map(arr -> {
-            Review review = (Review) arr[0];
-            ReviewImage reviewImage = (ReviewImage) arr[1];
-
-            String imageStr = (reviewImage != null) ? reviewImage.getFileName() : "No image found";
-            ReviewResponseDto dto = entityToDto(review);
-            dto.setUploadFileNames(Collections.singletonList(imageStr));
-
-            return dto;
-        }).toList();
-
-        long total = result.getTotalElements();
-
-        return new PageResponseDto<>(dtoList, pageRequestDto, total);
+        return getReviewResponsePageResponseDto(pageRequestDto, result);
     }
 
     @Override
-    public PageResponseDto<ReviewResponseDto> getListByAptIdOrderByCountView(PageRequestDto pageRequestDto, Long aptId) {
-//        log.info("=== getList ===");
+    public PageResponseDto<ReviewResponse> getListByAptIdOrderByCountView(PageRequestDto pageRequestDto, Long aptId) {
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
 
         Page<Object[]> result = reviewRepository.selectListbyAptIdOrderByCountViewDesc(aptId, pageable);
 
-        log.info(result);
-
-
-        List<ReviewResponseDto> dtoList = result.get().map(arr -> {
-            Review review = (Review) arr[0];
-            ReviewImage reviewImage = (ReviewImage) arr[1];
-
-            String imageStr = (reviewImage != null) ? reviewImage.getFileName() : "No image found";
-            ReviewResponseDto dto = entityToDto(review);
-            dto.setUploadFileNames(Collections.singletonList(imageStr));
-
-            return dto;
-        }).toList();
-
-        long total = result.getTotalElements();
-
-        return new PageResponseDto<>(dtoList, pageRequestDto, total);
+        return getReviewResponsePageResponseDto(pageRequestDto, result);
     }
 
     @Override
-    public PageResponseDto<ReviewResponseDto> getListByAptIdOrderByRating(PageRequestDto pageRequestDto, Long aptId) {
-//        log.info("=== getList ===");
+    public PageResponseDto<ReviewResponse> getListByAptIdOrderByRating(PageRequestDto pageRequestDto, Long aptId) {
 
         Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
 
         Page<Object[]> result = reviewRepository.selectListbyAptIdOrderByRatingDesc(aptId, pageable);
 
-        log.info(result);
+
+        return getReviewResponsePageResponseDto(pageRequestDto, result);
+    }
 
 
-        List<ReviewResponseDto> dtoList = result.get().map(arr -> {
+    @Override
+    public PageResponseDto<ReviewResponse> getReviewsByMemberId(PageRequestDto pageRequestDto, Long memberId) {
+
+        Pageable pageable = PageRequest.of(pageRequestDto.getPage() - 1, pageRequestDto.getSize(), Sort.by("id").descending());
+
+        Page<Object[]> result = reviewRepository.findReviewsByMemberId(memberId, pageable);
+
+        return getReviewResponsePageResponseDto(pageRequestDto, result);
+    }
+
+    // extract
+    private PageResponseDto<ReviewResponse> getReviewResponsePageResponseDto(PageRequestDto pageRequestDto, Page<Object[]> result) {
+        List<ReviewResponse> dtoList = result.get().map(arr -> {
             Review review = (Review) arr[0];
             ReviewImage reviewImage = (ReviewImage) arr[1];
 
             String imageStr = (reviewImage != null) ? reviewImage.getFileName() : "No image found";
-            ReviewResponseDto dto = entityToDto(review);
+            ReviewResponse dto = ReviewResponse.from(review);
             dto.setUploadFileNames(Collections.singletonList(imageStr));
 
             return dto;
@@ -184,76 +140,5 @@ public class ReviewServiceImpl implements ReviewService {
         return new PageResponseDto<>(dtoList, pageRequestDto, total);
     }
 
-
-    @Override
-    public PageResponseDto<ReviewResponseDto> getReviewsByMemberId(PageRequestDto pageRequestDto, Long memberId) {
-//        log.info("=== getListById ===");
-
-        Pageable pageable = PageRequest.of(pageRequestDto.getPage() - 1, pageRequestDto.getSize(), Sort.by("id").descending());
-
-        Page<Review> result = reviewRepository.findReviewsByMemberId(memberId, pageable);
-
-        log.info(result);
-        // Review 엔티티를 ReviewResponseDto로 변환
-        List<ReviewResponseDto> dtoList = result.stream()
-                .map(this::entityToDto)  // entityToDto 메서드 사용
-                .collect(Collectors.toList());
-
-        dtoList.forEach(dto->{
-            ReviewImage reviewImage = reviewRepository.selectReviewImagesthumbnail(dto.getId());
-
-            String imageStr = (reviewImage != null) ? reviewImage.getFileName() : "No image found";
-
-            dto.setUploadFileNames(Collections.singletonList(imageStr));
-        });
-
-        long total = result.getTotalElements();
-
-        return new PageResponseDto<>(dtoList, pageRequestDto, total);
-    }
-
-//    ------------------------_EXTRACTING_------------------------
-
-    private Rating getRating(ReviewRequest reviewRequest, Member member, Apt apt) {
-        Rating rating = Rating.of(member, apt, reviewRequest.getRatingScore());
-        return ratingRepository.save(rating);
-    }
-
-    private Apt getApt(ReviewRequest reviewRequest) {
-        return aptRepository.findById(reviewRequest.getAptId()).orElseThrow();
-    }
-
-    private Member getMember(ReviewRequest reviewRequest) {
-        Optional<Member> byId = memberRepository.findById(reviewRequest.getMemberId());
-        return byId.orElseThrow();
-    }
-
-    // -------------------------------------------
-
-//    @Override
-//    public PageResponseDto<ReviewResponseDto> getList(PageRequestDto pageRequestDto) {
-//        log.info("=== getList ===");
-//
-//        Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
-//
-//        Page<Object[]> result = reviewRepository.selectList(pageable);
-//        log.info(result);
-//
-//
-//        List<ReviewResponseDto> dtoList = result.get().map(arr -> {
-//            Review review = (Review) arr[0];
-//            ReviewImage reviewImage = (ReviewImage) arr[1];
-//
-//            String imageStr = (reviewImage != null) ? reviewImage.getFileName() : "No image found";
-//            ReviewResponseDto dto = entityToDto(review);
-//            dto.setUploadFileNames(Collections.singletonList(imageStr));
-//
-//            return dto;
-//        }).toList();
-//
-//        long total = result.getTotalElements();
-//
-//        return new PageResponseDto<>(dtoList, pageRequestDto, total);
-//    }
 
 }

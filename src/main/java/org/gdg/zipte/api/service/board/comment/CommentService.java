@@ -1,7 +1,7 @@
-package org.gdg.zipte.api.service.review.comment;
+package org.gdg.zipte.api.service.board.comment;
 
-import org.gdg.zipte.api.controller.review.comment.request.CommentRequest;
-import org.gdg.zipte.api.service.review.comment.response.CommentResponse;
+import org.gdg.zipte.api.controller.board.comment.request.CommentRequest;
+import org.gdg.zipte.api.service.board.comment.response.CommentResponse;
 
 public interface CommentService {
 

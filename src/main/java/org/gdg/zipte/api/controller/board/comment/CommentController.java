@@ -1,11 +1,11 @@
-package org.gdg.zipte.api.controller.review.comment;
+package org.gdg.zipte.api.controller.board.comment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte.api.controller.review.comment.request.CommentRequest;
+import org.gdg.zipte.api.controller.board.comment.request.CommentRequest;
 import org.gdg.zipte.api.response.ApiResponse;
-import org.gdg.zipte.api.service.review.comment.CommentService;
-import org.gdg.zipte.api.service.review.comment.response.CommentResponse;
+import org.gdg.zipte.api.service.board.comment.CommentService;
+import org.gdg.zipte.api.service.board.comment.response.CommentResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

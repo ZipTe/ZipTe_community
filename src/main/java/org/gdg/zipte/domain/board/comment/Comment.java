@@ -1,12 +1,12 @@
-package org.gdg.zipte.domain.review.comment;
+package org.gdg.zipte.domain.board.comment;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.gdg.zipte.domain.board.board.Board;
 import org.gdg.zipte.domain.user.member.Member;
-import org.gdg.zipte.domain.review.review.Review;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -27,7 +27,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "review_id")
-    private Review review;
+    private Board board;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -42,23 +42,18 @@ public class Comment {
     private LocalDateTime updatedAt;
 
 
-    // 로직
-    public static Comment of(Review review, Member member, String content) {
+    // 생성자
+    public static Comment of(Board board, Member member, String content) {
 
         Comment comment = Comment.builder()
-                .review(review)
+                .board(board)
                 .member(member)
                 .content(content)
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        review.addComment(comment);
+        board.addComment(comment);
 
         return comment;
     }
-
-    public void setReview(Review review) {
-        this.review = review;
-    }
-
 }

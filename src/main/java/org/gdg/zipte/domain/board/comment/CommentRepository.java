@@ -1,4 +1,4 @@
-package org.gdg.zipte.domain.review.comment;
+package org.gdg.zipte.domain.board.comment;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

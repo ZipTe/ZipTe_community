@@ -44,7 +44,8 @@ public class Rating {
     // 거주 환경 평점
     private int livingEnvironmentRating;
 
-    private int overallRating; // 전체 평점
+    // 전체 평점
+    private int overallRating;
 
 
     // 생성 로직

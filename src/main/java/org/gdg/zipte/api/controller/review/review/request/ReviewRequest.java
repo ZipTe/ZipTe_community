@@ -22,10 +22,10 @@ public class ReviewRequest {
     private String content;
 
     // 리뷰 평점
-    private int transportConditionRating;
-    private int environmentConditionRating;
-    private int apartmentManagementRating;
-    private int livingEnvironmentRating;
+    private int transport;
+    private int environment;
+    private int apartmentManagement;
+    private int livingEnvironment;
 
     @Builder.Default
     private List<MultipartFile> files = new ArrayList<>();
