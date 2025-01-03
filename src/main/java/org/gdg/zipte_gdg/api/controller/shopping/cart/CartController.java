@@ -1,6 +1,7 @@
 package org.gdg.zipte_gdg.api.controller.shopping.cart;
 
 import lombok.RequiredArgsConstructor;
+import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartDeleteRequest;
 import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartRequest;
 import org.gdg.zipte_gdg.api.response.ApiResponse;
 import org.gdg.zipte_gdg.api.service.shopping.cart.CartService;
@@ -27,7 +28,7 @@ public class CartController {
 
     // 아이템 삭제
     @DeleteMapping()
-    public ApiResponse<CartResponse> removeItem(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody CartRequest cartRequest) {
+    public ApiResponse<CartResponse> removeItem(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody CartDeleteRequest cartRequest) {
         cartRequest.setMemberId(principalDetails.getId());
         return ApiResponse.created(cartService.removeItem(cartRequest));
     }

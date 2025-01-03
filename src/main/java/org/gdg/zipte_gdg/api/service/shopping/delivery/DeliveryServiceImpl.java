@@ -23,7 +23,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public DeliveryResponse findById(Long id) {
         Delivery delivery = deliveryRepository.findById(id).orElseThrow();
-        return DeliveryResponse.of(delivery);
+        return DeliveryResponse.from(delivery);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         // 변경된 Delivery 객체 저장
         Delivery save = deliveryRepository.save(delivery);
 
-        return DeliveryResponse.of(save);
+        return DeliveryResponse.from(save);
     }
 
     @Override

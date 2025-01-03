@@ -63,7 +63,7 @@ public class ProductImageServiceImpl implements ProductImageService {
             Path savePath = Paths.get(uploadPath, savedName);
 
             // productImage 객체 생성 및 저장
-            ProductImage productImage = ProductImage.productImage(product, savedName);
+            ProductImage productImage = ProductImage.of(product, savedName);
             product.addProductImage(productImage);
             productImageRepository.save(productImage);// 먼저 저장
 

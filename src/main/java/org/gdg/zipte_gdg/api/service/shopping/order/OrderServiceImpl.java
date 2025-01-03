@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
         orderItemRepository.saveAll(orderItems);
 
         // 누가,어디로,무엇을 살것인지 정했기에 Order 가능
-        Order order = Order.createNewOrder(member, delivery, orderItems);
+        Order order = Order.of(member, delivery, orderItems);
         orderRepository.save(order);
         return TossOrderResponse.of(order);
     }
@@ -66,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
         SavedAddress savedAddress = savedAddressRepository.findById(orderRequest.getSavedAddressId()).orElseThrow();
         Address address = savedAddress.getAddress();
 
-        Delivery delivery = Delivery.createNewDelivery(address, savedAddress.getOrderDesc(), savedAddress.getDeliveryDesc());
+        Delivery delivery = Delivery.of(address, savedAddress.getOrderDesc(), savedAddress.getDeliveryDesc());
         return deliveryRepository.save(delivery);
     }
 
@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
         return orderRequest.getItems().stream()
                 .map(itemDto -> {
                     ProductManager productManager = getProduct(itemDto.getProductId());
-                    return OrderItem.createOrderItem(productManager, itemDto.getCount());
+                    return OrderItem.of(productManager, itemDto.getCount());
                 })
                 .toList();
     }

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.gdg.zipte_gdg.domain.shopping.product.Product;
 import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
 
 @Entity
@@ -30,21 +29,13 @@ public class CartItem {
     private int quantity;
 
     // CartItem 생성 로직
-    public static CartItem createCartItem(ProductManager productManager,Cart cart, int quantity) {
+    public static CartItem of(ProductManager productManager, Cart cart, int quantity) {
         return CartItem.builder()
                 .productManager(productManager)
                 .cart(cart)
                 .quantity(quantity)
                 .build();
     }
-
-//    public void addQuantity(int quantity) {
-//        this.quantity+=quantity;
-//    }
-//
-//    public void removeQuantity(int quantity) {
-//        this.quantity-=quantity;
-//    }
 
     public void setQuantity(int quantity) {
         this.quantity= quantity;

@@ -29,7 +29,7 @@ public class Cart {
     private List<CartItem> items = new ArrayList<>();
 
     // 생성 로직
-    public static Cart CreateNewCart(Member member) {
+    public static Cart of(Member member) {
         return Cart.builder()
                 .member(member)
                 .items(new ArrayList<>()) // 최초 장바구니는 비워져있어야한다.

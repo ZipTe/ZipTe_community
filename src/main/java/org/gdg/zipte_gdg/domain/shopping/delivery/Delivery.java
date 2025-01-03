@@ -35,7 +35,7 @@ public class Delivery {
     private DeliveryStatus status;
 
 
-    public static Delivery createNewDelivery(Address address, String orderDesc, String deliveryDesc) {
+    public static Delivery of(Address address, String orderDesc, String deliveryDesc) {
         return Delivery.builder()
                 .address(address)
                 .orderDesc(orderDesc)

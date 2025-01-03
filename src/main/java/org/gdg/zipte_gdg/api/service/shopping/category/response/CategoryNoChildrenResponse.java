@@ -16,7 +16,7 @@ public class CategoryNoChildrenResponse {
     private String name;
 
     // 생성자
-    public static CategoryNoChildrenResponse of(Category category) {
+    public static CategoryNoChildrenResponse from(Category category) {
 
         return CategoryNoChildrenResponse.builder()
                 .id(category.getId())

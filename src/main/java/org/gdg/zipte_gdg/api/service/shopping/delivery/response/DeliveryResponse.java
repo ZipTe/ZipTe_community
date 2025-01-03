@@ -17,7 +17,7 @@ public class DeliveryResponse {
     private String deliveryDesc;
     private DeliveryStatus deliveryStatus;
 
-    public static DeliveryResponse of(Delivery delivery) {
+    public static DeliveryResponse from(Delivery delivery) {
         return DeliveryResponse.builder()
                 .id(delivery.getId())
                 .detailAddress(delivery.getAddress().getDetailAddress())

@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductImage> productImages = productRepository.selectProductImages(id);
 
-        ProductResponse productResponse = ProductResponse.of(product);
+        ProductResponse productResponse = ProductResponse.from(product);
 
         productResponse.setUploadFileNames(productImages.stream().map(ProductImage::getFileName).collect(Collectors.toList()));
 
@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
             ProductImage productImage = (ProductImage) arr[1];
 
             String imageStr = (productImage != null) ? productImage.getFileName() : "No image found";
-            ProductResponse dto = ProductResponse.of(product);
+            ProductResponse dto = ProductResponse.from(product);
             dto.setUploadFileNames(Collections.singletonList(imageStr));
 
             return dto;

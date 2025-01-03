@@ -23,7 +23,7 @@ public class ProductResponse {
     private List<String> uploadFileNames = new ArrayList<>();
 
 
-    public static ProductResponse of(Product product) {
+    public static ProductResponse from(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())
                 .pname(product.getPname())

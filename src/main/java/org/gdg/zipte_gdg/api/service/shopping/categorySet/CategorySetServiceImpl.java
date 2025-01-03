@@ -63,7 +63,7 @@ public class CategorySetServiceImpl implements CategorySetService {
         CategorySet categorySet = CategorySet.of(product, category);
         CategorySet save = categorySetRepository.save(categorySet);
 
-        CategorySetResponse categorySetResponse = CategorySetResponse.of(save);
+        CategorySetResponse categorySetResponse = CategorySetResponse.from(save);
         categorySetResponse.getProduct().setUploadFileNames(uploads);
 
         return categorySetResponse;
@@ -85,7 +85,7 @@ public class CategorySetServiceImpl implements CategorySetService {
             ProductImage productImage = (ProductImage) arr[1];
 
             String imageStr = (productImage != null) ? productImage.getFileName() : "No image found";
-            ProductResponse dto = ProductResponse.of(product);
+            ProductResponse dto = ProductResponse.from(product);
             dto.setUploadFileNames(Collections.singletonList(imageStr));
 
             return dto;
@@ -123,10 +123,10 @@ public class CategorySetServiceImpl implements CategorySetService {
 
             // 카테고리 정보 넣기
             CategorySet category = productManagerRepository.findCategoryByProductId(productManager.getProduct().getId());
-            CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.of(category.getCategory());
+            CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.from(category.getCategory());
 
             String imageStr = (productImage != null) ? productImage.getFileName() : "No image found";
-            DiscountProductResponse dto = DiscountProductResponse.of(productManager);
+            DiscountProductResponse dto = DiscountProductResponse.from(productManager);
             dto.getProduct().setUploadFileNames((Collections.singletonList(imageStr)));
             dto.setCategory(responseNoChildren);
 

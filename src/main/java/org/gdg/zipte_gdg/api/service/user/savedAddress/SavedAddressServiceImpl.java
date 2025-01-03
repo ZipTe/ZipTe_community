@@ -31,19 +31,19 @@ public class SavedAddressServiceImpl implements SavedAddressService {
         Address address = Address.of(request.getStreetAddress(), request.getDetailAddress(), request.getZipcode());
         SavedAddress savedAddress = SavedAddress.of(member, address, request.getOrderDesc(), request.getDeliveryDesc(),request.getIsDefault());
 
-        return SavedAddressResponse.of(savedAddressRepository.save(savedAddress));
+        return SavedAddressResponse.from(savedAddressRepository.save(savedAddress));
     }
 
     @Override
     public List<SavedAddressResponse> findById(Long memberId) {
         List<SavedAddress> result = savedAddressRepository.findByMemberId(memberId);
-        return SavedAddressResponse.ofs(result);
+        return SavedAddressResponse.froms(result);
     }
 
     @Override
     public SavedAddressResponse getOne(Long Id) {
         SavedAddress savedAddress = savedAddressRepository.findById(Id).orElseThrow();
-        return SavedAddressResponse.of(savedAddress);
+        return SavedAddressResponse.from(savedAddress);
     }
 
 }

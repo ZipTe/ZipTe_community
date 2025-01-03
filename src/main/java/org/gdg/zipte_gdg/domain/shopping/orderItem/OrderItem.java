@@ -38,7 +38,7 @@ public class OrderItem {
         this.price = (int) Math.round(priceAfterDiscount * count);
     }
 
-    public static OrderItem createOrderItem(ProductManager productManager, int count) {
+    public static OrderItem of(ProductManager productManager, int count) {
         OrderItem orderItem = OrderItem.builder()
                 .productManager(productManager)
                 .count(count)

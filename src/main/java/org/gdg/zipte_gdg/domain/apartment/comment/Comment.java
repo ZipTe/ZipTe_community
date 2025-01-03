@@ -43,7 +43,7 @@ public class Comment {
 
 
     // 로직
-    public static Comment addNewComment(Review review, Member member, String content) {
+    public static Comment of(Review review, Member member, String content) {
 
         Comment comment = Comment.builder()
                 .review(review)

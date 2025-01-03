@@ -1,5 +1,6 @@
 package org.gdg.zipte_gdg.api.service.shopping.cart;
 
+import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartDeleteRequest;
 import org.gdg.zipte_gdg.api.controller.shopping.cart.request.CartRequest;
 import org.gdg.zipte_gdg.api.service.shopping.cart.response.CartResponse;
 
@@ -9,7 +10,7 @@ public interface CartService {
     CartResponse setItem(CartRequest cartRequest);
 
     // 카트에 아이템 제거하기
-    CartResponse removeItem(CartRequest cartRequest);
+    CartResponse removeItem(CartDeleteRequest cartRequest);
 
     // 카트 조회 하기
     CartResponse getMyCart(Long memberId);

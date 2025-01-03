@@ -82,7 +82,7 @@ public class Member implements UserDetails, Serializable {
     private LocalDateTime createdAt;
 
     // 로직
-    public static Member createNewMember(String email, String username, String phoneNumber, Address address) {
+    public static Member of(String email, String username, String phoneNumber, Address address) {
         List<Role> roles = new ArrayList<>();
 
         Member member = Member.builder()

@@ -21,7 +21,7 @@ public class SavedAddressResponse {
 
 
     // 생성자
-    public static SavedAddressResponse of(SavedAddress savedAddress) {
+    public static SavedAddressResponse from(SavedAddress savedAddress) {
         return SavedAddressResponse.builder()
                 .id(savedAddress.getId())
                 .memberId(savedAddress.getMember().getId())
@@ -34,12 +34,12 @@ public class SavedAddressResponse {
                 .build();
     }
 
-    public static List<SavedAddressResponse> ofs(List<SavedAddress> savedAddresss) {
+    public static List<SavedAddressResponse> froms(List<SavedAddress> savedAddresss) {
 
         List<SavedAddressResponse> responsesList = new ArrayList<>();
 
         savedAddresss.forEach(savedAddress -> {
-            SavedAddressResponse savedAddressResponse = SavedAddressResponse.of(savedAddress);
+            SavedAddressResponse savedAddressResponse = SavedAddressResponse.from(savedAddress);
             responsesList.add(savedAddressResponse);
         });
 

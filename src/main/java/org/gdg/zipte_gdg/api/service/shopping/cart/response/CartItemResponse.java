@@ -2,17 +2,47 @@ package org.gdg.zipte_gdg.api.service.shopping.cart.response;
 
 import lombok.Builder;
 import lombok.Data;
+import org.gdg.zipte_gdg.api.service.shopping.productManger.response.DiscountProductResponse;
+import org.gdg.zipte_gdg.domain.shopping.cart.CartItem;
+import org.gdg.zipte_gdg.domain.shopping.product.Product;
+import org.gdg.zipte_gdg.domain.shopping.productManger.ProductManager;
+
+import java.util.*;
 
 @Data
 @Builder
 public class CartItemResponse {
 
-    private Long productId;  // 상품 ID
-    private String productName;  // 상품 이름
-    private int quantity;  // 상품 수량
-    private int price; // 상품가격
-    private int totalPrice; // 상품가격
-    private String productImage; // 상품이미지
+    private DiscountProductResponse discountProduct;
 
+    private int quantity;  // 상품 수량
+    private int totalPrice; // 상품가격
+
+
+    public static CartItemResponse from(CartItem cartItem) {
+
+        ProductManager productManager = cartItem.getProductManager();
+        Product product = productManager.getProduct();
+        String fileName = product.getProductImages().isEmpty() ? "default.jpeg" : product.getProductImages().get(0).getFileName();
+
+        DiscountProductResponse productResponse = DiscountProductResponse.from(productManager);
+        productResponse.getProduct().setUploadFileNames(Collections.singletonList(fileName));
+
+        return CartItemResponse.builder()
+                .discountProduct(productResponse)
+                .quantity(cartItem.getQuantity())
+                .totalPrice(productResponse.getDiscountPrice() * cartItem.getQuantity())
+                .build();
+    }
+
+    public static List<CartItemResponse> froms(List<CartItem> cartItems) {
+        List<CartItemResponse> responseList = new ArrayList<>();
+
+        cartItems.forEach(cartItem -> {
+            responseList.add(CartItemResponse.from(cartItem));
+        });
+
+        return responseList;
+    }
 }
 

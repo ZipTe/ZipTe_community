@@ -63,7 +63,7 @@ public class ReviewImageServiceImpl implements ReviewImageService {
             Path savePath = Paths.get(uploadPath, savedName);
 
             // reviewImage 객체 생성 및 저장
-            ReviewImage reviewImage = ReviewImage.reviewImage(review, savedName);
+            ReviewImage reviewImage = ReviewImage.of(review, savedName);
             review.addReviewImage(reviewImage);
             reviewImageRepository.save(reviewImage);// 먼저 저장
 

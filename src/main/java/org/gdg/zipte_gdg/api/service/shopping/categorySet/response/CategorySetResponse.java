@@ -21,13 +21,13 @@ public class CategorySetResponse {
     private ProductResponse product;
 
     // 생성자
-    public static CategorySetResponse of(CategorySet categorySet) {
+    public static CategorySetResponse from(CategorySet categorySet) {
 
         Product product = categorySet.getProduct();
-        ProductResponse productResponse = ProductResponse.of(product);
+        ProductResponse productResponse = ProductResponse.from(product);
 
         Category category = categorySet.getCategory();
-        CategoryNoChildrenResponse categoryResponse = CategoryNoChildrenResponse.of(category);
+        CategoryNoChildrenResponse categoryResponse = CategoryNoChildrenResponse.from(category);
 
         return CategorySetResponse.builder()
                 .category(categoryResponse)

@@ -50,7 +50,7 @@ public class Order {
     private OrderStatus status;
 
     // 비즈니스 로직 추가
-    public static Order createNewOrder(Member member, Delivery delivery, List<OrderItem> orderItems) {
+    public static Order of(Member member, Delivery delivery, List<OrderItem> orderItems) {
         Order order = Order.builder()
                 .member(member)
                 .delivery(delivery)

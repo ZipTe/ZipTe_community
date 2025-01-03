@@ -24,7 +24,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponse getOne(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Member with ID " + id + " not found"));
-        return MemberResponse.of(member);
+        return MemberResponse.from(member);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalStateException("주소 추가는 첫 번째 OAuth 회원만 가능합니다.");
         }
 
-        return MemberResponse.of(member);
+        return MemberResponse.from(member);
     }
 
 }

@@ -16,7 +16,7 @@ public class PaymentResponse {
         private String requestedAt;
 
         // 생성자
-        public static PaymentResponse of(Payment payment) {
+        public static PaymentResponse from(Payment payment) {
                 return PaymentResponse.builder()
                         .tossOrderId(payment.getTossOrderId())
                         .tossOrderName(payment.getTossOrderName())
@@ -26,9 +26,9 @@ public class PaymentResponse {
         }
 
         // 여러 개
-        public static List<PaymentResponse> ofs(List<Payment> payments) {
+        public static List<PaymentResponse> froms(List<Payment> payments) {
                 return payments.stream()
-                        .map(PaymentResponse::of) // 클래스 이름 사용
+                        .map(PaymentResponse::from) // 클래스 이름 사용
                         .collect(Collectors.toList());
         }
 

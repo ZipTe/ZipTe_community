@@ -22,10 +22,10 @@ public class Address implements Serializable {
 
     private int zipcode;
 
-    public static Address newAddress(String detailAddress, String streetAddress, int zipcode) {
+    public static Address of(String streetAddress, String detailAddress, int zipcode) {
         return Address.builder()
-                .detailAddress(detailAddress)
                 .streetAddress(streetAddress)
+                .detailAddress(detailAddress)
                 .zipcode(zipcode).build();
     }
 

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.gdg.zipte_gdg.api.service.shopping.cart.response.CartResponse;
 import org.gdg.zipte_gdg.domain.shopping.category.Category;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class CategoryResponse {
             this.children = new ArrayList<>();
         } else {
             children.forEach(category -> {
-                CategoryResponse child = CategoryResponse.of(category);
+                CategoryResponse child = CategoryResponse.from(category);
                 this.children.add(child);  // 자식 카테고리를 추가
             });
         }
@@ -36,7 +35,7 @@ public class CategoryResponse {
 
 
     // 생성자
-    public static CategoryResponse of(Category category) {
+    public static CategoryResponse from(Category category) {
         CategoryResponse categoryResponse = CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
@@ -49,10 +48,10 @@ public class CategoryResponse {
     }
 
     // 여러개 일때 생성자
-    public static List<CategoryResponse> ofs(List<Category> categories) {
+    public static List<CategoryResponse> froms(List<Category> categories) {
         List<CategoryResponse> responseList = new ArrayList<>();
         for (Category category : categories) {
-            responseList.add(CategoryResponse.of(category));
+            responseList.add(CategoryResponse.from(category));
         }
         return responseList;
     }
