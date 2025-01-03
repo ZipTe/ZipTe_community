@@ -15,6 +15,8 @@ import org.gdg.zipte_gdg.domain.shopping.order.Order;
 import org.gdg.zipte_gdg.domain.shopping.order.OrderRepository;
 import org.gdg.zipte_gdg.domain.shopping.orderItem.OrderItem;
 import org.gdg.zipte_gdg.domain.shopping.orderItem.OrderItemRepository;
+import org.gdg.zipte_gdg.domain.user.savedAddress.SavedAddress;
+import org.gdg.zipte_gdg.domain.user.savedAddress.SavedAddressRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final DeliveryRepository deliveryRepository;
+    private final SavedAddressRepository savedAddressRepository;
     private final MemberRepository memberRepository;
     private final ProductManagerRepository productManagerRepository;
 
@@ -40,8 +43,7 @@ public class OrderServiceImpl implements OrderService {
     public TossOrderResponse order(OrderRequest orderRequest) {
 
         Member member = getMember(orderRequest);
-        Address address = getAddress(orderRequest);
-        Delivery delivery = getDelivery(orderRequest, address);
+        Delivery delivery = getDelivery(orderRequest);
         List<OrderItem> orderItems = getOrderItems(orderRequest);
 
         orderItemRepository.saveAll(orderItems);
@@ -59,12 +61,12 @@ public class OrderServiceImpl implements OrderService {
         return byId.orElseThrow();
     }
 
-    private static Address getAddress(OrderRequest orderRequest) {
-        return Address.newAddress(orderRequest.getDetailAddress(), orderRequest.getStreetAddress(), orderRequest.getZipcode());
-    }
 
-    private Delivery getDelivery(OrderRequest orderRequest, Address address) {
-        Delivery delivery = Delivery.createNewDelivery(address, orderRequest.getOrderDesc(), orderRequest.getDeliveryDesc());
+    private Delivery getDelivery(OrderRequest orderRequest) {
+        SavedAddress savedAddress = savedAddressRepository.findById(orderRequest.getSavedAddressId()).orElseThrow();
+        Address address = savedAddress.getAddress();
+
+        Delivery delivery = Delivery.createNewDelivery(address, savedAddress.getOrderDesc(), savedAddress.getDeliveryDesc());
         return deliveryRepository.save(delivery);
     }
 

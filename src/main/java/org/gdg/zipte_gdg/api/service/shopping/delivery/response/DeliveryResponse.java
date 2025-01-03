@@ -3,6 +3,7 @@ package org.gdg.zipte_gdg.api.service.shopping.delivery.response;
 import lombok.Builder;
 import lombok.Data;
 import org.gdg.zipte_gdg.domain.shopping.delivery.Delivery;
+import org.gdg.zipte_gdg.domain.shopping.delivery.DeliveryStatus;
 
 @Data
 @Builder
@@ -14,7 +15,7 @@ public class DeliveryResponse {
     private int zipCode;
     private String orderDesc;
     private String deliveryDesc;
-    private String status;
+    private DeliveryStatus deliveryStatus;
 
     public static DeliveryResponse of(Delivery delivery) {
         return DeliveryResponse.builder()
@@ -24,7 +25,7 @@ public class DeliveryResponse {
                 .zipCode(delivery.getAddress().getZipcode())
                 .orderDesc(delivery.getOrderDesc())
                 .deliveryDesc(delivery.getDeliveryDesc())
-                .status(String.valueOf(delivery.getStatus()))
+                .deliveryStatus(delivery.getStatus())
                 .build();
     }
 }
