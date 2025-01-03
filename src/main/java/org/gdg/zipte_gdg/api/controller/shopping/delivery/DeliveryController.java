@@ -21,9 +21,9 @@ public class DeliveryController {
     }
 
     // 배송 관련 정보 수정
-    @PutMapping("/{orderId}")
-    public ApiResponse<DeliveryResponse> updateState(@PathVariable("orderId")Long orderId, @RequestBody DeliveryRequest deliveryRequest) {
-        deliveryRequest.setOrderId(orderId);
+    @PutMapping("/{tossOrderId}")
+    public ApiResponse<DeliveryResponse> updateState(@PathVariable("tossOrderId")String tossOrderId, @RequestBody DeliveryRequest deliveryRequest) {
+        deliveryRequest.setTossOrderId(tossOrderId);
         return ApiResponse.created(deliveryService.updateAddress(deliveryRequest));
     }
 }

@@ -6,9 +6,6 @@ import java.util.List;
 @Data
 public class OrderRequest {
 
-    // 오더
-    private Long id;
-
     // 멤버
     private Long memberId;
 

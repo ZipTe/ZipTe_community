@@ -10,7 +10,7 @@ import org.gdg.zipte_gdg.domain.shopping.delivery.DeliveryStatus;
 public class DeliveryRequest {
 
     @NotNull
-    private Long OrderId;  // Delivery ID
+    private String tossOrderId;  // Delivery ID
 
     private String streetAddress;
     private String detailAddress;

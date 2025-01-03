@@ -10,7 +10,6 @@ import java.util.*;
 @Builder
 public class OrderItemResponse {
 
-    private Long productId;  // 상품 ID
     private String productName;  // 상품 이름
     private int count;  // 상품 수량
     private int price; // 상품가격
@@ -19,7 +18,6 @@ public class OrderItemResponse {
     // 생성자
     public static OrderItemResponse from(OrderItem orderItem) {
         return OrderItemResponse.builder()
-                .productId(orderItem.getProductManager().getProduct().getId())
                 .productName(orderItem.getProductManager().getProduct().getPname())
                 .count(orderItem.getCount())
                 .price(orderItem.getPrice())

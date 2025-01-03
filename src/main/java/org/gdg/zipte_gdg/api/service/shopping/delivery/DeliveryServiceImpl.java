@@ -6,7 +6,8 @@ import org.gdg.zipte_gdg.api.controller.shopping.delivery.request.DeliveryReques
 import org.gdg.zipte_gdg.api.service.shopping.delivery.response.DeliveryResponse;
 import org.gdg.zipte_gdg.domain.shopping.delivery.Delivery;
 import org.gdg.zipte_gdg.domain.shopping.delivery.DeliveryRepository;
-import org.gdg.zipte_gdg.domain.shopping.order.OrderRepository;
+import org.gdg.zipte_gdg.domain.shopping.payment.Payment;
+import org.gdg.zipte_gdg.domain.shopping.payment.PaymentRepository;
 import org.gdg.zipte_gdg.domain.user.member.Address;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeliveryServiceImpl implements DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
-    private final OrderRepository orderRepository;
-
+    private final PaymentRepository paymentRepository;
     @Override
     public DeliveryResponse findById(Long id) {
         Delivery delivery = deliveryRepository.findById(id).orElseThrow();
@@ -29,7 +29,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public DeliveryResponse updateAddress(DeliveryRequest deliveryRequest) {
 
-        Delivery delivery = orderRepository.findById(deliveryRequest.getOrderId()).orElseThrow().getDelivery();
+        Payment payment = paymentRepository.findByTossOrderId(deliveryRequest.getTossOrderId());
+        Delivery delivery = payment.getOrder().getDelivery();
 
         // 주소 업데이트
         if (deliveryRequest.getStreetAddress() != null) {

@@ -21,7 +21,7 @@ public class Payment {
     private String tossPaymentKey;
 
     // 토스내부에서 관리하는 별도의 orderId가 존재함
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String tossOrderId;
 
     @OneToOne

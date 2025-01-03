@@ -9,7 +9,6 @@ import org.gdg.zipte_gdg.domain.shopping.delivery.DeliveryStatus;
 @Builder
 public class DeliveryResponse {
 
-    private Long id;
     private String detailAddress;
     private String streetAddress;
     private int zipCode;
@@ -19,7 +18,6 @@ public class DeliveryResponse {
 
     public static DeliveryResponse from(Delivery delivery) {
         return DeliveryResponse.builder()
-                .id(delivery.getId())
                 .detailAddress(delivery.getAddress().getDetailAddress())
                 .streetAddress(delivery.getAddress().getStreetAddress())
                 .zipCode(delivery.getAddress().getZipcode())
