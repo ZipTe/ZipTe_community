@@ -62,7 +62,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public PageResponse<BoardResponse> findAll(Long categoryId, PageRequest pageRequest) {
+    public PageResponse<BoardResponse> findByCategoryId(Long categoryId, PageRequest pageRequest) {
 
         // 1. 카테고리 ID와 자식 카테고리 ID 목록 생성
         List<Long> categoryIds = findAllChildCategoryIds(categoryId);

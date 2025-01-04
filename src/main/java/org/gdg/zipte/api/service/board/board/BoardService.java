@@ -17,7 +17,7 @@ public interface BoardService {
     // 게시글 삭제
 
     // 특정 카테고리에 있는 게시글 조회하기 (댓글은 숫자)
-    PageResponse<BoardResponse> findAll(Long id, PageRequest pageRequest);
+    PageResponse<BoardResponse> findByCategoryId(Long categoryId, PageRequest pageRequest);
 
 
     // 인기 게시글 조회하기 (댓글은 숫자)
