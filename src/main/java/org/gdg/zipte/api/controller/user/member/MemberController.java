@@ -20,7 +20,7 @@ public class MemberController {
 
     // 개인정보 수정하기
     @PutMapping
-    public ApiResponse<MemberResponse> update(@RequestBody MemberRequest memberRequest, @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public ApiResponse<MemberResponse> update(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody MemberRequest memberRequest){
 
         memberRequest.setId(principalDetails.getId());
         return ApiResponse.created(memberService.addAddress(memberRequest));

@@ -9,6 +9,8 @@ import org.gdg.zipte.api.service.board.category.BoardCategoryService;
 import org.gdg.zipte.api.service.board.category.response.BoardCategoryResponse;
 import org.gdg.zipte.domain.page.request.PageRequest;
 import org.gdg.zipte.domain.page.response.PageResponse;
+import org.gdg.zipte.security.oauth.domain.PrincipalDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,7 +23,8 @@ public class BoardController {
 
     // 게시판 생성
     @PostMapping
-    public ApiResponse<BoardResponse> create(BoardRequest boardRequest) {
+    public ApiResponse<BoardResponse> create(@AuthenticationPrincipal PrincipalDetails principalDetails, BoardRequest boardRequest) {
+        boardRequest.setMemberId(principalDetails.getId());
         return ApiResponse.created(boardService.create(boardRequest));
     }
 

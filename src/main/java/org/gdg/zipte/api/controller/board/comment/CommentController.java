@@ -8,6 +8,8 @@ import org.gdg.zipte.api.service.board.comment.CommentService;
 import org.gdg.zipte.api.service.board.comment.response.CommentResponse;
 import org.gdg.zipte.domain.page.request.PageRequest;
 import org.gdg.zipte.domain.page.response.PageResponse;
+import org.gdg.zipte.security.oauth.domain.PrincipalDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,7 +23,8 @@ public class CommentController {
 
     // 댓글 작성하기
     @PostMapping
-    ApiResponse<CommentResponse> register(@RequestBody CommentRequest commentRequest) {
+    ApiResponse<CommentResponse> register(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody CommentRequest commentRequest) {
+        commentRequest.setMemberId(principalDetails.getId());
         return ApiResponse.created(commentService.register(commentRequest));
     }
 

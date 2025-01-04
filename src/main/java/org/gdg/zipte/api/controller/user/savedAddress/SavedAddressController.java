@@ -20,7 +20,8 @@ public class SavedAddressController {
 
     // 주소지 추가하기
     @PostMapping
-    ApiResponse<SavedAddressResponse> create (@RequestBody SavedAddressRequest request) {
+    ApiResponse<SavedAddressResponse> create (@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody SavedAddressRequest request) {
+        request.setMemberId(principalDetails.getId());
         return ApiResponse.created(savedAddressService.create(request));
     }
 

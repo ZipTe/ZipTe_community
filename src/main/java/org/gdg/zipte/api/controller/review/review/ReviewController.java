@@ -8,6 +8,8 @@ import org.gdg.zipte.api.controller.review.review.request.ReviewRequest;
 import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.review.review.ReviewService;
 import org.gdg.zipte.api.service.review.review.response.ReviewResponse;
+import org.gdg.zipte.security.oauth.domain.PrincipalDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,7 +22,8 @@ public class ReviewController {
 
     // 리뷰 작성
     @PostMapping
-    public ApiResponse<ReviewResponse> create(ReviewRequest reviewRequest) {
+    public ApiResponse<ReviewResponse> create(@AuthenticationPrincipal PrincipalDetails principalDetails, ReviewRequest reviewRequest) {
+        reviewRequest.setMemberId(principalDetails.getId());
         return ApiResponse.created(reviewService.create(reviewRequest));
     }
 
