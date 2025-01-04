@@ -32,6 +32,10 @@ public class BoardResponse {
     // 댓글 개수
     private int commentCount;
 
+    // 좋아요 개수
+    private Long likeCount;
+
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
@@ -56,8 +60,9 @@ public class BoardResponse {
                 .author(board.getMember().getUsername())
                 .viewCount(board.getViewCount())
                 .commentCount(board.getComments() != null ? board.getComments().size() : 0)
+                .likeCount(board.getReactionScore() != null ? board.getReactionScore() : 0)
                 .createdAt(board.getCreatedAt())
-                .updatedAt(board.getUpdatedAt() != null ? board.getUpdatedAt() : board.getCreatedAt())
+                .updatedAt(board.getUpdatedAt())
                 .build();
     }
 

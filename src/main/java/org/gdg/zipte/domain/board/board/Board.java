@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte.domain.board.comment.Comment;
+import org.gdg.zipte.domain.board.like.BoardReaction;
+import org.gdg.zipte.domain.board.like.UserReaction;
 import org.gdg.zipte.domain.user.member.Member;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -44,6 +46,8 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board")
+    private List<BoardReaction> reactions = new ArrayList<>();
 
     // 생성자
     public static Board of(String title, String content, Member member) {
@@ -56,13 +60,41 @@ public class Board {
                 .build();
     }
 
+    // 양방향
     public void addComment(Comment comment) {
         comments.add(comment);
     }
 
+    public void addReaction(BoardReaction reaction) {
+        reactions.add(reaction);
+    }
+
+    // 조회수 더하기
     public void addCount() {
         this.viewCount++;
     }
+
+    // 좋아요 수 계산 메서드
+    public Long getLikeCount() {
+        return reactions.stream()
+                .filter(reaction -> reaction.getReactionType() == UserReaction.LIKE)
+                .count();
+    }
+
+    // 싫어요 수 계산 메서드
+    public Long getDisLikeCount() {
+        return reactions.stream()
+                .filter(reaction -> reaction.getReactionType() == UserReaction.DISLIKE)
+                .count();
+    }
+
+    // 좋아요 - 싫어요 결과 계산
+    public Long getReactionScore() {
+        return getLikeCount() - getDisLikeCount();
+    }
+
+
+
 
 
 }
