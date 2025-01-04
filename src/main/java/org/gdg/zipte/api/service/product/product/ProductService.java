@@ -1,8 +1,8 @@
 package org.gdg.zipte.api.service.product.product;
 
 
-import org.gdg.zipte.domain.page.request.PageRequestDto;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.product.product.response.ProductResponse;
 
 public interface ProductService {
@@ -11,7 +11,7 @@ public interface ProductService {
     ProductResponse findById(Long id);
 
     //아이템 리스트 조회
-    PageResponseDto<ProductResponse> findAll(PageRequestDto pageRequestDto);
+    PageResponse<ProductResponse> findAll(PageRequest pageRequest);
 
     //아이템 수정
 

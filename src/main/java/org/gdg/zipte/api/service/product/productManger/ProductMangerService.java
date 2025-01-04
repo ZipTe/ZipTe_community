@@ -3,8 +3,8 @@ package org.gdg.zipte.api.service.product.productManger;
 import org.gdg.zipte.api.controller.admin.product.request.ProductManagerRequest;
 import org.gdg.zipte.api.service.product.productManger.response.DiscountProductResponse;
 import org.gdg.zipte.api.service.product.productManger.response.ProductManagerResponse;
-import org.gdg.zipte.domain.page.request.PageRequestDto;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
+import org.gdg.zipte.domain.page.response.PageResponse;
 
 public interface ProductMangerService {
 
@@ -12,7 +12,7 @@ public interface ProductMangerService {
     ProductManagerResponse create(ProductManagerRequest request);
 
     // 할인된 금액으로 조회
-    PageResponseDto<DiscountProductResponse> findAll(PageRequestDto pageRequestDto);
+    PageResponse<DiscountProductResponse> findAll(PageRequest pageRequest);
 
     // 단일 상품 조회
     DiscountProductResponse findById(Long id);

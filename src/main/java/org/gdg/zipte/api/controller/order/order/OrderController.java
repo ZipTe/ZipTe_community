@@ -9,8 +9,8 @@ import org.gdg.zipte.api.service.order.order.response.TossOrderResponse;
 import org.gdg.zipte.api.service.order.payment.PaymentService;
 import org.gdg.zipte.api.service.order.payment.response.OrderResponse;
 import org.gdg.zipte.api.service.order.payment.response.PaymentResponse;
-import org.gdg.zipte.domain.page.request.PageRequestDto;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.security.oauth.domain.PrincipalDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +32,9 @@ public class OrderController {
 
     // 나의 결제 내역 조회
     @GetMapping("/myOrder")
-    public  ApiResponse<PageResponseDto<PaymentResponse>> getMyAllPayment(@AuthenticationPrincipal PrincipalDetails principalDetails, PageRequestDto pageRequestDto) {
+    public  ApiResponse<PageResponse<PaymentResponse>> getMyAllPayment(@AuthenticationPrincipal PrincipalDetails principalDetails, PageRequest pageRequest) {
         Long memberId = principalDetails.getId();
-        return ApiResponse.created(paymentService.findMyPayments(memberId,pageRequestDto));
+        return ApiResponse.created(paymentService.findMyPayments(memberId, pageRequest));
     }
 
     // 토스 결제 내역으로 주문 내역 확인

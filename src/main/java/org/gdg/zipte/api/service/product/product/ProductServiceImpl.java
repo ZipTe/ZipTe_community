@@ -2,14 +2,13 @@ package org.gdg.zipte.api.service.product.product;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte.domain.page.request.PageRequestDto;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.product.product.response.ProductResponse;
 import org.gdg.zipte.domain.product.product.Product;
 import org.gdg.zipte.domain.product.product.ProductImage;
 import org.gdg.zipte.domain.product.product.ProductRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -41,9 +40,9 @@ public class ProductServiceImpl implements ProductService {
         return productResponse;
     }
 
-    public PageResponseDto<ProductResponse> findAll(PageRequestDto pageRequestDto) {
+    public PageResponse<ProductResponse> findAll(PageRequest pageRequest) {
 
-        Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage()-1, pageRequest.getSize(), Sort.by("id").descending());
         Page<Object[]> result = productRepository.selectList(pageable);
 
         List<ProductResponse> dtoList = result.get().map(arr -> {
@@ -58,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
         }).toList();
 
         long total = result.getTotalElements();
-        return new PageResponseDto<>(dtoList, pageRequestDto, total);
+        return new PageResponse<>(dtoList, pageRequest, total);
     }
 
 }

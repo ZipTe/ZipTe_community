@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
-import org.gdg.zipte.domain.page.request.PageRequestDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
 import org.gdg.zipte.api.controller.order.toss.request.ConfirmPaymentRequest;
 import org.gdg.zipte.api.service.order.payment.response.OrderResponse;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.order.payment.response.PaymentResponse;
 import org.gdg.zipte.api.service.order.toss.response.TossPaymentResponse;
 import org.gdg.zipte.domain.order.order.Order;
@@ -15,7 +15,6 @@ import org.gdg.zipte.domain.order.order.OrderRepository;
 import org.gdg.zipte.domain.order.payment.Payment;
 import org.gdg.zipte.domain.order.payment.PaymentRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -80,10 +79,10 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PageResponseDto<PaymentResponse> findMyPayments(Long memberId, PageRequestDto pageRequestDto) {
+    public PageResponse<PaymentResponse> findMyPayments(Long memberId, PageRequest pageRequest) {
 
         // 페이지 정보와 정렬 기준 설정
-        Pageable pageable = PageRequest.of(pageRequestDto.getPage() - 1, pageRequestDto.getSize(),Sort.by("paymentId").descending());
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage() - 1, pageRequest.getSize(),Sort.by("paymentId").descending());
 
         // 회원 ID로 결제 정보 조회
         Page<Payment> payments = paymentRepository.getMyAllPayment(memberId,pageable);
@@ -96,7 +95,7 @@ public class PaymentServiceImpl implements PaymentService {
         long total = payments.getTotalElements();
 
         // 페이지 응답 반환
-        return new PageResponseDto<>(dtoList, pageRequestDto, total);
+        return new PageResponse<>(dtoList, pageRequest, total);
     }
 
 }

@@ -2,10 +2,10 @@ package org.gdg.zipte.api.controller.review.review;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte.domain.page.request.PageRequestDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
 import org.gdg.zipte.api.response.ApiResponse;
 import org.gdg.zipte.api.controller.review.review.request.ReviewRequest;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.review.review.ReviewService;
 import org.gdg.zipte.api.service.review.review.response.ReviewResponse;
 import org.springframework.web.bind.annotation.*;
@@ -26,25 +26,25 @@ public class ReviewController {
 
     // 특정 회원의 리뷰 조회
     @GetMapping("/list/member/{memberId}")
-    public ApiResponse<PageResponseDto<ReviewResponse>> getListById(@PathVariable("memberId") Long memberId, PageRequestDto pageRequestDto) {
-        return ApiResponse.created(reviewService.getReviewsByMemberId(pageRequestDto, memberId));
+    public ApiResponse<PageResponse<ReviewResponse>> getListById(@PathVariable("memberId") Long memberId, PageRequest pageRequest) {
+        return ApiResponse.created(reviewService.getReviewsByMemberId(pageRequest, memberId));
     }
 
     // 특정 아파트 리뷰 조회
     @GetMapping("/list/apt/{aptId}")
-    public ApiResponse<PageResponseDto<ReviewResponse>> getListByAptId(
+    public ApiResponse<PageResponse<ReviewResponse>> getListByAptId(
             @PathVariable("aptId") Long aptId,
-            PageRequestDto pageRequestDto,
+            PageRequest pageRequest,
             @RequestParam(value = "orderBy", defaultValue = "date") String orderBy) {
 
         switch (orderBy) {
             case "view":
-                return ApiResponse.created(reviewService.getListByAptIdOrderByCountView(pageRequestDto, aptId));
+                return ApiResponse.created(reviewService.getListByAptIdOrderByCountView(pageRequest, aptId));
             case "rating":
-                return ApiResponse.created(reviewService.getListByAptIdOrderByRating(pageRequestDto, aptId));
+                return ApiResponse.created(reviewService.getListByAptIdOrderByRating(pageRequest, aptId));
             case "date":
             default:
-                return ApiResponse.created(reviewService.getListByAptId(pageRequestDto, aptId));
+                return ApiResponse.created(reviewService.getListByAptId(pageRequest, aptId));
         }
     }
 

@@ -6,10 +6,10 @@ import org.gdg.zipte.api.service.product.category.CategoryService;
 import org.gdg.zipte.api.service.product.category.response.CategoryResponse;
 import org.gdg.zipte.api.service.product.productManger.ProductMangerService;
 import org.gdg.zipte.api.service.product.productManger.response.DiscountProductResponse;
-import org.gdg.zipte.domain.page.request.PageRequestDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
 import org.gdg.zipte.api.response.ApiResponse;
 import org.gdg.zipte.api.service.product.categorySet.CategorySetService;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.product.product.ProductImageService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +30,8 @@ public class ProductController {
 
     // 상품 정보 전부 조회
     @GetMapping("/list")
-    public ApiResponse<PageResponseDto<DiscountProductResponse>> getList(PageRequestDto pageRequestDto) {
-        return ApiResponse.created(productMangerService.findAll(pageRequestDto));
+    public ApiResponse<PageResponse<DiscountProductResponse>> getList(PageRequest pageRequest) {
+        return ApiResponse.created(productMangerService.findAll(pageRequest));
     }
 
     // 상품 상세 조회
@@ -60,7 +60,7 @@ public class ProductController {
 
     // 카테고리별 아이템 조회
     @GetMapping("/category/list/{id}")
-    public ApiResponse<PageResponseDto<DiscountProductResponse>> getDiscountProductAll(@PathVariable("id") Long id, PageRequestDto pageRequestDto) {
-        return ApiResponse.created(categorySetService.findAll(id,pageRequestDto));
+    public ApiResponse<PageResponse<DiscountProductResponse>> getDiscountProductAll(@PathVariable("id") Long id, PageRequest pageRequest) {
+        return ApiResponse.created(categorySetService.findAll(id, pageRequest));
     }
 }

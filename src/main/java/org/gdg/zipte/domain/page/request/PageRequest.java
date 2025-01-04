@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-public class PageRequestDto {
+public class PageRequest {
     @Builder.Default
     private int page = 1;
 

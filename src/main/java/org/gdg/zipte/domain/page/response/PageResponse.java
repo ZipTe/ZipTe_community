@@ -2,7 +2,7 @@ package org.gdg.zipte.domain.page.response;
 
 import lombok.Builder;
 import lombok.Data;
-import org.gdg.zipte.domain.page.request.PageRequestDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,35 +10,35 @@ import java.util.stream.IntStream;
 
 
 @Data
-public class PageResponseDto<E> {
+public class PageResponse<E> {
 
     private List<E> dtoList;
 
     private List<Integer> pageNumList;
 
-    private PageRequestDto pageRequestDTO;
+    private PageRequest pageRequest;
 
     private boolean prev, next;
 
     private int totalCount, prevPage, nextPage, totalPage, current;
 
     @Builder(builderMethodName = "withAll")
-    public PageResponseDto(List<E> dtoList, PageRequestDto pageRequestDTO, long total) {
+    public PageResponse(List<E> dtoList, PageRequest pageRequest, long total) {
 
         this.dtoList = dtoList;
-        this.pageRequestDTO = pageRequestDTO;
+        this.pageRequest = pageRequest;
         this.totalCount = (int)total;
 
-        int end =   (int)(Math.ceil( pageRequestDTO.getPage() / 10.0 )) *  10;
+        int end =   (int)(Math.ceil( pageRequest.getPage() / 10.0 )) *  10;
 
         int start = end - 9;
 
-        int last =  (int)(Math.ceil((totalCount/(double)pageRequestDTO.getSize())));
+        int last =  (int)(Math.ceil((totalCount/(double) pageRequest.getSize())));
 
         end =  end > last ? last: end;
 
         this.prev = start > 1;
-        this.next =  totalCount > end * pageRequestDTO.getSize();
+        this.next =  totalCount > end * pageRequest.getSize();
 
         this.pageNumList = IntStream.rangeClosed(start,end).boxed().collect(Collectors.toList());
 
@@ -52,7 +52,7 @@ public class PageResponseDto<E> {
 
         this.totalPage = this.pageNumList.size();
 
-        this.current = pageRequestDTO.getPage();
+        this.current = pageRequest.getPage();
 
     }
 }

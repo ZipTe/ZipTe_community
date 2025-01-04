@@ -1,10 +1,10 @@
 package org.gdg.zipte.api.service.order.payment;
 
 
-import org.gdg.zipte.domain.page.request.PageRequestDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
 import org.gdg.zipte.api.controller.order.toss.request.ConfirmPaymentRequest;
 import org.gdg.zipte.api.service.order.payment.response.OrderResponse;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.order.payment.response.PaymentResponse;
 import org.gdg.zipte.api.service.order.toss.response.TossPaymentResponse;
 
@@ -20,5 +20,5 @@ public interface PaymentService {
     OrderResponse getDetails(String orderId) throws Exception;
 
     // 내 결제 목록 가져오기
-    PageResponseDto<PaymentResponse> findMyPayments(Long memberId, PageRequestDto pageRequestDto);
+    PageResponse<PaymentResponse> findMyPayments(Long memberId, PageRequest pageRequest);
 }

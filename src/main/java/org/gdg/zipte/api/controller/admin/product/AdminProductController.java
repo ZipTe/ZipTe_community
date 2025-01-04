@@ -13,8 +13,8 @@ import org.gdg.zipte.api.service.product.product.ProductService;
 import org.gdg.zipte.api.service.product.product.response.ProductResponse;
 import org.gdg.zipte.api.service.product.productManger.ProductMangerService;
 import org.gdg.zipte.api.service.product.productManger.response.ProductManagerResponse;
-import org.gdg.zipte.domain.page.request.PageRequestDto;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,8 +35,8 @@ public class AdminProductController {
 
     // 상품 자체 목록 조회
     @GetMapping("/list")
-    public ApiResponse<PageResponseDto<ProductResponse>> getList(PageRequestDto pageRequestDto) {
-        return ApiResponse.created(productService.findAll(pageRequestDto));
+    public ApiResponse<PageResponse<ProductResponse>> getList(PageRequest pageRequest) {
+        return ApiResponse.created(productService.findAll(pageRequest));
     }
 
     // 상품 상세 조회
@@ -53,8 +53,8 @@ public class AdminProductController {
 
     // 카테고리에 맞는 상품 자체 조회
     @GetMapping("/category/{id}")
-    public ApiResponse<PageResponseDto<ProductResponse>> getProductCategory(@PathVariable("id") Long id, PageRequestDto pageRequestDto) {
-        return ApiResponse.created(categorySetService.findAllAdmin(id,pageRequestDto));
+    public ApiResponse<PageResponse<ProductResponse>> getProductCategory(@PathVariable("id") Long id, PageRequest pageRequest) {
+        return ApiResponse.created(categorySetService.findAllAdmin(id, pageRequest));
     }
 
     // 상품 매니저 추가

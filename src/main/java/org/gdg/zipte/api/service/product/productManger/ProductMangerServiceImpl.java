@@ -5,8 +5,8 @@ import org.gdg.zipte.api.controller.admin.product.request.ProductManagerRequest;
 import org.gdg.zipte.api.service.product.category.response.CategoryNoChildrenResponse;
 import org.gdg.zipte.api.service.product.productManger.response.DiscountProductResponse;
 import org.gdg.zipte.api.service.product.productManger.response.ProductManagerResponse;
-import org.gdg.zipte.domain.page.request.PageRequestDto;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.domain.product.categorySet.CategorySet;
 import org.gdg.zipte.domain.product.product.Product;
 import org.gdg.zipte.domain.product.product.ProductImage;
@@ -14,7 +14,6 @@ import org.gdg.zipte.domain.product.product.ProductRepository;
 import org.gdg.zipte.domain.product.productManger.ProductManager;
 import org.gdg.zipte.domain.product.productManger.ProductManagerRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -54,9 +53,9 @@ public class ProductMangerServiceImpl implements ProductMangerService {
     }
 
     @Override
-    public PageResponseDto<DiscountProductResponse> findAll(PageRequestDto pageRequestDto) {
+    public PageResponse<DiscountProductResponse> findAll(PageRequest pageRequest) {
 
-        Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage()-1, pageRequest.getSize(), Sort.by("id").descending());
         Page<Object[]> result = productManagerRepository.selectList(pageable);
 
         List<DiscountProductResponse> dtoList = result.get().map(arr -> {
@@ -77,7 +76,7 @@ public class ProductMangerServiceImpl implements ProductMangerService {
         }).toList();
 
         long total = result.getTotalElements();
-        return new PageResponseDto<>(dtoList, pageRequestDto, total);
+        return new PageResponse<>(dtoList, pageRequest, total);
     }
 
     @Override

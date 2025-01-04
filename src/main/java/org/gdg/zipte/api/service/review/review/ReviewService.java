@@ -1,8 +1,8 @@
 package org.gdg.zipte.api.service.review.review;
 
-import org.gdg.zipte.domain.page.request.PageRequestDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
 import org.gdg.zipte.api.controller.review.review.request.ReviewRequest;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.review.review.response.ReviewResponse;
 
 public interface ReviewService {
@@ -19,15 +19,15 @@ public interface ReviewService {
 
 
     // 특정 아파트 리뷰 목록 조회 (최신) <페이징 처리>
-    PageResponseDto<ReviewResponse> getListByAptId(PageRequestDto pageRequestDto, Long aptId);
+    PageResponse<ReviewResponse> getListByAptId(PageRequest pageRequest, Long aptId);
 
     // 특정 아파트 리뷰 목록 조회 (조회수) <페이징 처리>
-    PageResponseDto<ReviewResponse> getListByAptIdOrderByCountView(PageRequestDto pageRequestDto, Long aptId);
+    PageResponse<ReviewResponse> getListByAptIdOrderByCountView(PageRequest pageRequest, Long aptId);
 
     // 특정 아파트 리뷰 목록 조회 (평점) <페이징 처리>
-    PageResponseDto<ReviewResponse> getListByAptIdOrderByRating(PageRequestDto pageRequestDto, Long aptId);
+    PageResponse<ReviewResponse> getListByAptIdOrderByRating(PageRequest pageRequest, Long aptId);
 
     // 특정 유저 리뷰 조회 <특정 아이디 리뷰 검색해서 가져오기>
-    PageResponseDto<ReviewResponse> getReviewsByMemberId(PageRequestDto pageRequestDto, Long memberId);
+    PageResponse<ReviewResponse> getReviewsByMemberId(PageRequest pageRequest, Long memberId);
 
 }

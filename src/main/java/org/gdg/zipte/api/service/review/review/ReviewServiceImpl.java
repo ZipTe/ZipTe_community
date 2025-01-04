@@ -2,9 +2,9 @@ package org.gdg.zipte.api.service.review.review;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte.domain.page.request.PageRequestDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
 import org.gdg.zipte.api.controller.review.review.request.ReviewRequest;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.review.review.response.ReviewResponse;
 import org.gdg.zipte.domain.apt.apt.Apt;
 import org.gdg.zipte.domain.apt.apt.AptRepository;
@@ -16,7 +16,6 @@ import org.gdg.zipte.domain.review.review.Review;
 import org.gdg.zipte.domain.review.review.ReviewImage;
 import org.gdg.zipte.domain.review.review.ReviewRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -81,49 +80,49 @@ public class ReviewServiceImpl implements ReviewService {
     //
 
     @Override
-    public PageResponseDto<ReviewResponse> getListByAptId(PageRequestDto pageRequestDto, Long aptId) {
+    public PageResponse<ReviewResponse> getListByAptId(PageRequest pageRequest, Long aptId) {
 
-        Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage()-1, pageRequest.getSize(), Sort.by("id").descending());
         Page<Object[]> result = reviewRepository.selectListbyAptId(aptId, pageable);
 
 
-        return getReviewResponsePageResponseDto(pageRequestDto, result);
+        return getReviewResponsePageResponseDto(pageRequest, result);
     }
 
     @Override
-    public PageResponseDto<ReviewResponse> getListByAptIdOrderByCountView(PageRequestDto pageRequestDto, Long aptId) {
+    public PageResponse<ReviewResponse> getListByAptIdOrderByCountView(PageRequest pageRequest, Long aptId) {
 
-        Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage()-1, pageRequest.getSize(), Sort.by("id").descending());
 
         Page<Object[]> result = reviewRepository.selectListbyAptIdOrderByCountViewDesc(aptId, pageable);
 
-        return getReviewResponsePageResponseDto(pageRequestDto, result);
+        return getReviewResponsePageResponseDto(pageRequest, result);
     }
 
     @Override
-    public PageResponseDto<ReviewResponse> getListByAptIdOrderByRating(PageRequestDto pageRequestDto, Long aptId) {
+    public PageResponse<ReviewResponse> getListByAptIdOrderByRating(PageRequest pageRequest, Long aptId) {
 
-        Pageable pageable = PageRequest.of(pageRequestDto.getPage()-1, pageRequestDto.getSize(), Sort.by("id").descending());
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage()-1, pageRequest.getSize(), Sort.by("id").descending());
 
         Page<Object[]> result = reviewRepository.selectListbyAptIdOrderByRatingDesc(aptId, pageable);
 
 
-        return getReviewResponsePageResponseDto(pageRequestDto, result);
+        return getReviewResponsePageResponseDto(pageRequest, result);
     }
 
 
     @Override
-    public PageResponseDto<ReviewResponse> getReviewsByMemberId(PageRequestDto pageRequestDto, Long memberId) {
+    public PageResponse<ReviewResponse> getReviewsByMemberId(PageRequest pageRequest, Long memberId) {
 
-        Pageable pageable = PageRequest.of(pageRequestDto.getPage() - 1, pageRequestDto.getSize(), Sort.by("id").descending());
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage() - 1, pageRequest.getSize(), Sort.by("id").descending());
 
         Page<Object[]> result = reviewRepository.findReviewsByMemberId(memberId, pageable);
 
-        return getReviewResponsePageResponseDto(pageRequestDto, result);
+        return getReviewResponsePageResponseDto(pageRequest, result);
     }
 
     // extract
-    private PageResponseDto<ReviewResponse> getReviewResponsePageResponseDto(PageRequestDto pageRequestDto, Page<Object[]> result) {
+    private PageResponse<ReviewResponse> getReviewResponsePageResponseDto(PageRequest pageRequest, Page<Object[]> result) {
         List<ReviewResponse> dtoList = result.get().map(arr -> {
             Review review = (Review) arr[0];
             ReviewImage reviewImage = (ReviewImage) arr[1];
@@ -137,7 +136,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         long total = result.getTotalElements();
 
-        return new PageResponseDto<>(dtoList, pageRequestDto, total);
+        return new PageResponse<>(dtoList, pageRequest, total);
     }
 
 
