@@ -19,6 +19,10 @@ public class CommentResponse {
     @Builder.Default
     private Boolean isWriter = false;
 
+    private Long likeCount;
+
+    private Long dislikeCount;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
@@ -35,6 +39,8 @@ public class CommentResponse {
                 .id(comment.getId())
                 .content(comment.getContent())
                 .author(comment.getMember().getUsername())
+                .likeCount(comment.getLikeCount() != null ? comment.getLikeCount() : 0)
+                .dislikeCount(comment.getDisLikeCount() != null ? comment.getDisLikeCount() : 0)
                 .createdAt(comment.getCreatedAt())
                 .updatedAt(comment.getUpdatedAt())
                 .children(createChildren(comment.getChildren(), writer)) // 대댓글 처리

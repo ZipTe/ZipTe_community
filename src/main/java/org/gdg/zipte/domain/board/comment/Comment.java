@@ -7,9 +7,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte.domain.board.board.Board;
+import org.gdg.zipte.domain.board.like.CommentReaction;
+import org.gdg.zipte.domain.board.like.UserReaction;
 import org.gdg.zipte.domain.user.member.Member;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -49,6 +52,9 @@ public class Comment {
 
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "comment")
+    @Builder.Default
+    private List<CommentReaction> reactions = new ArrayList<>();
 
     // 생성자
     public static Comment of(Board board, Member member, Comment parent, String content) {
@@ -64,5 +70,19 @@ public class Comment {
         board.addComment(comment);
 
         return comment;
+    }
+
+    // 좋아요 수 계산 메서드
+    public Long getLikeCount() {
+        return reactions.stream()
+                .filter(reaction -> reaction.getReactionType() == UserReaction.LIKE)
+                .count();
+    }
+
+    // 싫어요 수 계산 메서드
+    public Long getDisLikeCount() {
+        return reactions.stream()
+                .filter(reaction -> reaction.getReactionType() == UserReaction.DISLIKE)
+                .count();
     }
 }

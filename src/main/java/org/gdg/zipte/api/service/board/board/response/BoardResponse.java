@@ -22,6 +22,8 @@ import java.util.List;
 public class BoardResponse {
 
     private BoardCategoryNoChildrenResponse category;
+
+    private Long id;
     private String title;
     private String content;
 
@@ -55,6 +57,7 @@ public class BoardResponse {
 
         return BoardResponse.builder()
                 .category(categoryResponse)
+                .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
                 .author(board.getMember().getUsername())
