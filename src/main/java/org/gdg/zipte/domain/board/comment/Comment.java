@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte.domain.board.board.Board;
-import org.gdg.zipte.domain.board.like.CommentReaction;
-import org.gdg.zipte.domain.board.like.UserReaction;
+import org.gdg.zipte.domain.board.reaction.CommentReaction;
+import org.gdg.zipte.domain.board.reaction.UserReaction;
 import org.gdg.zipte.domain.user.member.Member;
 
 import java.time.LocalDateTime;

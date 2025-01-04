@@ -1,14 +1,14 @@
-package org.gdg.zipte.api.service.board.commentLike;
+package org.gdg.zipte.api.service.board.commentReaction;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte.api.controller.board.commentLike.request.CommentReactionRequest;
-import org.gdg.zipte.api.service.board.commentLike.response.CommentReactionResponse;
+import org.gdg.zipte.api.service.board.commentReaction.response.CommentReactionResponse;
 import org.gdg.zipte.domain.board.comment.Comment;
 import org.gdg.zipte.domain.board.comment.CommentRepository;
-import org.gdg.zipte.domain.board.like.CommentReaction;
-import org.gdg.zipte.domain.board.like.CommentReactionRepository;
-import org.gdg.zipte.domain.board.like.UserReaction;
+import org.gdg.zipte.domain.board.reaction.CommentReaction;
+import org.gdg.zipte.domain.board.reaction.CommentReactionRepository;
+import org.gdg.zipte.domain.board.reaction.UserReaction;
 import org.gdg.zipte.domain.user.member.Member;
 import org.gdg.zipte.domain.user.member.MemberRepository;
 import org.springframework.stereotype.Service;

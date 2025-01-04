@@ -1,4 +1,4 @@
-package org.gdg.zipte.domain.board.like;
+package org.gdg.zipte.domain.board.reaction;
 
 import org.gdg.zipte.domain.board.comment.Comment;
 import org.gdg.zipte.domain.user.member.Member;

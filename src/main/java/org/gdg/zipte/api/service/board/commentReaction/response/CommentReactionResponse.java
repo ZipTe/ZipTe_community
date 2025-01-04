@@ -1,11 +1,11 @@
-package org.gdg.zipte.api.service.board.commentLike.response;
+package org.gdg.zipte.api.service.board.commentReaction.response;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Data;
-import org.gdg.zipte.domain.board.like.CommentReaction;
-import org.gdg.zipte.domain.board.like.UserReaction;
+import org.gdg.zipte.domain.board.reaction.CommentReaction;
+import org.gdg.zipte.domain.board.reaction.UserReaction;
 
 @Data
 @Builder

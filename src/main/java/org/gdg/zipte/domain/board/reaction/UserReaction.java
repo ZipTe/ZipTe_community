@@ -1,4 +1,4 @@
-package org.gdg.zipte.domain.board.like;
+package org.gdg.zipte.domain.board.reaction;
 
 public enum UserReaction {
     LIKE,

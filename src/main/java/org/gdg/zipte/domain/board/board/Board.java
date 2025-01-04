@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.gdg.zipte.domain.board.comment.Comment;
-import org.gdg.zipte.domain.board.like.BoardReaction;
-import org.gdg.zipte.domain.board.like.UserReaction;
+import org.gdg.zipte.domain.board.reaction.BoardReaction;
+import org.gdg.zipte.domain.board.reaction.UserReaction;
 import org.gdg.zipte.domain.user.member.Member;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -44,9 +44,11 @@ public class Board {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "board")
+    @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "board")
+    @Builder.Default
     private List<BoardReaction> reactions = new ArrayList<>();
 
     // 생성자

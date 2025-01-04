@@ -3,7 +3,7 @@ package org.gdg.zipte.api.controller.board.commentLike.request;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
-import org.gdg.zipte.domain.board.like.UserReaction;
+import org.gdg.zipte.domain.board.reaction.UserReaction;
 
 @Data
 public class CommentReactionRequest {

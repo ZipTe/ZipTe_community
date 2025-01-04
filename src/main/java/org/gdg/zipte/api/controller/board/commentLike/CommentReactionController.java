@@ -3,8 +3,8 @@ package org.gdg.zipte.api.controller.board.commentLike;
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte.api.controller.board.commentLike.request.CommentReactionRequest;
 import org.gdg.zipte.api.response.ApiResponse;
-import org.gdg.zipte.api.service.board.commentLike.CommentReactionService;
-import org.gdg.zipte.api.service.board.commentLike.response.CommentReactionResponse;
+import org.gdg.zipte.api.service.board.commentReaction.CommentReactionService;
+import org.gdg.zipte.api.service.board.commentReaction.response.CommentReactionResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

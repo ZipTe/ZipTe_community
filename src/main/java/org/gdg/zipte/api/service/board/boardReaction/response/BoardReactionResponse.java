@@ -1,10 +1,10 @@
-package org.gdg.zipte.api.service.board.like.response;
+package org.gdg.zipte.api.service.board.boardReaction.response;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-import org.gdg.zipte.domain.board.like.BoardReaction;
-import org.gdg.zipte.domain.board.like.UserReaction;
+import org.gdg.zipte.domain.board.reaction.BoardReaction;
+import org.gdg.zipte.domain.board.reaction.UserReaction;
 
 @Data
 @Builder

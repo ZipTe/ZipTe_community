@@ -3,8 +3,8 @@ package org.gdg.zipte.api.controller.board.like;
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte.api.controller.board.like.request.BoardReactionRequest;
 import org.gdg.zipte.api.response.ApiResponse;
-import org.gdg.zipte.api.service.board.like.BoardReactionService;
-import org.gdg.zipte.api.service.board.like.response.BoardReactionResponse;
+import org.gdg.zipte.api.service.board.boardReaction.BoardReactionService;
+import org.gdg.zipte.api.service.board.boardReaction.response.BoardReactionResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
