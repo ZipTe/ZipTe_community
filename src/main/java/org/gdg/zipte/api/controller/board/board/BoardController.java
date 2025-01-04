@@ -5,7 +5,6 @@ import org.gdg.zipte.api.controller.board.board.request.BoardRequest;
 import org.gdg.zipte.api.response.ApiResponse;
 import org.gdg.zipte.api.service.board.board.BoardService;
 import org.gdg.zipte.api.service.board.board.response.BoardResponse;
-import org.gdg.zipte.api.service.board.board.response.BoardResponseWithComment;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +21,7 @@ public class BoardController {
     }
 
     @GetMapping("{boardId}")
-    public ApiResponse<BoardResponseWithComment> create (@PathVariable Long boardId) {
+    public ApiResponse<BoardResponse> create (@PathVariable Long boardId) {
         return ApiResponse.created(boardService.findOne(boardId));
     }
 

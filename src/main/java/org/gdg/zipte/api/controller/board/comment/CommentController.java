@@ -6,10 +6,9 @@ import org.gdg.zipte.api.controller.board.comment.request.CommentRequest;
 import org.gdg.zipte.api.response.ApiResponse;
 import org.gdg.zipte.api.service.board.comment.CommentService;
 import org.gdg.zipte.api.service.board.comment.response.CommentResponse;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.gdg.zipte.domain.page.request.PageRequest;
+import org.gdg.zipte.domain.page.response.PageResponse;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,11 +22,14 @@ public class CommentController {
     // 댓글 작성하기
     @PostMapping
     ApiResponse<CommentResponse> register(@RequestBody CommentRequest commentRequest) {
-        return ApiResponse.ok(commentService.register(commentRequest));
+        return ApiResponse.created(commentService.register(commentRequest));
     }
 
-    // 댓글 수정하기
-
+    // 댓글 조회하기
+    @GetMapping("/{boardId}")
+    ApiResponse<PageResponse<CommentResponse>> read(@PathVariable("boardId") Long boardId, PageRequest pageRequest) {
+        return ApiResponse.created(commentService.findAll(boardId, pageRequest));
+    }
 
     // 댓글 삭제하기
 }

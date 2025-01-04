@@ -14,10 +14,7 @@ public class CommentResponse {
 
     private Long id;
     private String content;
-
     private String author;
-
-    private String boardTitle;
 
     @Builder.Default
     private Boolean isWriter = false;
@@ -28,25 +25,62 @@ public class CommentResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
+    @Builder.Default
+    private List<CommentResponse> children = new ArrayList<>();
+
     // 생성자
-    public static CommentResponse from(Comment comment) {
-        return CommentResponse.builder()
+    public static CommentResponse from(Comment comment, String writer) {
+        // 부모 댓글 생성
+        CommentResponse response = CommentResponse.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
                 .author(comment.getMember().getUsername())
-                .boardTitle(comment.getBoard().getTitle())
                 .createdAt(comment.getCreatedAt())
                 .updatedAt(comment.getUpdatedAt())
+                .children(createChildren(comment.getChildren(), writer)) // 대댓글 처리
                 .build();
+
+        // 댓글 작성자와 글 작성자가 동일한지 확인
+        if (Objects.equals(response.getAuthor(), writer)) {
+            response.setIsWriter(true);
+        }
+
+        return response;
     }
 
-    // 생성자
-    public static List<CommentResponse> froms(List<Comment> comments) {
+    // 자식 댓글들을 처리하는 메서드
+    private static List<CommentResponse> createChildren(List<Comment> children, String writer) {
+        // children이 null일 경우 빈 리스트를 반환하도록 처리
+        if (children == null) {
+            return new ArrayList<>();
+        }
+
+        List<CommentResponse> childrenResponses = new ArrayList<>();
+
+        for (Comment child : children) {
+            CommentResponse childResponse = CommentResponse.builder()
+                    .id(child.getId())
+                    .content(child.getContent())
+                    .author(child.getMember().getUsername())
+                    .createdAt(child.getCreatedAt())
+                    .updatedAt(child.getUpdatedAt())
+                    .build();
+
+            // 대댓글 작성자와 글 작성자가 동일한지 확인
+            if (Objects.equals(childResponse.getAuthor(), writer)) {
+                childResponse.setIsWriter(true);
+            }
+
+            childrenResponses.add(childResponse);
+        }
+
+        return childrenResponses;
+    }
+
+    // 리스트 변환 메서드
+    public static List<CommentResponse> froms(List<Comment> comments, String writer) {
         List<CommentResponse> responses = new ArrayList<>();
-
-        comments.forEach(comment -> responses.add(CommentResponse.from(comment)));
+        comments.forEach(comment -> responses.add(from(comment, writer)));
         return responses;
-
     }
-
 }

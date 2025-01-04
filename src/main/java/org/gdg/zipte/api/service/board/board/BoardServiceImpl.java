@@ -3,7 +3,6 @@ package org.gdg.zipte.api.service.board.board;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte.api.controller.board.board.request.BoardRequest;
-import org.gdg.zipte.api.service.board.board.response.BoardResponseWithComment;
 import org.gdg.zipte.api.service.board.board.response.BoardResponse;
 import org.gdg.zipte.domain.board.board.Board;
 import org.gdg.zipte.domain.board.board.BoardImage;
@@ -12,12 +11,11 @@ import org.gdg.zipte.domain.board.category.BoardCategory;
 import org.gdg.zipte.domain.board.category.BoardCategoryRepository;
 import org.gdg.zipte.domain.board.categorySet.BoardCategorySet;
 import org.gdg.zipte.domain.board.categorySet.BoardCategorySetRepository;
-import org.gdg.zipte.domain.page.request.PageRequestDto;
-import org.gdg.zipte.domain.page.response.PageResponseDto;
+import org.gdg.zipte.domain.page.request.PageRequest;
+import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.domain.user.member.Member;
 import org.gdg.zipte.domain.user.member.MemberRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -26,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -53,7 +52,7 @@ public class BoardServiceImpl implements BoardService {
         BoardCategorySet boardCategorySet = BoardCategorySet.of(board, category);
         BoardCategorySet categorySet = boardCategorySetRepository.save(boardCategorySet);
 
-        // 상품 사진
+        // 게시물 사진
         List<String> uploads = boardImageService.saveFiles(board, request.getFiles());
 
         BoardResponse boardResponse = BoardResponse.from(categorySet);
@@ -63,13 +62,13 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public PageResponseDto<BoardResponse> findAll(Long id, PageRequestDto pageRequestDto) {
+    public PageResponse<BoardResponse> findAll(Long categoryId, PageRequest pageRequest) {
 
         // 1. 카테고리 ID와 자식 카테고리 ID 목록 생성
-        List<Long> categoryIds = findAllChildCategoryIds(id);
+        List<Long> categoryIds = findAllChildCategoryIds(categoryId);
 
         // 2. 자식 카테고리를 포함한 ID 목록을 이용해 게시글 조회
-        Pageable pageable = PageRequest.of(pageRequestDto.getPage() - 1, pageRequestDto.getSize(), Sort.by("id").descending());
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage() - 1, pageRequest.getSize(), Sort.by("id").descending());
         Page<Object[]> result = boardCategorySetRepository.findProductCategoriesByIds(categoryIds, pageable);
 
         // 3. 결과 리스트 변환
@@ -85,7 +84,7 @@ public class BoardServiceImpl implements BoardService {
         }).toList();
 
         long total = result.getTotalElements();
-        return new PageResponseDto<>(dtoList, pageRequestDto, total);
+        return new PageResponse<>(dtoList, pageRequest, total);
     }
 
     private List<Long> findAllChildCategoryIds(Long id) {
@@ -102,21 +101,26 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public PageResponseDto<BoardResponse> findFavorite(PageRequestDto pageRequestDto) {
+    public PageResponse<BoardResponse> findFavorite(PageRequest pageRequest) {
         return null;
     }
 
 
     @Override
-    public BoardResponseWithComment findOne(Long boardId) {
+    public BoardResponse findOne(Long boardId) {
         BoardCategorySet boardCategorySet = boardCategorySetRepository.findByBoardId(boardId);
 
+        // 조회수 처리
         Board board = boardCategorySet.getBoard();
         board.addCount();
-
         boardRepository.save(board);
+        BoardResponse boardResponse = BoardResponse.from(boardCategorySet);
 
-        return BoardResponseWithComment.from(boardCategorySet);
+        // 사진 처리
+        List<BoardImage> boardImages = boardRepository.selectBoardImage(boardId);
+        boardResponse.setUploadFileNames(boardImages.stream().map(BoardImage::getFileName).collect(Collectors.toList()));
+
+        return boardResponse;
     }
 
 }
