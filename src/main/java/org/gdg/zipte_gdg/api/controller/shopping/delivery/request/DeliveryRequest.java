@@ -10,36 +10,13 @@ import org.gdg.zipte_gdg.domain.shopping.delivery.DeliveryStatus;
 public class DeliveryRequest {
 
     @NotNull
-    private Long id;  // Delivery ID
+    private String tossOrderId;  // Delivery ID
 
-    private DeliveryStatus status;  // Delivery status
+    private String streetAddress;
+    private String detailAddress;
+    private int zipCode;  // Zip code
 
-    private DeliveryAddressDto address;  // Delivery address, if needed
+    private String orderDesc;
+    private String deliveryDesc;
 
-    // If needed, you can define a description field
-    private DeliveryDescDto description;
-
-    @Data
-    @Builder
-    public static class DeliveryStatusDto {
-        private Long id;
-        private String status;
-    }
-
-    @Data
-    @Builder
-    public static class DeliveryAddressDto {
-        private Long id;
-        private String streetAddress;
-        private String detailAddress;
-        private int zipCode;  // Zip code
-    }
-
-    @Data
-    @Builder
-    public static class DeliveryDescDto {
-        private Long id;
-        private String orderDesc;
-        private String deliveryDesc;
-    }
 }

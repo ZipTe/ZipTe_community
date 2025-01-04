@@ -27,7 +27,7 @@ public class ReviewImage {
     private int ord;
 
 
-    public static ReviewImage reviewImage(Review review, String fileName) {
+    public static ReviewImage of(Review review, String fileName) {
         return ReviewImage.builder()
                 .review(review)
                 .fileName(fileName)

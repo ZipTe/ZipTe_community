@@ -33,7 +33,7 @@ public class ProductImage {
     private int ord;
 
     //이미지 생성
-    public static ProductImage productImage(Product product, String fileName) {
+    public static ProductImage of(Product product, String fileName) {
         return ProductImage.builder()
                 .product(product)
                 .fileName(fileName)

@@ -2,11 +2,12 @@ package org.gdg.zipte_gdg.api.service.shopping.payment.response;
 
 import lombok.Builder;
 import lombok.Data;
-import org.gdg.zipte_gdg.domain.shopping.delivery.DeliveryStatus;
+import org.gdg.zipte_gdg.api.service.shopping.delivery.response.DeliveryResponse;
+import org.gdg.zipte_gdg.domain.shopping.delivery.Delivery;
 import org.gdg.zipte_gdg.domain.shopping.order.Order;
 import org.gdg.zipte_gdg.domain.shopping.order.OrderStatus;
+import org.gdg.zipte_gdg.domain.shopping.orderItem.OrderItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,44 +20,31 @@ public class OrderResponse {
     // 멤버
     private String memberName;
 
-    // 주소
-    private String streetAddress;
-    private String detailAddress;
-    private int zipcode;
+    // 주문 상황
+    private DeliveryResponse delivery;
 
     // 아이템
     private List<OrderItemResponse> items; // 여러 상품 정보를 담는 리스트
 
     // 오더 주문 상황
     private OrderStatus orderStatus;
-    private String orderDesc;
-
-    // 배송 상황
-    private DeliveryStatus deliveryStatus;
-    private String deliveryDesc;
 
     // 생성자
-    public static OrderResponse of(Order order) {
-        OrderResponse responseDto = OrderResponse.builder()
+    public static OrderResponse from(Order order) {
+
+        Delivery delivery = order.getDelivery();
+        DeliveryResponse deliveryResponse = DeliveryResponse.from(delivery);
+
+        List<OrderItem> orderItems = order.getOrderItems();
+        List<OrderItemResponse> items = OrderItemResponse.froms(orderItems);
+
+        return OrderResponse.builder()
                 .tossOrderId(order.getTossOrderId())
                 .memberName(order.getMember().getUsername())
-                .detailAddress(order.getDelivery().getAddress().getDetailAddress())
-                .streetAddress(order.getDelivery().getAddress().getStreetAddress())
-                .zipcode(order.getDelivery().getAddress().getZipcode())
-                .orderDesc(order.getDelivery().getOrderDesc())
-                .deliveryDesc(order.getDelivery().getDeliveryDesc())
-                .items(new ArrayList<>()) // 아이템 리스트 초기화
+                .items(items)
+                .delivery(deliveryResponse)
                 .orderStatus(order.getStatus())
-                .deliveryStatus(order.getDelivery().getStatus())
                 .build();
-
-        // 각 OrderItem에 대해 정보를 DTO로 변환하여 리스트에 추가
-        order.getOrderItems().forEach(orderItem -> {
-            OrderItemResponse itemDto = OrderItemResponse.of(orderItem);
-            responseDto.getItems().add(itemDto); // 리스트에 추가
-        });
-
-        return responseDto;
     }
 
 }

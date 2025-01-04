@@ -65,7 +65,7 @@ public class Review {
 
 
     // 생성 로직
-    public static Review addNewReview(Member member, Apt apt, String title, String content, Rating rating) {
+    public static Review of(Member member, Apt apt, String title, String content, Rating rating) {
 
         Review review = Review.builder()
                 .member(member)

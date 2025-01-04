@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .build();
 
         Category save = categoryRepository.save(category);
-        return CategoryResponse.of(save);
+        return CategoryResponse.from(save);
     }
 
 
@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryResponse> findAll() {
         List<Category> categories = categoryRepository.findRootCategories();
 
-        return CategoryResponse.ofs(categories);
+        return CategoryResponse.froms(categories);
 
     }
 
@@ -48,6 +48,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow();
 
-        return CategoryResponse.of(category);
+        return CategoryResponse.from(category);
     }
 }

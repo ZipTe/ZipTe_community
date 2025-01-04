@@ -1,4 +1,4 @@
-package org.gdg.zipte_gdg.api.controller.user.request;
+package org.gdg.zipte_gdg.api.controller.user.member.request;
 
 import lombok.Builder;
 import lombok.Data;

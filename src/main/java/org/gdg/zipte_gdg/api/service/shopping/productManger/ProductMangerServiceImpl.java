@@ -50,7 +50,7 @@ public class ProductMangerServiceImpl implements ProductMangerService {
         productManager.setCouponCode(request.getCouponCode());
         ProductManager manager = productManagerRepository.save(productManager);
 
-        return ProductManagerResponse.of(manager);
+        return ProductManagerResponse.from(manager);
     }
 
     @Override
@@ -65,11 +65,11 @@ public class ProductMangerServiceImpl implements ProductMangerService {
 
             // 카테고리 정보 넣기
             CategorySet category = productManagerRepository.findCategoryByProductId(productManager.getProduct().getId());
-            CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.of(category.getCategory());
+            CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.from(category.getCategory());
 
 
             String imageStr = (productImage != null) ? productImage.getFileName() : "No image found";
-            DiscountProductResponse discountProductResponse = DiscountProductResponse.of(productManager);
+            DiscountProductResponse discountProductResponse = DiscountProductResponse.from(productManager);
             discountProductResponse.getProduct().setUploadFileNames(Collections.singletonList(imageStr));
             discountProductResponse.setCategory(responseNoChildren);
 
@@ -84,10 +84,10 @@ public class ProductMangerServiceImpl implements ProductMangerService {
     public DiscountProductResponse findById(Long id) {
 
         ProductManager productManager = productManagerRepository.findByProductId(id);
-        DiscountProductResponse discountProductResponse = DiscountProductResponse.of(productManager);
+        DiscountProductResponse discountProductResponse = DiscountProductResponse.from(productManager);
 
         CategorySet category = productManagerRepository.findCategoryByProductId(id);
-        CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.of(category.getCategory());
+        CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.from(category.getCategory());
         discountProductResponse.setCategory(responseNoChildren);
 
 

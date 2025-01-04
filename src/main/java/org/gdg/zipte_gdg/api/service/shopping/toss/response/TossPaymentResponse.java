@@ -15,7 +15,7 @@ public class TossPaymentResponse {
         private int amount; // 가격 정보
         private String orderId; // 주문 Id
 
-        public static TossPaymentResponse of(Payment payment) throws Exception {
+        public static TossPaymentResponse from(Payment payment) throws Exception {
                 return TossPaymentResponse.builder()
                         .orderId(payment.getTossOrderId())
                         .amount(payment.getTotalAmount())

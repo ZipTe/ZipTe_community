@@ -24,7 +24,7 @@ public class MemberResponse {
     private List<String> roles;
     private int zipCode;
 
-    public static MemberResponse of(Member member) {
+    public static MemberResponse from(Member member) {
         // roles가 null일 수 있으므로 빈 리스트로 초기화
         List<String> roleList = Optional.ofNullable(member.getRoles())
                 .orElse(Collections.emptyList())

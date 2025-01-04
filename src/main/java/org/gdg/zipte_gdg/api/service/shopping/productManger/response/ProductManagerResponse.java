@@ -21,9 +21,9 @@ public class ProductManagerResponse {
     private Date saleStartDate;
     private Date saleEndDate;
 
-    public static ProductManagerResponse of(ProductManager productManager) {
+    public static ProductManagerResponse from(ProductManager productManager) {
         return ProductManagerResponse.builder()
-                .product(ProductResponse.of(productManager.getProduct()))
+                .product(ProductResponse.from(productManager.getProduct()))
                 .discountRate(productManager.getDiscountRate())
                 .active(productManager.isActive())
                 .saleStartDate(productManager.getSaleStartDate())

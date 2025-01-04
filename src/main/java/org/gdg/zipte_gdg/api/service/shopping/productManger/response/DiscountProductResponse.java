@@ -25,11 +25,11 @@ public class DiscountProductResponse {
     private int discountPrice;
 
     // 카테고리 빼고 생성자
-    public static DiscountProductResponse of(ProductManager entity) {
+    public static DiscountProductResponse from(ProductManager entity) {
 
         // 상품 관련
         Product product = entity.getProduct();
-        ProductResponse prdouctResponse = ProductResponse.of(product);
+        ProductResponse prdouctResponse = ProductResponse.from(product);
 
         double discountPrice;
         // 할인율이 0일 경우, 원래 가격을 그대로 사용

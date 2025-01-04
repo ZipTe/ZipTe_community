@@ -69,14 +69,14 @@ public class PaymentServiceImpl implements PaymentService {
         log.info("Payment saved: " + savedPayment);
 
         // DTO로 변환하여 리액트에 반환
-        return TossPaymentResponse.of(savedPayment);
+        return TossPaymentResponse.from(savedPayment);
     }
 
     @Override
     public OrderResponse getDetails(String orderId) throws Exception {
         Order order = orderRepository.findByTossOrderId(orderId).orElseThrow();
 
-        return OrderResponse.of(order);
+        return OrderResponse.from(order);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class PaymentServiceImpl implements PaymentService {
         log.info("MyLOG: Retrieved payments for memberId {}: {}", memberId, payments.getContent());
 
         // 결제 정보가 존재하는 경우 DTO로 변환
-        List<PaymentResponse> dtoList = PaymentResponse.ofs(payments.getContent());
+        List<PaymentResponse> dtoList = PaymentResponse.froms(payments.getContent());
 
         // 전체 결제 건수
         long total = payments.getTotalElements();

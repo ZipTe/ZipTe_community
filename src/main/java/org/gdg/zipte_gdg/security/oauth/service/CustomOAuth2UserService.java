@@ -57,14 +57,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         if (existingMember == null) {
             // 신규 사용자 생성
-            Address address = Address.newAddress("미정", "미정", 11111);
+            Address address = Address.of("미정", "미정", 11111);
 
-            Member newMember = Member.createNewMember(email, username,  phoneNumber, address);
+            Member newMember = Member.of(email, username,  phoneNumber, address);
 //            newMember.addMemberRole(Role.OAUTH_FIRST_JOIN); // 초기 권한 설정
             Member savedMember = memberRepository.save(newMember);
 
             // Cart도 같이 생성
-            Cart cart = Cart.CreateNewCart(savedMember);
+            Cart cart = Cart.of(savedMember);
             cartRepository.save(cart);
 
             log.info("신규 사용자 등록: {}", savedMember.getId());

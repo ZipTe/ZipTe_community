@@ -34,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
         Optional<Review> byId1 = reviewRepository.findById(commentRequest.getReviewId());
         Review review = byId1.orElseThrow();
 
-        Comment comment = Comment.addNewComment(review, member, commentRequest.getContent());
+        Comment comment = Comment.of(review, member, commentRequest.getContent());
         Comment saved = commentRepository.save(comment);
 
         return entityToDto(saved);

@@ -2,13 +2,15 @@ package org.gdg.zipte_gdg.api.controller.shopping.cart.request;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class CartRequest {
+public class CartDeleteRequest {
 
     // 멤버
     private Long memberId;
 
     // 아이템
-    private CartItemRequest item; // 여러 상품 정보를 담는 리스트
+    private List<CartItemRequest> items; // 여러개의 아이템을 삭제하도록
 
 }

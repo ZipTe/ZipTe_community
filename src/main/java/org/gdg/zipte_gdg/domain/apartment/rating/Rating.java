@@ -35,7 +35,7 @@ public class Rating {
     private int rating;
 
     // 생성 로직
-    public static Rating createRating(Member member, Apt apt, int ratingScore) {
+    public static Rating of(Member member, Apt apt, int ratingScore) {
         Rating rating = Rating.builder()
                 .member(member)
                 .apt(apt)

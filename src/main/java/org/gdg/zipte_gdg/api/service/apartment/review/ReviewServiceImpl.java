@@ -46,7 +46,7 @@ public class ReviewServiceImpl implements ReviewService {
         Apt apt = getApt(reviewRequest);
         Rating rating = getRating(reviewRequest, member, apt);
 
-        Review review = Review.addNewReview(member, apt, reviewRequest.getTitle(), reviewRequest.getContent(), rating);
+        Review review = Review.of(member, apt, reviewRequest.getTitle(), reviewRequest.getContent(), rating);
         Review savedReview = reviewRepository.save(review);
 
         List<String> uploads = reviewImageService.saveFiles(savedReview, reviewRequest.getFiles());
@@ -215,7 +215,7 @@ public class ReviewServiceImpl implements ReviewService {
 //    ------------------------_EXTRACTING_------------------------
 
     private Rating getRating(ReviewRequest reviewRequest, Member member, Apt apt) {
-        Rating rating = Rating.createRating(member, apt, reviewRequest.getRatingScore());
+        Rating rating = Rating.of(member, apt, reviewRequest.getRatingScore());
         return ratingRepository.save(rating);
     }
 
