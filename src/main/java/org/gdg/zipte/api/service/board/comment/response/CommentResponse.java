@@ -1,5 +1,6 @@
 package org.gdg.zipte.api.service.board.comment.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 import org.gdg.zipte.domain.board.comment.Comment;
@@ -18,7 +19,13 @@ public class CommentResponse {
 
     private String boardTitle;
 
+    @Builder.Default
+    private Boolean isWriter = false;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     // 생성자

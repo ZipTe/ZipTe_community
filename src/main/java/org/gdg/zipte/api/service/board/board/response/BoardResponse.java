@@ -1,5 +1,6 @@
 package org.gdg.zipte.api.service.board.board.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +32,10 @@ public class BoardResponse {
     // 댓글 개수
     private int commentCount;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     @Builder.Default
@@ -51,7 +55,7 @@ public class BoardResponse {
                 .content(board.getContent())
                 .author(board.getMember().getUsername())
                 .viewCount(board.getViewCount())
-                .commentCount(board.getComments().size())
+                .commentCount(board.getComments() != null ? board.getComments().size() : 0)
                 .createdAt(board.getCreatedAt())
                 .updatedAt(board.getUpdatedAt() != null ? board.getUpdatedAt() : board.getCreatedAt())
                 .build();

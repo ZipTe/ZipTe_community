@@ -1,6 +1,7 @@
 package org.gdg.zipte.api.service.board.board;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte.api.controller.board.board.request.BoardRequest;
 import org.gdg.zipte.api.service.board.board.response.BoardResponseWithComment;
 import org.gdg.zipte.api.service.board.board.response.BoardResponse;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Log4j2
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -107,7 +109,14 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardResponseWithComment findOne(Long boardId) {
-        return null;
+        BoardCategorySet boardCategorySet = boardCategorySetRepository.findByBoardId(boardId);
+
+        Board board = boardCategorySet.getBoard();
+        board.addCount();
+
+        boardRepository.save(board);
+
+        return BoardResponseWithComment.from(boardCategorySet);
     }
 
 }

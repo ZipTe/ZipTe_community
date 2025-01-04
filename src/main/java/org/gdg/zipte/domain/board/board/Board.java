@@ -60,5 +60,9 @@ public class Board {
         comments.add(comment);
     }
 
+    public void addCount() {
+        this.viewCount++;
+    }
+
 
 }

@@ -18,4 +18,7 @@ public interface BoardCategorySetRepository extends JpaRepository<BoardCategoryS
     WHERE bs.category.id IN :categoryIds
 """) Page<Object[]> findProductCategoriesByIds(@Param("categoryIds") List<Long> categoryIds, Pageable pageable);
 
+    @Query("select bc from BoardCategorySet bc where bc.board.id = :boardId")
+    BoardCategorySet findByBoardId(@Param("boardId") Long boardId);
+
 }

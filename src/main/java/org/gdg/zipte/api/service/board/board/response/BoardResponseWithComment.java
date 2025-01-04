@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.gdg.zipte.api.service.board.category.response.BoardCategoryNoChildrenResponse;
 import org.gdg.zipte.api.service.board.comment.response.CommentResponse;
-import org.gdg.zipte.domain.board.category.BoardCategory;
 import org.gdg.zipte.domain.board.categorySet.BoardCategorySet;
 import org.gdg.zipte.domain.board.comment.Comment;
 
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @AllArgsConstructor
@@ -18,32 +17,34 @@ import java.util.List;
 @Builder
 public class BoardResponseWithComment {
 
-    private BoardCategoryNoChildrenResponse category;
     private BoardResponse board;
     private List<CommentResponse> comment;
 
-    // 생성자
+    // BoardResponseWithComment 클래스
     public static BoardResponseWithComment from(BoardCategorySet categorySet) {
 
-        // 카테고리
-        BoardCategory category = categorySet.getCategory();
-        BoardCategoryNoChildrenResponse categoryResponse = BoardCategoryNoChildrenResponse.from(category);
-
-
-        // 게시판
+        // 게시판 정보
         BoardResponse boardResponse = BoardResponse.from(categorySet);
 
-
-        // 댓글
+        // 댓글 리스트
         List<Comment> comments = categorySet.getBoard().getComments();
         List<CommentResponse> commentResponses = CommentResponse.froms(comments);
 
+        // 글 작성자 ID
+        Long boardWriterId = categorySet.getBoard().getMember().getId();
+
+        // 댓글 작성자와 글 작성자가 동일한지 확인
+        for (CommentResponse commentResponse : commentResponses) {
+            if (Objects.equals(commentResponse.getAuthor(), categorySet.getBoard().getMember().getUsername())) {
+                commentResponse.setIsWriter(true);
+            }
+        }
 
         return BoardResponseWithComment.builder()
-                .category(categoryResponse)
                 .board(boardResponse)
                 .comment(commentResponses)
                 .build();
     }
+
 
 }

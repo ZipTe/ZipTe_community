@@ -32,7 +32,13 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = Comment.of(board, member, commentRequest.getContent());
         Comment saved = commentRepository.save(comment);
 
-        return CommentResponse.from(saved);
+
+        CommentResponse response = CommentResponse.from(saved);
+        if (commentRequest.getMemberId().equals(board.getMember().getId())) {
+            response.setIsWriter(true);
+        }
+
+        return response;
     }
 
 }
