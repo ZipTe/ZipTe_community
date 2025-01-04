@@ -28,8 +28,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String accessToken = tokenProvider.generateAccessToken(authentication);
 
         // Redirect 및 쿠키 추가
-        response.sendRedirect(RETURN_URL);
         response.addCookie(createCookie("Authorization", accessToken));
+        response.sendRedirect(RETURN_URL);
 
     }
 
