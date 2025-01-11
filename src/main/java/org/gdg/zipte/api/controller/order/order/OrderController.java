@@ -35,13 +35,13 @@ public class OrderController {
     @GetMapping("/myOrder")
     public  ApiResponse<PageResponse<PaymentResponse>> getMyAllPayment(@AuthenticationPrincipal PrincipalDetails principalDetails, PageRequest pageRequest) {
         Long memberId = principalDetails.getId();
-        return ApiResponse.created(paymentService.findMyPayments(memberId, pageRequest));
+        return ApiResponse.ok(paymentService.findMyPayments(memberId, pageRequest));
     }
 
     // 토스 결제 내역으로 주문 내역 확인
     @GetMapping("/{tossOrderId}")
     public ApiResponse<OrderResponse> payment(@PathVariable("tossOrderId") String tossOrderId) throws Exception {
-        return ApiResponse.created(paymentService.getDetails(tossOrderId));
+        return ApiResponse.ok(paymentService.getDetails(tossOrderId));
     }
 
 

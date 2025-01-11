@@ -28,9 +28,15 @@ public class ReviewController {
     }
 
     // 특정 회원의 리뷰 조회
+    @GetMapping("/list/member/myReview")
+    public ApiResponse<PageResponse<ReviewResponse>> getListById(@AuthenticationPrincipal PrincipalDetails principalDetails, PageRequest pageRequest) {
+        return ApiResponse.ok(reviewService.getReviewsByMemberId(pageRequest, principalDetails.getId()));
+    }
+
+    // 특정 회원의 리뷰 조회
     @GetMapping("/list/member/{memberId}")
     public ApiResponse<PageResponse<ReviewResponse>> getListById(@PathVariable("memberId") Long memberId, PageRequest pageRequest) {
-        return ApiResponse.created(reviewService.getReviewsByMemberId(pageRequest, memberId));
+        return ApiResponse.ok(reviewService.getReviewsByMemberId(pageRequest, memberId));
     }
 
     // 특정 아파트 리뷰 조회
@@ -42,19 +48,19 @@ public class ReviewController {
 
         switch (orderBy) {
             case "view":
-                return ApiResponse.created(reviewService.getListByAptIdOrderByCountView(pageRequest, aptId));
+                return ApiResponse.ok(reviewService.getListByAptIdOrderByCountView(pageRequest, aptId));
             case "rating":
-                return ApiResponse.created(reviewService.getListByAptIdOrderByRating(pageRequest, aptId));
+                return ApiResponse.ok(reviewService.getListByAptIdOrderByRating(pageRequest, aptId));
             case "date":
             default:
-                return ApiResponse.created(reviewService.getListByAptId(pageRequest, aptId));
+                return ApiResponse.ok(reviewService.getListByAptId(pageRequest, aptId));
         }
     }
 
     // 리뷰 상세 정보
     @GetMapping("/{reviewId}")
     public ApiResponse<ReviewResponse> getReviewsWithComments(@PathVariable("reviewId") Long reviewId) {
-        return ApiResponse.created(reviewService.getOne(reviewId));
+        return ApiResponse.ok(reviewService.getOne(reviewId));
     }
 
 }

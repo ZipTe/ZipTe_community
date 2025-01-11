@@ -1,5 +1,6 @@
 package org.gdg.zipte.api.service.board.boardReaction;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte.api.controller.board.boardReaction.request.BoardReactionRequest;
@@ -25,13 +26,13 @@ public class BoardReactionServiceImpl implements BoardReactionService {
     @Override
     public BoardReactionResponse create(BoardReactionRequest request) {
         Board board = boardRepository.findById(request.getBoardId())
-                .orElseThrow(() -> new IllegalArgumentException("Board not found"));
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시판이 존재하지 않습니다"));
         Member member = memberRepository.findById(request.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+                .orElseThrow(() -> new EntityNotFoundException("해당 회원이 존재하지 않습니다."));
 
         // 동일한 회원이 동일한 게시글에 이미 반응을 남겼는지 확인
         boardReactionRepository.findByBoardAndMember(board, member).ifPresent(reaction -> {
-            throw new IllegalStateException("Reaction already exists");
+            throw new IllegalStateException("리액션이 이미 존재합니다.");
         });
 
         // 새로운 반응 생성 및 저장
@@ -44,16 +45,16 @@ public class BoardReactionServiceImpl implements BoardReactionService {
     @Override
     public BoardReactionResponse delete(BoardReactionRequest request) {
         Board board = boardRepository.findById(request.getBoardId())
-                .orElseThrow(() -> new IllegalArgumentException("Board not found"));
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시판이 존재하지 않습니다."));
         Member member = memberRepository.findById(request.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+                .orElseThrow(() -> new EntityNotFoundException("해당 회원이 존재하지 않습니다."));
 
         // 요청된 반응 유형 가져오기
         UserReaction reactionType = request.getReactionType();
 
         // 요청된 반응 찾기
         BoardReaction reaction = boardReactionRepository.findByBoardAndMemberAndReactionType(board, member, reactionType)
-                .orElseThrow(() -> new IllegalArgumentException("Specified reaction not found"));
+                .orElseThrow(() -> new IllegalArgumentException("리액션을 삭제할 수 없습니다."));
 
         // 반응 삭제
         boardReactionRepository.delete(reaction);

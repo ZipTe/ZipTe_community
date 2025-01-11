@@ -1,5 +1,6 @@
 package org.gdg.zipte.api.service.product.productManger;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte.api.controller.admin.product.request.ProductManagerRequest;
 import org.gdg.zipte.api.service.product.category.response.CategoryNoChildrenResponse;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,10 +36,12 @@ public class ProductMangerServiceImpl implements ProductMangerService {
     @Override
     public ProductManagerResponse create(ProductManagerRequest request) {
 
-        Product product = productRepository.findById(request.getProductId()).orElseThrow();
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(()->new NoSuchElementException("상품이 존재하지 않습니다."));
 
         // 기존 매니저가 있을 경우 처리
-        ProductManager existingManager = productManagerRepository.findByProductId(product.getId());
+        ProductManager existingManager = productManagerRepository.findByProductId(product.getId())
+                .orElseThrow(() -> new EntityNotFoundException("상품 매니저가 존재하지 않습니다."));
         if (existingManager != null) {
             existingManager.setActive(false);
             productManagerRepository.save(existingManager);  // 기존 매니저 업데이트
@@ -63,7 +67,8 @@ public class ProductMangerServiceImpl implements ProductMangerService {
             ProductImage productImage = (ProductImage) arr[1];
 
             // 카테고리 정보 넣기
-            CategorySet category = productManagerRepository.findCategoryByProductId(productManager.getProduct().getId());
+            CategorySet category = productManagerRepository.findCategoryByProductId(productManager.getProduct().getId())
+                    .orElseThrow(()-> new EntityNotFoundException("카테고리가 존재하지 않습니다"));
             CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.from(category.getCategory());
 
 
@@ -82,10 +87,12 @@ public class ProductMangerServiceImpl implements ProductMangerService {
     @Override
     public DiscountProductResponse findById(Long id) {
 
-        ProductManager productManager = productManagerRepository.findByProductId(id);
+        ProductManager productManager = productManagerRepository.findByProductId(id)
+                .orElseThrow(() -> new EntityNotFoundException("상품이 존재하지 않습니다"));
         DiscountProductResponse discountProductResponse = DiscountProductResponse.from(productManager);
 
-        CategorySet category = productManagerRepository.findCategoryByProductId(id);
+        CategorySet category = productManagerRepository.findCategoryByProductId(id)
+                .orElseThrow(()-> new EntityNotFoundException("상품에 대해 카테고리가 존재하지 않습니다.") );
         CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.from(category.getCategory());
         discountProductResponse.setCategory(responseNoChildren);
 

@@ -1,5 +1,6 @@
 package org.gdg.zipte.api.service.board.board;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte.api.controller.board.board.request.BoardRequest;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -41,7 +43,8 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public BoardResponse create(BoardRequest request) {
 
-        Member member = memberRepository.findById(request.getMemberId()).orElseThrow();
+        Member member = memberRepository.findById(request.getMemberId())
+                .orElseThrow(()-> new EntityNotFoundException("해당 멤버가 존재하지 않습니다."));
 
         // 게시물 생성
         Board newBoard = Board.of(request.getTitle(), request.getContent(), member);
@@ -90,7 +93,7 @@ public class BoardServiceImpl implements BoardService {
     private List<Long> findAllChildCategoryIds(Long id) {
         List<Long> result = new ArrayList<>();
         BoardCategory category = boardCategoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("카테고리가 존재하지 않습니다."));
 
         result.add(category.getId()); // 현재 카테고리 ID 추가
         for (BoardCategory child : category.getChildren()) {
@@ -108,7 +111,8 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardResponse findOne(Long boardId) {
-        BoardCategorySet boardCategorySet = boardCategorySetRepository.findByBoardId(boardId);
+        BoardCategorySet boardCategorySet = boardCategorySetRepository.findByBoardId(boardId)
+                .orElseThrow(()-> new EntityNotFoundException("게시판이 존재하지 않습니다."));
 
         // 조회수 처리
         Board board = boardCategorySet.getBoard();

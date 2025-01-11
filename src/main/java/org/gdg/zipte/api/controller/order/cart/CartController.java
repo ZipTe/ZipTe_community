@@ -35,7 +35,7 @@ public class CartController {
     @GetMapping("/myCart")
     public ApiResponse<CartResponse> getmyCart(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long memberId = principalDetails.getId();
-        return ApiResponse.created(cartService.getMyCart(memberId));
+        return ApiResponse.ok(cartService.getMyCart(memberId));
     }
 
 }

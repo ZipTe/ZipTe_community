@@ -1,5 +1,6 @@
 package org.gdg.zipte.api.service.order.order;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.gdg.zipte.api.controller.order.order.request.OrderRequest;
@@ -58,12 +59,13 @@ public class OrderServiceImpl implements OrderService {
 
     private Member getMember(OrderRequest orderRequest) {
         Optional<Member> byId = memberRepository.findById(orderRequest.getMemberId());
-        return byId.orElseThrow();
+        return byId.orElseThrow(() -> new EntityNotFoundException("해당 회원이 존재하지 않습니다."));
     }
 
 
     private Delivery getDelivery(OrderRequest orderRequest) {
-        SavedAddress savedAddress = savedAddressRepository.findById(orderRequest.getSavedAddressId()).orElseThrow();
+        SavedAddress savedAddress = savedAddressRepository.findById(orderRequest.getSavedAddressId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 주소록이 존재하지 않습니다."));
         Address address = savedAddress.getAddress();
 
         Delivery delivery = Delivery.of(address, savedAddress.getOrderDesc(), savedAddress.getDeliveryDesc());
@@ -81,7 +83,8 @@ public class OrderServiceImpl implements OrderService {
 
     private ProductManager getProduct(Long id) {
         // 상품 매니저가 존재하는지 체크
-        ProductManager productManager = productManagerRepository.findByProductId(id);
+        ProductManager productManager = productManagerRepository.findByProductId(id)
+                .orElseThrow(()-> new EntityNotFoundException("해당 상품 매니저가 없습니다"));
 
         if (productManager != null) {
             // 판매 종료일이 오늘 날짜보다 이전이면, 해당 매니저는 비활성화하고, 다른 매니저를 다시 검색
@@ -97,7 +100,8 @@ public class OrderServiceImpl implements OrderService {
                     productManagerRepository.save(productManager);  // 변경된 내용을 저장
 
                     // 새로운 매니저를 다시 검색
-                    ProductManager newProductManager = productManagerRepository.findByProductId(id);
+                    ProductManager newProductManager = productManagerRepository.findByProductId(id)
+                            .orElseThrow(() -> new EntityNotFoundException("해당 상품 매니저가 없습니다"));
 
                     // 새로운 매니저가 있으면 판매 종료일이 유효하면 반환
                     if (newProductManager != null && newProductManager.getSaleEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(LocalDate.now())) {
@@ -105,7 +109,9 @@ public class OrderServiceImpl implements OrderService {
                     }
 
                     // 새로운 매니저가 없으면 기본 매니저를 찾고 활성화
-                    ProductManager basicOne = productManagerRepository.findBasicOne(id);
+                    ProductManager basicOne = productManagerRepository.findBasicOne(id)
+                            .orElseThrow(()-> new EntityNotFoundException("기본 매니저가 없습니다"));
+
                     if (basicOne != null) {
                         basicOne.setActive(true);
                         return productManagerRepository.save(basicOne);  // 기본 매니저를 활성화하고 저장

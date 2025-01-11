@@ -86,7 +86,6 @@ public class PaymentServiceImpl implements PaymentService {
 
         // 회원 ID로 결제 정보 조회
         Page<Payment> payments = paymentRepository.getMyAllPayment(memberId,pageable);
-        log.info("MyLOG: Retrieved payments for memberId {}: {}", memberId, payments.getContent());
 
         // 결제 정보가 존재하는 경우 DTO로 변환
         List<PaymentResponse> dtoList = PaymentResponse.froms(payments.getContent());

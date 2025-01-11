@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface BoardCategorySetRepository extends JpaRepository<BoardCategorySet, Long> {
@@ -19,6 +20,6 @@ public interface BoardCategorySetRepository extends JpaRepository<BoardCategoryS
 """) Page<Object[]> findProductCategoriesByIds(@Param("categoryIds") List<Long> categoryIds, Pageable pageable);
 
     @Query("select bc from BoardCategorySet bc where bc.board.id = :boardId")
-    BoardCategorySet findByBoardId(@Param("boardId") Long boardId);
+    Optional<BoardCategorySet> findByBoardId(@Param("boardId") Long boardId);
 
 }

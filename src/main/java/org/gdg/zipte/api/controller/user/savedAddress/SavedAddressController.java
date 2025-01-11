@@ -28,19 +28,19 @@ public class SavedAddressController {
     // 나의 주소 목록 가져오기
     @GetMapping("/myPage")
     ApiResponse<List<SavedAddressResponse>> findMyList (@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        return ApiResponse.created(savedAddressService.findById(principalDetails.getId()));
-    }
-
-    // 특정 유저
-    @GetMapping("member/{memberId}")
-    ApiResponse<List<SavedAddressResponse>> findList (@PathVariable Long memberId) {
-        return ApiResponse.created(savedAddressService.findById(memberId));
+        return ApiResponse.ok(savedAddressService.findById(principalDetails.getId()));
     }
 
     // 주소지 하나만 가져오기
     @GetMapping("/{id}")
     ApiResponse<SavedAddressResponse> findById (@PathVariable Long id) {
-        return ApiResponse.created(savedAddressService.getOne(id));
+        return ApiResponse.ok(savedAddressService.getOne(id));
+    }
+
+    // 특정 유저
+    @GetMapping("member/{memberId}")
+    ApiResponse<List<SavedAddressResponse>> findList (@PathVariable Long memberId) {
+        return ApiResponse.ok(savedAddressService.findById(memberId));
     }
 
 }

@@ -1,5 +1,6 @@
 package org.gdg.zipte.api.service.review.review;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte.domain.page.request.PageRequest;
@@ -40,8 +41,11 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewResponse create(ReviewRequest request) {
 
-        Member member = memberRepository.findById(request.getMemberId()).orElseThrow();
-        Apt apt = aptRepository.findById(request.getAptId()).orElseThrow();
+        Member member = memberRepository.findById(request.getMemberId())
+                .orElseThrow(()-> new NoSuchElementException("유저가 존재하지 않습니다."));
+
+        Apt apt = aptRepository.findById(request.getAptId())
+                .orElseThrow(()-> new NoSuchElementException("아파트가 존재하지 않습니다."));
         Rating rating = getRating(request, member, apt);
 
         // 리뷰 생성
@@ -66,7 +70,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewResponse getOne(Long reviewId) {
 
-        Review review = reviewRepository.findById(reviewId).orElseThrow();
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(()-> new NoSuchElementException("리뷰가 존재하지 않습니다."));
 
         // API 호출할 때마다 조회수 증가
         review.addCount();
@@ -82,6 +87,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public PageResponse<ReviewResponse> getListByAptId(PageRequest pageRequest, Long aptId) {
 
+        // 멤버 존재 여부에 따른 예외처리
+        aptRepository.findById(aptId) .orElseThrow(() -> new EntityNotFoundException("해당 아파트가 존재하지 않습니다."));
+
+
         Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage()-1, pageRequest.getSize(), Sort.by("id").descending());
         Page<Object[]> result = reviewRepository.selectListbyAptId(aptId, pageable);
 
@@ -92,6 +101,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public PageResponse<ReviewResponse> getListByAptIdOrderByCountView(PageRequest pageRequest, Long aptId) {
 
+        // 멤버 존재 여부에 따른 예외처리
+        aptRepository.findById(aptId) .orElseThrow(() -> new EntityNotFoundException("해당 아파트가 존재하지 않습니다."));
+
         Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage()-1, pageRequest.getSize(), Sort.by("id").descending());
 
         Page<Object[]> result = reviewRepository.selectListbyAptIdOrderByCountViewDesc(aptId, pageable);
@@ -101,6 +113,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public PageResponse<ReviewResponse> getListByAptIdOrderByRating(PageRequest pageRequest, Long aptId) {
+
+        // 멤버 존재 여부에 따른 예외처리
+        aptRepository.findById(aptId) .orElseThrow(() -> new EntityNotFoundException("해당 아파트가 존재하지 않습니다."));
 
         Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage()-1, pageRequest.getSize(), Sort.by("id").descending());
 
@@ -113,6 +128,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public PageResponse<ReviewResponse> getReviewsByMemberId(PageRequest pageRequest, Long memberId) {
+
+        // 멤버 존재 여부에 따른 예외처리
+        memberRepository.findById(memberId) .orElseThrow(() -> new EntityNotFoundException("해당 멤버가 존재하지 않습니다."));
 
         Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage() - 1, pageRequest.getSize(), Sort.by("id").descending());
 

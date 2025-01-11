@@ -1,5 +1,6 @@
 package org.gdg.zipte.api.service.product.categorySet;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -57,7 +59,8 @@ public class CategorySetServiceImpl implements CategorySetService {
         List<String> uploads = productImageService.saveFiles(product, request.getFiles());
 
         // 현재 존재하는 카테고리 조회
-        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow();
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(()->new EntityNotFoundException("해당 카테고리가 존재하지 않습니다."));
 
         CategorySet categorySet = CategorySet.of(product, category);
         CategorySet save = categorySetRepository.save(categorySet);
@@ -97,7 +100,7 @@ public class CategorySetServiceImpl implements CategorySetService {
     private List<Long> findAllChildCategoryIds(Long id) {
         List<Long> result = new ArrayList<>();
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("해당 카테고리 값이 존재하지 않습니다"));
 
         result.add(category.getId()); // 현재 카테고리 ID 추가
         for (Category child : category.getChildren()) {
@@ -121,7 +124,9 @@ public class CategorySetServiceImpl implements CategorySetService {
             ProductImage productImage = (ProductImage) arr[1];
 
             // 카테고리 정보 넣기
-            CategorySet category = productManagerRepository.findCategoryByProductId(productManager.getProduct().getId());
+            CategorySet category = productManagerRepository.findCategoryByProductId(productManager.getProduct().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("상품에 카테고리가 존재하지 않습니다"));
+
             CategoryNoChildrenResponse responseNoChildren = CategoryNoChildrenResponse.from(category.getCategory());
 
             String imageStr = (productImage != null) ? productImage.getFileName() : "No image found";
