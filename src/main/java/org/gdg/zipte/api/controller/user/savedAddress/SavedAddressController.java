@@ -2,7 +2,7 @@ package org.gdg.zipte.api.controller.user.savedAddress;
 
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte.api.controller.user.savedAddress.request.SavedAddressRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.user.savedAddress.SavedAddressService;
 import org.gdg.zipte.api.service.user.savedAddress.response.SavedAddressResponse;
 import org.gdg.zipte.security.oauth.domain.PrincipalDetails;

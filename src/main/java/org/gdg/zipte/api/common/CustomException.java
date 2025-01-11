@@ -1,4 +1,4 @@
-package org.gdg.zipte.api.response;
+package org.gdg.zipte.api.common;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

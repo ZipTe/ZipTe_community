@@ -1,6 +1,6 @@
 package org.gdg.zipte.api.service.board.commentReaction;
 
-import org.gdg.zipte.api.controller.board.commentLike.request.CommentReactionRequest;
+import org.gdg.zipte.api.controller.board.commentReaction.request.CommentReactionRequest;
 import org.gdg.zipte.api.service.board.commentReaction.response.CommentReactionResponse;
 
 public interface CommentReactionService {

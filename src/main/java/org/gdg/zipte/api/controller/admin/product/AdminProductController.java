@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.gdg.zipte.api.controller.admin.product.request.CategoryRequest;
 import org.gdg.zipte.api.controller.admin.product.request.ProductRequest;
 import org.gdg.zipte.api.controller.admin.product.request.ProductManagerRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.product.category.CategoryService;
 import org.gdg.zipte.api.service.product.category.response.CategoryResponse;
 import org.gdg.zipte.api.service.product.categorySet.CategorySetService;

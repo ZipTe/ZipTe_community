@@ -3,7 +3,7 @@ package org.gdg.zipte.api.controller.order.order;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.gdg.zipte.api.controller.order.order.request.OrderRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.order.order.OrderService;
 import org.gdg.zipte.api.service.order.order.response.TossOrderResponse;
 import org.gdg.zipte.api.service.order.payment.PaymentService;

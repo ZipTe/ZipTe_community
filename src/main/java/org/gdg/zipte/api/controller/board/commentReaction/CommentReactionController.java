@@ -1,8 +1,8 @@
-package org.gdg.zipte.api.controller.board.commentLike;
+package org.gdg.zipte.api.controller.board.commentReaction;
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte.api.controller.board.commentLike.request.CommentReactionRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.controller.board.commentReaction.request.CommentReactionRequest;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.board.commentReaction.CommentReactionService;
 import org.gdg.zipte.api.service.board.commentReaction.response.CommentReactionResponse;
 import org.gdg.zipte.security.oauth.domain.PrincipalDetails;

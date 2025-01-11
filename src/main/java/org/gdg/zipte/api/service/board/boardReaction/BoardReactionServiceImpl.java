@@ -2,7 +2,7 @@ package org.gdg.zipte.api.service.board.boardReaction;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte.api.controller.board.like.request.BoardReactionRequest;
+import org.gdg.zipte.api.controller.board.boardReaction.request.BoardReactionRequest;
 import org.gdg.zipte.api.service.board.boardReaction.response.BoardReactionResponse;
 import org.gdg.zipte.domain.board.board.Board;
 import org.gdg.zipte.domain.board.board.BoardRepository;

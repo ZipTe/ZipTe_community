@@ -2,7 +2,7 @@ package org.gdg.zipte.api.service.board.commentReaction;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte.api.controller.board.commentLike.request.CommentReactionRequest;
+import org.gdg.zipte.api.controller.board.commentReaction.request.CommentReactionRequest;
 import org.gdg.zipte.api.service.board.commentReaction.response.CommentReactionResponse;
 import org.gdg.zipte.domain.board.comment.Comment;
 import org.gdg.zipte.domain.board.comment.CommentRepository;

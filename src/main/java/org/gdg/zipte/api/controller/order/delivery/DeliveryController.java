@@ -2,7 +2,7 @@ package org.gdg.zipte.api.controller.order.delivery;
 
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte.api.controller.order.delivery.request.DeliveryRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.order.delivery.DeliveryService;
 import org.gdg.zipte.api.service.order.delivery.response.DeliveryResponse;
 import org.springframework.web.bind.annotation.*;

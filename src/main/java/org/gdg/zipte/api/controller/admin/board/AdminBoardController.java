@@ -2,7 +2,7 @@ package org.gdg.zipte.api.controller.admin.board;
 
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte.api.controller.admin.product.request.CategoryRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.board.category.BoardCategoryService;
 import org.gdg.zipte.api.service.board.category.response.BoardCategoryResponse;
 import org.springframework.web.bind.annotation.PostMapping;

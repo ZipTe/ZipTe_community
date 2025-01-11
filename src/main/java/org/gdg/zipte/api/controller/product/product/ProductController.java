@@ -7,7 +7,7 @@ import org.gdg.zipte.api.service.product.category.response.CategoryResponse;
 import org.gdg.zipte.api.service.product.productManger.ProductMangerService;
 import org.gdg.zipte.api.service.product.productManger.response.DiscountProductResponse;
 import org.gdg.zipte.domain.page.request.PageRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.product.categorySet.CategorySetService;
 import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.product.product.ProductImageService;

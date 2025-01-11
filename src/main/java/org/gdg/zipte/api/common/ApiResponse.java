@@ -1,4 +1,4 @@
-package org.gdg.zipte.api.response;
+package org.gdg.zipte.api.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micrometer.common.lang.Nullable;

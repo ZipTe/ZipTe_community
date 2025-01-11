@@ -3,7 +3,7 @@ package org.gdg.zipte.api.controller.review.review;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte.domain.page.request.PageRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.controller.review.review.request.ReviewRequest;
 import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.review.review.ReviewService;
