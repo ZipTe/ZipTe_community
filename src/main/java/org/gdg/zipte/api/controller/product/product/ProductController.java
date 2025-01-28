@@ -7,7 +7,7 @@ import org.gdg.zipte.api.service.product.category.response.CategoryResponse;
 import org.gdg.zipte.api.service.product.productManger.ProductMangerService;
 import org.gdg.zipte.api.service.product.productManger.response.DiscountProductResponse;
 import org.gdg.zipte.domain.page.request.PageRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.product.categorySet.CategorySetService;
 import org.gdg.zipte.domain.page.response.PageResponse;
 import org.gdg.zipte.api.service.product.product.ProductImageService;
@@ -31,13 +31,13 @@ public class ProductController {
     // 상품 정보 전부 조회
     @GetMapping("/list")
     public ApiResponse<PageResponse<DiscountProductResponse>> getList(PageRequest pageRequest) {
-        return ApiResponse.created(productMangerService.findAll(pageRequest));
+        return ApiResponse.ok(productMangerService.findAll(pageRequest));
     }
 
     // 상품 상세 조회
     @GetMapping("/{id}")
     public ApiResponse<DiscountProductResponse> findById(@PathVariable Long id) {
-        return ApiResponse.created(productMangerService.findById(id));
+        return ApiResponse.ok(productMangerService.findById(id));
     }
 
     // 사진 정보 보기
@@ -49,18 +49,18 @@ public class ProductController {
     // 카테고리 모두 보기
     @GetMapping("/category")
     public ApiResponse<List<CategoryResponse>> findAll() {
-        return ApiResponse.created(categoryService.findAll());
+        return ApiResponse.ok(categoryService.findAll());
     }
 
     // 카테고리 상세 조회
     @GetMapping("/category/{id}")
     public ApiResponse<CategoryResponse> getCategory(@PathVariable Long id) {
-        return ApiResponse.created(categoryService.getCategory(id));
+        return ApiResponse.ok(categoryService.getCategory(id));
     }
 
     // 카테고리별 아이템 조회
     @GetMapping("/category/list/{id}")
     public ApiResponse<PageResponse<DiscountProductResponse>> getDiscountProductAll(@PathVariable("id") Long id, PageRequest pageRequest) {
-        return ApiResponse.created(categorySetService.findAll(id, pageRequest));
+        return ApiResponse.ok(categorySetService.findAll(id, pageRequest));
     }
 }

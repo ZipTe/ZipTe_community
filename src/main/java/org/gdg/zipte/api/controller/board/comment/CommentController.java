@@ -3,7 +3,7 @@ package org.gdg.zipte.api.controller.board.comment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte.api.controller.board.comment.request.CommentRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.board.comment.CommentService;
 import org.gdg.zipte.api.service.board.comment.response.CommentResponse;
 import org.gdg.zipte.domain.page.request.PageRequest;

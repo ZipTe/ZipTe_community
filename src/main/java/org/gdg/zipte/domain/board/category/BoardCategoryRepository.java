@@ -10,4 +10,5 @@ public interface BoardCategoryRepository extends JpaRepository<BoardCategory, Lo
     @Query("SELECT bc FROM BoardCategory bc WHERE bc.parent IS NULL")
     List<BoardCategory> findRootCategories();
 
+    boolean existsByCode(String code);
 }

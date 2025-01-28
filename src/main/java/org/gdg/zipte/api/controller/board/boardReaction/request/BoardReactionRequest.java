@@ -1,4 +1,4 @@
-package org.gdg.zipte.api.controller.board.like.request;
+package org.gdg.zipte.api.controller.board.boardReaction.request;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

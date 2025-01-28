@@ -2,7 +2,7 @@ package org.gdg.zipte.api.controller.apt.apt;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.apt.apt.AptService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;

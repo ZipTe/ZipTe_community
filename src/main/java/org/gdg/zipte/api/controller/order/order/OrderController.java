@@ -3,7 +3,7 @@ package org.gdg.zipte.api.controller.order.order;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.gdg.zipte.api.controller.order.order.request.OrderRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.order.order.OrderService;
 import org.gdg.zipte.api.service.order.order.response.TossOrderResponse;
 import org.gdg.zipte.api.service.order.payment.PaymentService;
@@ -35,13 +35,13 @@ public class OrderController {
     @GetMapping("/myOrder")
     public  ApiResponse<PageResponse<PaymentResponse>> getMyAllPayment(@AuthenticationPrincipal PrincipalDetails principalDetails, PageRequest pageRequest) {
         Long memberId = principalDetails.getId();
-        return ApiResponse.created(paymentService.findMyPayments(memberId, pageRequest));
+        return ApiResponse.ok(paymentService.findMyPayments(memberId, pageRequest));
     }
 
     // 토스 결제 내역으로 주문 내역 확인
     @GetMapping("/{tossOrderId}")
     public ApiResponse<OrderResponse> payment(@PathVariable("tossOrderId") String tossOrderId) throws Exception {
-        return ApiResponse.created(paymentService.getDetails(tossOrderId));
+        return ApiResponse.ok(paymentService.getDetails(tossOrderId));
     }
 
 

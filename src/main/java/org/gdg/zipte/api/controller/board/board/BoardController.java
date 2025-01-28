@@ -2,7 +2,7 @@ package org.gdg.zipte.api.controller.board.board;
 
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte.api.controller.board.board.request.BoardRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.board.board.BoardService;
 import org.gdg.zipte.api.service.board.board.response.BoardResponse;
 import org.gdg.zipte.api.service.board.category.BoardCategoryService;

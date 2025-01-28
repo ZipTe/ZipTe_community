@@ -1,7 +1,7 @@
 package org.gdg.zipte.api.controller.admin.user;
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.order.cart.CartService;
 import org.gdg.zipte.api.service.order.cart.response.CartResponse;
 import org.springframework.web.bind.annotation.GetMapping;

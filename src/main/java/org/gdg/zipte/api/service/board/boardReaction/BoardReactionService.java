@@ -1,6 +1,6 @@
 package org.gdg.zipte.api.service.board.boardReaction;
 
-import org.gdg.zipte.api.controller.board.like.request.BoardReactionRequest;
+import org.gdg.zipte.api.controller.board.boardReaction.request.BoardReactionRequest;
 import org.gdg.zipte.api.service.board.boardReaction.response.BoardReactionResponse;
 
 public interface BoardReactionService {

@@ -1,5 +1,6 @@
 package org.gdg.zipte.api.service.order.cart;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -30,10 +31,12 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartResponse setItem(CartRequest cartRequest) {
         Long memberId = cartRequest.getMemberId();
-        Cart cart = cartRepository.findByMemberId(memberId);
+        Cart cart = cartRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 유저의 장바구니가 없습니다."));
 
         CartItemRequest item = cartRequest.getItem();
-        ProductManager productmanger = productManagerRepository.findByProductId(item.getProductId());
+        ProductManager productmanger = productManagerRepository.findByProductId(item.getProductId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 상품 매니저가 없습니다"));
 
         // 기존 CartItem이 있는지 확인
         CartItem existingCartItem = cart.getItems().stream()
@@ -58,7 +61,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartResponse removeItem(CartDeleteRequest cartRequest) {
         Long memberId = cartRequest.getMemberId();
-        Cart cart = cartRepository.findByMemberId(memberId);
+        Cart cart = cartRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 유저의 장바구니가 없습니다"));
 
         List<CartItemRequest> items = cartRequest.getItems();
         items.forEach(item -> {
@@ -67,7 +71,7 @@ public class CartServiceImpl implements CartService {
             CartItem cartItem = cart.getItems().stream()
                     .filter(ci -> ci.getProductManager().getProduct().getId().equals(item.getProductId()))
                     .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("Item not found in cart"));
+                    .orElseThrow(() -> new EntityNotFoundException("장바구니에서 아이템이 존재하지 않습니다."));
 
             // 장바구니에서 상품 제거
             cart.removeItem(cartItem);
@@ -79,7 +83,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartResponse getMyCart(Long memberId) {
-        Cart cart = cartRepository.findByMemberId(memberId);
+        Cart cart = cartRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("장바구니에서 아이템이 존재하지 않습니다."));
 
         return CartResponse.from(cart);
     }

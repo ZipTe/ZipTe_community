@@ -5,9 +5,6 @@ import org.gdg.zipte.api.service.order.delivery.response.DeliveryResponse;
 
 public interface DeliveryService {
 
-    // 찾기
-    DeliveryResponse findById(Long id);
-
     // 배송 주소지 수정
     DeliveryResponse updateAddress(DeliveryRequest deliveryRequest);
 

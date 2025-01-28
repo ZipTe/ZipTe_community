@@ -1,8 +1,8 @@
-package org.gdg.zipte.api.controller.board.like;
+package org.gdg.zipte.api.controller.board.boardReaction;
 
 import lombok.RequiredArgsConstructor;
-import org.gdg.zipte.api.controller.board.like.request.BoardReactionRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.controller.board.boardReaction.request.BoardReactionRequest;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.board.boardReaction.BoardReactionService;
 import org.gdg.zipte.api.service.board.boardReaction.response.BoardReactionResponse;
 import org.gdg.zipte.security.oauth.domain.PrincipalDetails;

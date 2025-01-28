@@ -3,7 +3,7 @@ package org.gdg.zipte.api.controller.user.member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte.api.controller.user.member.request.MemberRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.user.member.MemberService;
 import org.gdg.zipte.api.service.user.member.response.MemberResponse;
 import org.gdg.zipte.security.oauth.domain.PrincipalDetails;
@@ -30,7 +30,7 @@ public class MemberController {
     @GetMapping("/myPage")
     public ApiResponse<MemberResponse> getOne(@AuthenticationPrincipal PrincipalDetails principalDetails){
         Long memberId = principalDetails.getId();
-        return ApiResponse.created(memberService.getOne(memberId));
+        return ApiResponse.ok(memberService.getOne(memberId));
     }
 
     // 특정 유저 블라인드 처리 하기

@@ -1,5 +1,6 @@
 package org.gdg.zipte.api.service.order.delivery;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.gdg.zipte.api.controller.order.delivery.request.DeliveryRequest;
@@ -20,16 +21,12 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
     private final PaymentRepository paymentRepository;
-    @Override
-    public DeliveryResponse findById(Long id) {
-        Delivery delivery = deliveryRepository.findById(id).orElseThrow();
-        return DeliveryResponse.from(delivery);
-    }
 
     @Override
     public DeliveryResponse updateAddress(DeliveryRequest deliveryRequest) {
 
-        Payment payment = paymentRepository.findByTossOrderId(deliveryRequest.getTossOrderId());
+        Payment payment = paymentRepository.findByTossOrderId(deliveryRequest.getTossOrderId())
+                .orElseThrow(() -> new EntityNotFoundException("조회할 결제 내역이 없습니다."));
         Delivery delivery = payment.getOrder().getDelivery();
 
         // 주소 업데이트

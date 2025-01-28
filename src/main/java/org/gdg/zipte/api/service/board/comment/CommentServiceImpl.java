@@ -1,5 +1,6 @@
 package org.gdg.zipte.api.service.board.comment;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +36,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentResponse register(CommentRequest commentRequest) {
 
-        Member member = memberRepository.findById(commentRequest.getMemberId()).orElseThrow();
-        Board board = boardRepository.findById(commentRequest.getBoardId()).orElseThrow();
+        Member member = memberRepository.findById(commentRequest.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 회원이 존재하지 않습니다."));
+
+        Board board = boardRepository.findById(commentRequest.getBoardId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시판이 존재하지 않습니다."));
 
         // 부모가 없는 경우 null 처리
         Comment parent = null;
@@ -57,7 +61,9 @@ public class CommentServiceImpl implements CommentService {
         Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage() - 1, pageRequest.getSize(), Sort.by("id").descending());
         Page<Comment> result = commentRepository.findRootCommentsByBoardId(boardId, pageable);
 
-        String author = boardRepository.findById(boardId).orElseThrow().getMember().getUsername();
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new EntityNotFoundException("게시판이 존재하지 않습니다."));
+        String author = board.getMember().getUsername();
 
         List<CommentResponse> dtoList = result.get().map(arr -> {
             // 각 댓글을 CommentResponseWithId로 변환하고, 대댓글 포함

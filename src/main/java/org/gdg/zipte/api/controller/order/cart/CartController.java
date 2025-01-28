@@ -3,7 +3,7 @@ package org.gdg.zipte.api.controller.order.cart;
 import lombok.RequiredArgsConstructor;
 import org.gdg.zipte.api.controller.order.cart.request.CartDeleteRequest;
 import org.gdg.zipte.api.controller.order.cart.request.CartRequest;
-import org.gdg.zipte.api.response.ApiResponse;
+import org.gdg.zipte.api.common.ApiResponse;
 import org.gdg.zipte.api.service.order.cart.CartService;
 import org.gdg.zipte.api.service.order.cart.response.CartResponse;
 import org.gdg.zipte.security.oauth.domain.PrincipalDetails;
@@ -35,7 +35,7 @@ public class CartController {
     @GetMapping("/myCart")
     public ApiResponse<CartResponse> getmyCart(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long memberId = principalDetails.getId();
-        return ApiResponse.created(cartService.getMyCart(memberId));
+        return ApiResponse.ok(cartService.getMyCart(memberId));
     }
 
 }
