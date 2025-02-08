@@ -3,7 +3,7 @@ package com.eedo.project.zipte.representation.in.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import com.eedo.project.core.common.ApiResponse;
-import com.eedo.project.zipte.application.port.in.AptService;
+import com.eedo.project.zipte.application.port.in.apt.AptService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 

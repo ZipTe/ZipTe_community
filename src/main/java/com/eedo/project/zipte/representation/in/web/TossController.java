@@ -3,7 +3,7 @@ package com.eedo.project.zipte.representation.in.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import com.eedo.project.zipte.application.port.in.PaymentService;
-import com.eedo.project.zipte.application.port.out.api.TossService;
+import com.eedo.project.zipte.application.port.out.api.PaymentApis;
 import jakarta.servlet.http.HttpSession;
 import com.eedo.project.zipte.representation.request.toss.ConfirmPaymentRequest;
 import com.eedo.project.zipte.representation.request.toss.SaveAmountRequest;
@@ -20,7 +20,7 @@ import java.net.http.HttpResponse;
 @RequiredArgsConstructor
 public class TossController {
 
-    private final TossService tossService;
+    private final PaymentApis paymentApis;
     private final PaymentService paymentService;
 
     // 임시저장하기
@@ -53,7 +53,7 @@ public class TossController {
         log.info("Confirm payment request:" + confirmPaymentRequest);
 
         // 토스에게 결제 승인 요청
-        HttpResponse<String> response = tossService.requestConfirm(confirmPaymentRequest);
+        HttpResponse<String> response = paymentApis.requestConfirm(confirmPaymentRequest);
 
         // 응답 코드 확인
         if (response.statusCode() == 200) {

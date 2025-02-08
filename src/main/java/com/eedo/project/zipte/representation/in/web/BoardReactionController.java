@@ -3,7 +3,7 @@ package com.eedo.project.zipte.representation.in.web;
 import lombok.RequiredArgsConstructor;
 import com.eedo.project.zipte.representation.request.board.BoardReactionRequest;
 import com.eedo.project.core.common.ApiResponse;
-import com.eedo.project.zipte.application.port.in.BoardReactionService;
+import com.eedo.project.zipte.application.port.in.board.BoardReactionService;
 import com.eedo.project.zipte.representation.response.BoardReactionResponse;
 import com.eedo.project.core.security.oauth.domain.PrincipalDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
