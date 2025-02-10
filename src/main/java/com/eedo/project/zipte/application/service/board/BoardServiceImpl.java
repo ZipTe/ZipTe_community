@@ -1,23 +1,22 @@
 package com.eedo.project.zipte.application.service.board;
 
+import com.eedo.project.zipte.application.port.in.board.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import com.eedo.project.zipte.representation.request.board.BoardRequest;
-import com.eedo.project.zipte.application.port.in.board.BoardImageService;
-import com.eedo.project.zipte.application.port.in.board.BoardService;
-import com.eedo.project.zipte.representation.response.BoardResponse;
+import com.eedo.project.zipte.adapter.in.api.dto.request.board.BoardRequest;
+import com.eedo.project.zipte.adapter.in.api.dto.response.BoardResponse;
 import com.eedo.project.zipte.domain.board.Board;
 import com.eedo.project.zipte.domain.board.BoardImage;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.board.BoardRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.board.BoardRepository;
 import com.eedo.project.zipte.domain.board.BoardCategory;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.board.BoardCategoryRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.board.BoardCategoryRepository;
 import com.eedo.project.zipte.domain.board.BoardCategorySet;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.board.BoardCategorySetRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.board.BoardCategorySetRepository;
 import com.eedo.project.core.common.page.request.PageRequest;
 import com.eedo.project.core.common.page.response.PageResponse;
 import com.eedo.project.zipte.domain.user.Member;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.user.MemberRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.user.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -34,7 +33,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BoardServiceImpl implements BoardService {
+public class BoardServiceImpl implements CreateBoardUseCase, GetBoardInfoUseCase {
 
     private final BoardCategoryRepository boardCategoryRepository;
     private final BoardCategorySetRepository boardCategorySetRepository;
@@ -45,6 +44,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public BoardResponse create(BoardRequest request) {
 
+        // 유저 생성
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(()-> new EntityNotFoundException("해당 멤버가 존재하지 않습니다."));
 
@@ -60,6 +60,7 @@ public class BoardServiceImpl implements BoardService {
         // 게시물 사진
         List<String> uploads = boardImageService.saveFiles(board, request.getFiles());
 
+        // dto 설정
         BoardResponse boardResponse = BoardResponse.from(categorySet);
         boardResponse.setUploadFileNames(uploads);
 

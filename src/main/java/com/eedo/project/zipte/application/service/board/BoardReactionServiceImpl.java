@@ -3,16 +3,16 @@ package com.eedo.project.zipte.application.service.board;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import com.eedo.project.zipte.representation.request.board.BoardReactionRequest;
+import com.eedo.project.zipte.adapter.in.api.dto.request.board.BoardReactionRequest;
 import com.eedo.project.zipte.application.port.in.board.BoardReactionService;
-import com.eedo.project.zipte.representation.response.BoardReactionResponse;
+import com.eedo.project.zipte.adapter.in.api.dto.response.BoardReactionResponse;
 import com.eedo.project.zipte.domain.board.Board;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.board.BoardRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.board.BoardRepository;
 import com.eedo.project.zipte.domain.board.BoardReaction;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.board.BoardReactionRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.board.BoardReactionRepository;
 import com.eedo.project.zipte.domain.board.UserReaction;
 import com.eedo.project.zipte.domain.user.Member;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.user.MemberRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.user.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service

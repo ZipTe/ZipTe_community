@@ -2,16 +2,16 @@ package com.eedo.project.zipte.application.service.board;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import com.eedo.project.zipte.representation.request.board.CommentReactionRequest;
-import com.eedo.project.zipte.application.port.in.CommentReactionService;
-import com.eedo.project.zipte.representation.response.CommentReactionResponse;
+import com.eedo.project.zipte.adapter.in.api.dto.request.board.CommentReactionRequest;
+import com.eedo.project.zipte.application.port.in.comment.CommentReactionService;
+import com.eedo.project.zipte.adapter.in.api.dto.response.CommentReactionResponse;
 import com.eedo.project.zipte.domain.board.Comment;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.board.CommentRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.board.CommentRepository;
 import com.eedo.project.zipte.domain.board.CommentReaction;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.board.CommentReactionRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.board.CommentReactionRepository;
 import com.eedo.project.zipte.domain.board.UserReaction;
 import com.eedo.project.zipte.domain.user.Member;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.user.MemberRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.user.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service

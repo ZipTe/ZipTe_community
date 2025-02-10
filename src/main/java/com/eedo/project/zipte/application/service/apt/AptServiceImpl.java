@@ -2,10 +2,10 @@ package com.eedo.project.zipte.application.service.apt;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import com.eedo.project.zipte.representation.request.apt.AptRequest;
+import com.eedo.project.zipte.adapter.in.api.dto.request.apt.AptRequest;
 import com.eedo.project.zipte.application.port.in.apt.AptService;
-import com.eedo.project.zipte.representation.response.AptResposnseDto;
-import com.eedo.project.zipte.infrastructure.out.persistence.mongo.apt.AptRepository;
+import com.eedo.project.zipte.adapter.in.api.dto.response.AptResposnseDto;
+import com.eedo.project.zipte.adapter.out.persistence.mongo.apt.AptRepository;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;

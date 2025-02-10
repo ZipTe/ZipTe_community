@@ -1,7 +1,7 @@
 package com.eedo.project.zipte.application.port.in.board;
 
-import com.eedo.project.zipte.representation.request.board.BoardReactionRequest;
-import com.eedo.project.zipte.representation.response.BoardReactionResponse;
+import com.eedo.project.zipte.adapter.in.api.dto.request.board.BoardReactionRequest;
+import com.eedo.project.zipte.adapter.in.api.dto.response.BoardReactionResponse;
 
 public interface BoardReactionService {
 

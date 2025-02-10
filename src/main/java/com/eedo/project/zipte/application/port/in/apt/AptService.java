@@ -1,7 +1,7 @@
 package com.eedo.project.zipte.application.port.in.apt;
 
-import com.eedo.project.zipte.representation.request.apt.AptRequest;
-import com.eedo.project.zipte.representation.response.AptResposnseDto;
+import com.eedo.project.zipte.adapter.in.api.dto.request.apt.AptRequest;
+import com.eedo.project.zipte.adapter.in.api.dto.response.AptResposnseDto;
 import reactor.core.publisher.Mono;
 
 public interface AptService {

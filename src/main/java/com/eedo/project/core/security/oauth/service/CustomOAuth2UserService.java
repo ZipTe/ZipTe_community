@@ -1,14 +1,12 @@
 package com.eedo.project.core.security.oauth.service;
 
+import com.eedo.project.zipte.adapter.out.jpa.user.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import com.eedo.project.zipte.domain.order.Cart;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.order.CartRepository;
 import com.eedo.project.core.security.oauth.service.response.NaverResponse;
 import com.eedo.project.core.security.oauth.service.response.OAuth2UserResponse;
 import com.eedo.project.zipte.domain.user.Address;
 import com.eedo.project.zipte.domain.user.Member;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.user.MemberRepository;
 import com.eedo.project.core.security.oauth.domain.PrincipalDetails;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -24,7 +22,6 @@ import java.util.Map;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberRepository memberRepository;
-    private final CartRepository cartRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
@@ -62,10 +59,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             Member newMember = Member.of(email, username,  phoneNumber, address);
 //            newMember.addMemberRole(Role.OAUTH_FIRST_JOIN); // 초기 권한 설정
             Member savedMember = memberRepository.save(newMember);
-
-            // Cart도 같이 생성
-            Cart cart = Cart.of(savedMember);
-            cartRepository.save(cart);
 
             log.info("신규 사용자 등록: {}", savedMember.getId());
             return new PrincipalDetails(savedMember);

@@ -2,12 +2,12 @@ package com.eedo.project.zipte.application.service.board;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import com.eedo.project.zipte.representation.request.product.CategoryRequest;
+import com.eedo.project.zipte.adapter.in.api.dto.request.product.CategoryRequest;
 import com.eedo.project.core.common.exception.category.DuplicateCodeException;
 import com.eedo.project.zipte.application.port.in.board.BoardCategoryService;
-import com.eedo.project.zipte.representation.response.BoardCategoryResponse;
+import com.eedo.project.zipte.adapter.in.api.dto.response.BoardCategoryResponse;
 import com.eedo.project.zipte.domain.board.BoardCategory;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.board.BoardCategoryRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.board.BoardCategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

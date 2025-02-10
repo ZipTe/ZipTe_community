@@ -8,7 +8,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import com.eedo.project.zipte.application.port.in.board.BoardImageService;
 import com.eedo.project.zipte.domain.board.Board;
 import com.eedo.project.zipte.domain.board.BoardImage;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.board.BoardImageRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.board.BoardImageRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;

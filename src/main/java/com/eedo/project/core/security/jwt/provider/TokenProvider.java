@@ -1,12 +1,12 @@
 package com.eedo.project.core.security.jwt.provider;
 
+import com.eedo.project.zipte.adapter.out.jpa.user.MemberRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import com.eedo.project.zipte.domain.user.Member;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.user.MemberRepository;
 import com.eedo.project.core.security.oauth.domain.PrincipalDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

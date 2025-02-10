@@ -1,7 +1,7 @@
 package com.eedo.project.zipte.application.port.in.board;
 
-import com.eedo.project.zipte.representation.request.board.BoardRequest;
-import com.eedo.project.zipte.representation.response.BoardResponse;
+import com.eedo.project.zipte.adapter.in.api.dto.request.board.BoardRequest;
+import com.eedo.project.zipte.adapter.in.api.dto.response.BoardResponse;
 import com.eedo.project.core.common.page.request.PageRequest;
 import com.eedo.project.core.common.page.response.PageResponse;
 

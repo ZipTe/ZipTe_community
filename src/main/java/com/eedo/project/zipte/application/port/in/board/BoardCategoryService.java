@@ -1,7 +1,7 @@
 package com.eedo.project.zipte.application.port.in.board;
 
-import com.eedo.project.zipte.representation.request.product.CategoryRequest;
-import com.eedo.project.zipte.representation.response.BoardCategoryResponse;
+import com.eedo.project.zipte.adapter.in.api.dto.request.product.CategoryRequest;
+import com.eedo.project.zipte.adapter.in.api.dto.response.BoardCategoryResponse;
 
 import java.util.List;
 

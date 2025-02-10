@@ -4,12 +4,12 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import com.eedo.project.zipte.representation.request.user.MemberRequest;
-import com.eedo.project.zipte.application.port.in.MemberService;
-import com.eedo.project.zipte.representation.response.MemberResponse;
+import com.eedo.project.zipte.adapter.in.api.dto.request.user.MemberRequest;
+import com.eedo.project.zipte.application.port.in.user.MemberService;
+import com.eedo.project.zipte.adapter.in.api.dto.response.MemberResponse;
 import com.eedo.project.zipte.domain.user.Address;
 import com.eedo.project.zipte.domain.user.Member;
-import com.eedo.project.zipte.infrastructure.out.persistence.jpa.user.MemberRepository;
+import com.eedo.project.zipte.adapter.out.persistence.jpa.user.MemberRepository;
 import com.eedo.project.zipte.domain.user.Role;
 import org.springframework.stereotype.Service;
 
