@@ -1,0 +1,6 @@
+package com.zipte.platform.application.port.in.board;
+
+public interface RemoveBoardUseCase {
+
+    // 게시물 삭제하기
+}
