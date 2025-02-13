@@ -1,36 +1,26 @@
 package com.zipte.platform.domain.board;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Entity
-@Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Builder
 public class BoardCategory {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Board board;
+    private Category category;
 
-    @Column(nullable = false)
-    private String name;
+    // 생성자
+    public static BoardCategory of(Board board, Category category) {
+        return BoardCategory.builder()
+                .board(board)
+                .category(category)
+                .build();
+    }
 
-    @Column(nullable = false, unique = true)
-    private String code;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private BoardCategory parent;
-
-    @OneToMany(mappedBy = "parent")
-    @JsonIgnore
-    private List<BoardCategory> children;
 }

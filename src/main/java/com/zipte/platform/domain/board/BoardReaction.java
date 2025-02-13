@@ -7,38 +7,38 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.zipte.platform.domain.user.Member;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Builder
 public class BoardReaction {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "like_id")
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
     private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
     private Board board;
-
-    @Enumerated(EnumType.STRING)
     private UserReaction reactionType;
 
     // 생성자
-    public static BoardReaction of(Board board, Member member, UserReaction reactionType) {
+    public static BoardReaction of(Long id,Board board, Member member, UserReaction reactionType) {
         BoardReaction reaction = BoardReaction.builder()
+                .id(id)
                 .board(board)
                 .member(member)
                 .reactionType(reactionType)
                 .build();
 
-        board.addReaction(reaction);
+        checkUserReaction(board, reactionType);
+
         return reaction;
+    }
+
+    // 메소드 따로 빼기
+    private static void checkUserReaction(Board board, UserReaction reactionType) {
+        if(reactionType == UserReaction.LIKE) {
+            board.addLikeReaction();
+
+        } else {
+            board.removeLikeReaction();
+        }
     }
 }

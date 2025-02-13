@@ -1,4 +1,4 @@
-package com.zipte.platform.domain.board;
+package com.zipte.platform.adapter.out.jpa.board;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
-public class BoardCategorySet {
+public class BoardCategoryJpaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,18 +19,15 @@ public class BoardCategorySet {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
-    private Board board;
+    private BoardJpaEntity board;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    private BoardCategory category;
+    private CategoryJpaEntity category;
+
+    // from
 
 
-    public static BoardCategorySet of(Board board, BoardCategory category) {
-        return BoardCategorySet.builder()
-                .board(board)
-                .category(category)
-                .build();
-    }
+    // toDomain
 
 }
