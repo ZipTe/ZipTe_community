@@ -19,9 +19,8 @@ public class BoardReaction {
     private UserReaction reactionType;
 
     // 생성자
-    public static BoardReaction of(Long id,Board board, Member member, UserReaction reactionType) {
+    public static BoardReaction of(Board board, Member member, UserReaction reactionType) {
         BoardReaction reaction = BoardReaction.builder()
-                .id(id)
                 .board(board)
                 .member(member)
                 .reactionType(reactionType)
