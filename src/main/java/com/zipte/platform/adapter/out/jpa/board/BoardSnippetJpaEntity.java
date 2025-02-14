@@ -18,7 +18,6 @@ public class BoardSnippetJpaEntity {
 
     private String title;
     private String content;
-    private String description;
     private String thumbnailUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -28,7 +27,6 @@ public class BoardSnippetJpaEntity {
         return BoardSnippetJpaEntity.builder()
                 .title(boardSnippet.getTitle())
                 .content(boardSnippet.getContent())
-                .description(boardSnippet.getDescription())
                 .thumbnailUrl(boardSnippet.getThumbnailUrl())
                 .createdAt(boardSnippet.getCreatedAt())
                 .updatedAt(boardSnippet.getUpdatedAt())
@@ -37,7 +35,7 @@ public class BoardSnippetJpaEntity {
 
     // toDomain
     public BoardSnippet toDomain(){
-        return BoardSnippet.of(this.getTitle(), this.getContent(), this.getDescription(), this.getThumbnailUrl(), this.getCreatedAt(), this.getUpdatedAt());
+        return BoardSnippet.of(this.getTitle(), this.getContent(), this.getThumbnailUrl(),this.getUpdatedAt());
     }
 
 }

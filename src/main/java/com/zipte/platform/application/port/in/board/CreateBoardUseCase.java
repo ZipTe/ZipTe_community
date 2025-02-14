@@ -6,7 +6,7 @@ import com.zipte.platform.domain.board.Board;
 public interface CreateBoardUseCase {
 
     // 게시물 생성하기 (카테고리 및 사진과 함께)
-    Board create(BoardRequest request);
+    Board createBoard(BoardRequest request);
 
 
 

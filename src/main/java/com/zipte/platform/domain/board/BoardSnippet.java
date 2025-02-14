@@ -19,13 +19,12 @@ public class BoardSnippet {
     private LocalDateTime updatedAt;
 
     // 생성자
-    public static BoardSnippet of(String title, String content, String description, String thumbnailUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public static BoardSnippet of(String title, String content,String thumbnailUrl,LocalDateTime updatedAt) {
         return BoardSnippet.builder()
                 .title(title)
                 .content(content)
-                .description(description)
                 .thumbnailUrl(thumbnailUrl)
-                .createdAt(createdAt)
+                .createdAt(LocalDateTime.now())
                 .updatedAt(updatedAt)
                 .build();
 

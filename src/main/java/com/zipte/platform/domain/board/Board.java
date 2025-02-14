@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.zipte.platform.domain.user.Member;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Builder
 @NoArgsConstructor
@@ -17,16 +20,19 @@ public class Board {
     private Member member;
     private BoardSnippet snippet;
     private BoardStatistics statistics;
+    private List<Category> categories = new ArrayList<>();
 
     // 생성자
-    public static Board of(Long id, Member member, BoardSnippet snippet, BoardStatistics statistics) {
+    public static Board of(Member member, BoardSnippet snippet, BoardStatistics statistics, List<Category> categories) {
 
-        return Board.builder()
-                .id(id)
+        Board board = Board.builder()
                 .member(member)
                 .snippet(snippet)
                 .statistics(statistics)
                 .build();
+
+        board.setCategories(categories);
+        return board;
     }
 
     // 양방향
@@ -42,29 +48,9 @@ public class Board {
     public void removeLikeReaction() {
         this.getStatistics().removeLikeCount();
     }
-//
-//
-//    // 좋아요 수 계산 메서드
-//    public Long getLikeCount() {
-//        return reactions.stream()
-//                .filter(reaction -> reaction.getReactionType() == UserReaction.LIKE)
-//                .count();
-//    }
-//
-//    // 싫어요 수 계산 메서드
-//    public Long getDisLikeCount() {
-//        return reactions.stream()
-//                .filter(reaction -> reaction.getReactionType() == UserReaction.DISLIKE)
-//                .count();
-//    }
-//
-//    // 좋아요 - 싫어요 결과 계산
-//    public Long getReactionScore() {
-//        return getLikeCount() - getDisLikeCount();
-//    }
-//
 
 
-
-
+    public void setCategories(List<Category> categories) {
+        this.categories = this.categories;
+    }
 }

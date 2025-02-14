@@ -34,20 +34,21 @@ public class BoardJpaEntity {
     private BoardStatisticsJpaEntity boardStatistics;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BoardCategoryJpaEntity> boardCategories = new ArrayList<>();
+    private List<CategoryJpaEntity> boardCategories = new ArrayList<>();
 
     // From
     public static BoardJpaEntity from(Board board) {
         return BoardJpaEntity.builder()
-                .id(board.getId())
                 .member(board.getMember())
                 .boardSnippet(BoardSnippetJpaEntity.from(board.getSnippet()))
+                .boardCategories(board.getCategories()
+                        .stream().map(CategoryJpaEntity::from).toList())
                 .build();
     }
 
     // toDomain
     public Board toDomain() {
-        return Board.of(this.id, this.member, this.boardSnippet.toDomain(), this.boardStatistics.toDomain());
+        return Board.of(this.member, this.boardSnippet.toDomain(), this.boardStatistics.toDomain(), this.boardCategories.stream().map(CategoryJpaEntity::toDomain).toList());
     }
 
 }
