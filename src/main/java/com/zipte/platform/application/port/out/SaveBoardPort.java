@@ -4,6 +4,6 @@ import com.zipte.platform.domain.board.Board;
 
 public interface SaveBoardPort {
 
-    Board save(Board board);
+    Board saveBoard(Board board);
 
 }

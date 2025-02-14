@@ -24,7 +24,7 @@ public class BoardPersistenceAdapter implements SaveBoardPort, LoadBoardPort, Re
     private final BoardCategoryJpaRepository boardCategoryRepository;
 
     @Override
-    public Board save(Board board) {
+    public Board saveBoard(Board board) {
         var boardJpaEntity = BoardJpaEntity.from(board);
 
         return repository.save(boardJpaEntity)
@@ -32,13 +32,13 @@ public class BoardPersistenceAdapter implements SaveBoardPort, LoadBoardPort, Re
     }
 
     @Override
-    public Optional<Board> findById(Long boardId) {
+    public Optional<Board> loadBoardById(Long boardId) {
         return repository.findById(boardId)
                 .map(BoardJpaEntity::toDomain);
     }
 
     @Override
-    public Page<Board> findByCategoryId(Long categoryId, Pageable pageable) {
+    public Page<Board> loadByCategoryId(Long categoryId, Pageable pageable) {
         Page<BoardJpaEntity> result = boardCategoryRepository.findBoardJpaEntitiesByCategoryId(categoryId, pageable);
 
         List<Board> boards = result.stream()

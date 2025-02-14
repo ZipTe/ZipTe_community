@@ -29,7 +29,7 @@ public class BoardService implements CreateBoardUseCase, GetBoardInfoUseCase, Re
     private final SaveBoardPort saveBoardPort;
     private final LoadBoardPort loadBoardPort;
     private final LoadMemberPort loadMemberPort;
-    private final LoadCategoryPort loadCategoryPort;
+    private final CategoryPort categoryPort;
     private final RemoveBoardPort removeBoardPort;
 
     // 생성하기
@@ -45,9 +45,9 @@ public class BoardService implements CreateBoardUseCase, GetBoardInfoUseCase, Re
         BoardStatistics statistics = BoardStatistics.of();
 
         // 카테고리와 연결
-        List<Category> categories = loadCategoryPort.findAllById(request.getCategoryIds());
+        List<Category> categories = categoryPort.loadAllByCategoryId(request.getCategoryIds());
 
-        return saveBoardPort.save(Board.of(member, snippet, statistics, categories));
+        return saveBoardPort.saveBoard(Board.of(member, snippet, statistics, categories));
 
     }
 
@@ -58,19 +58,19 @@ public class BoardService implements CreateBoardUseCase, GetBoardInfoUseCase, Re
         Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage() - 1, pageRequest.getSize(), Sort.by("id").descending());
 
         // 2. 페이징 처리하기
-        return loadBoardPort.findByCategoryId(categoryId, pageable);
+        return loadBoardPort.loadByCategoryId(categoryId, pageable);
     }
 
     @Override
     public Board getOneInfo(Long boardId) {
 
         // 아이템 정보 가져오기
-        Board board = loadBoardPort.findById(boardId)
+        Board board = loadBoardPort.loadBoardById(boardId)
                 .orElseThrow(()-> new EntityNotFoundException("게시판이 존재하지 않습니다."));
 
         // 조회수 처리
         board.getStatistics().addViewCount();
-        return saveBoardPort.save(board);
+        return saveBoardPort.saveBoard(board);
     }
 
 
