@@ -73,6 +73,10 @@ public class CategoryJpaEntity {
     }
 
     public static Category make(CategoryJpaEntity entity){
-        return Category.of(entity.getId(), entity.getName(), entity.getCode());
+        return Category.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .code(entity.getCode())
+                .build();
     }
 }

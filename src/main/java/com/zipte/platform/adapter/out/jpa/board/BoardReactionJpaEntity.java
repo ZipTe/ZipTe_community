@@ -1,6 +1,5 @@
 package com.zipte.platform.adapter.out.jpa.board;
 
-import com.zipte.platform.domain.board.Board;
 import com.zipte.platform.domain.board.BoardReaction;
 import com.zipte.platform.domain.board.UserReaction;
 import com.zipte.platform.domain.user.Member;
@@ -44,8 +43,13 @@ public class BoardReactionJpaEntity {
     }
 
     // toDomain
-    public BoardReaction toDomain(BoardReactionJpaEntity entity) {
-        return BoardReaction.of(entity.getId(), entity.getBoard().toDomain(), entity.getMember(), entity.getReactionType());
+    public BoardReaction toDomain() {
+        return BoardReaction.builder()
+                .id(this.getId())
+                .board(this.getBoard().toDomain())
+                .member(this.getMember())
+                .reactionType(this.getReactionType())
+                .build();
     }
 
 

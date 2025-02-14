@@ -48,7 +48,14 @@ public class BoardJpaEntity {
 
     // toDomain
     public Board toDomain() {
-        return Board.of(this.member, this.boardSnippet.toDomain(), this.boardStatistics.toDomain(), this.boardCategories.stream().map(CategoryJpaEntity::toDomain).toList());
+        return Board.builder()
+                .id(this.getId())
+                .snippet(this.getBoardSnippet().toDomain())
+                .statistics(this.getBoardStatistics().toDomain())
+                .member(this.getMember())
+                .categories(this.getBoardCategories().stream().map(CategoryJpaEntity::toDomain).toList())
+                .build();
     }
+    
 
 }
