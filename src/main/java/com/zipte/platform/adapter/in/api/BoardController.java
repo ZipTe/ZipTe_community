@@ -10,11 +10,9 @@ import com.zipte.core.common.ApiResponse;
 import com.zipte.platform.adapter.in.api.dto.response.BoardResponse;
 import com.zipte.core.common.page.request.PageRequest;
 import com.zipte.core.common.page.response.PageResponse;
-import com.zipte.core.security.oauth.domain.PrincipalDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +28,7 @@ public class BoardController {
 
     // 게시판 생성
     @PostMapping
-    public ApiResponse<BoardResponse> saveOne(@AuthenticationPrincipal PrincipalDetails principalDetails, BoardRequest boardRequest) {
-        boardRequest.setMemberId(principalDetails.getId());
+    public ApiResponse<BoardResponse> saveOne(@RequestBody BoardRequest boardRequest) {
         return ApiResponse.created(BoardResponse.from(createService.createBoard(boardRequest)));
     }
 

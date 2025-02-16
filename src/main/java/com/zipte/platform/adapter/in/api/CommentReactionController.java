@@ -1,12 +1,11 @@
 package com.zipte.platform.adapter.in.api;
 
+import com.zipte.platform.application.port.in.comment.AddLikeReactionUseCase;
+import com.zipte.platform.application.port.in.comment.RemoveLikeReactionUseCase;
+import com.zipte.platform.application.port.in.dto.request.board.CommentReactionRequest;
 import lombok.RequiredArgsConstructor;
-import com.zipte.platform.adapter.in.api.dto.request.board.CommentReactionRequest;
 import com.zipte.core.common.ApiResponse;
-import com.zipte.platform.application.port.in.comment.CommentReactionService;
 import com.zipte.platform.adapter.in.api.dto.response.CommentReactionResponse;
-import com.zipte.core.security.oauth.domain.PrincipalDetails;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,18 +13,19 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CommentReactionController {
 
-    private final CommentReactionService commentReactionService;
+    private final AddLikeReactionUseCase addService;
+    private final RemoveLikeReactionUseCase removeService;
 
     @PostMapping
-    public ApiResponse<CommentReactionResponse> create(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody CommentReactionRequest request) {
-        request.setMemberId(principalDetails.getId());
-        return ApiResponse.created(commentReactionService.create(request));
+    public ApiResponse<CommentReactionResponse> addOne(@RequestBody CommentReactionRequest request) {
+
+        return ApiResponse.created(CommentReactionResponse.from(addService.addReaction(request)));
     }
 
     @DeleteMapping
-    public ApiResponse<CommentReactionResponse> delete(@AuthenticationPrincipal PrincipalDetails principalDetails , @RequestBody CommentReactionRequest request) {
-        request.setMemberId(principalDetails.getId());
-        return ApiResponse.created(commentReactionService.delete(request));
+    public ApiResponse<String> delete(@RequestBody CommentReactionRequest request) {
+        removeService.removeReaction(request);
+        return ApiResponse.created("성공적으로 삭제되었습니다.");
     }
 
 }

@@ -6,8 +6,6 @@ import com.zipte.platform.application.port.in.dto.request.board.BoardReactionReq
 import lombok.RequiredArgsConstructor;
 import com.zipte.core.common.ApiResponse;
 import com.zipte.platform.adapter.in.api.dto.response.BoardReactionResponse;
-import com.zipte.core.security.oauth.domain.PrincipalDetails;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,15 +17,13 @@ public class BoardReactionController {
     private final RemoveReactionUseCase removeService;
 
     @PostMapping
-    public ApiResponse<BoardReactionResponse> addOne(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody BoardReactionRequest request) {
-        request.setMemberId(principalDetails.getId());
+    public ApiResponse<BoardReactionResponse> addOne(@RequestBody BoardReactionRequest request) {
 
         return ApiResponse.created(BoardReactionResponse.from(addService.addReaction(request)));
     }
 
     @DeleteMapping
-    public ApiResponse<String> removeOne(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody BoardReactionRequest request) {
-        request.setMemberId(principalDetails.getId());
+    public ApiResponse<String> removeOne(@RequestBody BoardReactionRequest request) {
         removeService.removeReaction(request);
 
         return ApiResponse.created("성공적으로 삭제되었습니다");

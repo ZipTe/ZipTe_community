@@ -11,11 +11,9 @@ import com.zipte.core.common.page.request.PageRequest;
 import com.zipte.core.common.ApiResponse;
 import com.zipte.core.common.page.response.PageResponse;
 import com.zipte.platform.adapter.in.api.dto.response.ReviewResponse;
-import com.zipte.core.security.oauth.domain.PrincipalDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,22 +31,9 @@ public class ReviewController {
 
     // 리뷰 작성
     @PostMapping
-    public ApiResponse<ReviewResponse> create(@AuthenticationPrincipal PrincipalDetails principalDetails, ReviewRequest reviewRequest) {
+    public ApiResponse<ReviewResponse> create(ReviewRequest reviewRequest) {
 
-        reviewRequest.setMemberId(principalDetails.getId());
         return ApiResponse.created(ReviewResponse.from(createService.createReview(reviewRequest)));
-    }
-
-    // 특정 회원의 리뷰 조회
-    @GetMapping("/list/member/myReview")
-    public ApiResponse<PageResponse<ReviewResponse>> getMyReview(@AuthenticationPrincipal PrincipalDetails principalDetails, PageRequest pageRequest) {
-
-        Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage() - 1, pageRequest.getSize(), Sort.by("id").descending());
-        Page<Review> result = getService.getReviewsByMember(principalDetails.getId(), pageable);
-
-        List<ReviewResponse> dtolist = ReviewResponse.from(result.getContent());
-
-        return ApiResponse.ok(new PageResponse<>(dtolist, pageRequest, result.getTotalElements()));
     }
 
     // 특정 회원의 리뷰 조회
