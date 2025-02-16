@@ -1,32 +1,28 @@
-package com.zipte.platform.domain.user;
+package com.zipte.platform.domain.apt;
 
-import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
-@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
-public class Address implements Serializable {
+public class AptAddress {
 
-
+    private String region;
     private String streetAddress;
-
     private String detailAddress;
-
     private int zipcode;
 
-    public static Address of(String streetAddress, String detailAddress, int zipcode) {
-        return Address.builder()
+    // 정적 팩토리 메서드
+    public static AptAddress of(String region, String streetAddress, String detailAddress, int zipcode) {
+        return AptAddress.builder()
+                .region(region)
                 .streetAddress(streetAddress)
                 .detailAddress(detailAddress)
-                .zipcode(zipcode).build();
+                .zipcode(zipcode)
+                .build();
     }
-
 }
