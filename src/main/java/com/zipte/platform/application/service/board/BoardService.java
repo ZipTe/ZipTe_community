@@ -9,11 +9,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import com.zipte.platform.adapter.in.api.dto.request.board.BoardRequest;
-import com.zipte.core.common.page.request.PageRequest;
 import com.zipte.platform.domain.user.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,12 +50,7 @@ public class BoardService implements CreateBoardUseCase, GetBoardInfoUseCase, Re
     }
 
     @Override
-    public Page<Board> getByCategoryId(Long categoryId, PageRequest pageRequest) {
-
-        // 1. ID 목록을 이용해 게시글 조회
-        Pageable pageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage() - 1, pageRequest.getSize(), Sort.by("id").descending());
-
-        // 2. 페이징 처리하기
+    public Page<Board> getByCategoryId(Long categoryId, Pageable pageable) {
         return loadBoardPort.loadByCategoryId(categoryId, pageable);
     }
 

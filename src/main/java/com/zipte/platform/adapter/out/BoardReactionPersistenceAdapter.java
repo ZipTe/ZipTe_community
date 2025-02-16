@@ -9,11 +9,11 @@ import com.zipte.platform.domain.board.BoardReaction;
 import com.zipte.platform.domain.board.UserReaction;
 import com.zipte.platform.domain.user.Member;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class BoardReactionPersistenceAdapter implements LoadBoardReactionPort, SaveBoardReactionPort, RemoveBoardReactionPort {
 

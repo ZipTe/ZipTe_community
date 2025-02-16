@@ -5,12 +5,12 @@ import com.zipte.platform.adapter.out.jpa.board.repository.CategoryJpaRepository
 import com.zipte.platform.application.port.out.CategoryPort;
 import com.zipte.platform.domain.board.Category;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class CategoryPersistenceAdapter implements CategoryPort {
 
