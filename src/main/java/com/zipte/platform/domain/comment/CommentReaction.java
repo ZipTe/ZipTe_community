@@ -1,33 +1,21 @@
-package com.zipte.platform.domain.board;
+package com.zipte.platform.domain.comment;
 
-import jakarta.persistence.*;
+import com.zipte.platform.domain.board.UserReaction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.zipte.platform.domain.user.Member;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 public class CommentReaction {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "like_id")
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
     private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
     private Comment comment;
-
-    @Enumerated(EnumType.STRING)
     private UserReaction reactionType;
 
     // 생성자
