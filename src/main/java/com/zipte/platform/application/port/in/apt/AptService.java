@@ -1,7 +1,7 @@
 package com.zipte.platform.application.port.in.apt;
 
-import com.zipte.platform.adapter.in.api.dto.request.apt.AptRequest;
 import com.zipte.platform.adapter.in.api.dto.response.AptResposnseDto;
+import com.zipte.platform.application.port.in.dto.request.apt.AptRequest;
 import reactor.core.publisher.Mono;
 
 public interface AptService {
@@ -10,7 +10,6 @@ public interface AptService {
     AptResposnseDto register (AptRequest aptRequest);
 
     // 찾기
-//    AptResposnseDto getOne(Long id);
     Mono<Object> getOne(String kaptCode);
     // 평점 높은 아파트 찾기
 

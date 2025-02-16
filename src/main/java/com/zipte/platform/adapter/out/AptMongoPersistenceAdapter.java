@@ -5,11 +5,11 @@ import com.zipte.platform.adapter.out.mongo.apt.AptMongoRepository;
 import com.zipte.platform.application.port.out.apt.LoadAptPort;
 import com.zipte.platform.domain.apt.Apt;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class AptMongoPersistenceAdapter implements LoadAptPort{
 

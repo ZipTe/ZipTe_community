@@ -1,11 +1,11 @@
 package com.zipte.platform.application.service.apt;
 
+import com.zipte.platform.application.port.in.dto.request.apt.AptRequest;
+import com.zipte.platform.application.port.out.apt.LoadAptPort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import com.zipte.platform.adapter.in.api.dto.request.apt.AptRequest;
 import com.zipte.platform.application.port.in.apt.AptService;
 import com.zipte.platform.adapter.in.api.dto.response.AptResposnseDto;
-import com.eedo.project.zipte.adapter.out.persistence.mongo.apt.AptRepository;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class AptServiceImpl implements AptService {
 
-    private final AptRepository aptRepository;
+    private final LoadAptPort aptRepository;
     private final WebClient webClient;
 
     @Override
