@@ -6,12 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.zipte.platform.domain.board.Board;
+import com.zipte.platform.domain.board.Category;
 import com.zipte.platform.domain.board.BoardCategory;
-import com.zipte.platform.domain.board.BoardCategorySet;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Data
@@ -20,22 +21,20 @@ import java.util.List;
 @Builder
 public class BoardResponse {
 
-    private BoardCategoryNoChildrenResponse category;
+    @Builder.Default
+    private List<CategoryResponse> categories = List.of(); // Immutable 빈 리스트 사용
 
     private Long id;
+    private String author;
     private String title;
     private String content;
 
-    private String author;
+    @Builder.Default
+    private String thumbnailUrl = "";
 
-    private int viewCount;
-
-    // 댓글 개수
-    private int commentCount;
-
-    // 좋아요 개수
-    private Long likeCount;
-
+    private long viewCount;
+    private long commentCount;
+    private long likeCount;  // Long → long으로 통일
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
@@ -43,29 +42,33 @@ public class BoardResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    @Builder.Default
-    private List<String> uploadFileNames = new ArrayList<>();
 
     // 생성자
-    public static BoardResponse from(BoardCategorySet categorySet) {
+    public static BoardResponse from(Board board) {
 
-        Board board = categorySet.getBoard();
+        List<Category> boardCategories = board.getCategories();
 
-        BoardCategory category = categorySet.getCategory();
-        BoardCategoryNoChildrenResponse categoryResponse = BoardCategoryNoChildrenResponse.from(category);
+        List<CategoryResponse> categories = CategoryResponse.from(boardCategories);
 
         return BoardResponse.builder()
-                .category(categoryResponse)
+                .categories(categories)
                 .id(board.getId())
-                .title(board.getTitle())
-                .content(board.getContent())
+                .title(board.getSnippet().getTitle())
+                .content(board.getSnippet().getContent())
                 .author(board.getMember().getUsername())
-                .viewCount(board.getViewCount())
-                .commentCount(board.getComments() != null ? board.getComments().size() : 0)
-                .likeCount(board.getReactionScore() != null ? board.getReactionScore() : 0)
-                .createdAt(board.getCreatedAt())
-                .updatedAt(board.getUpdatedAt())
+                .viewCount(board.getStatistics().getViewCount())
+                .commentCount(board.getStatistics().getCommentCount())
+                .likeCount(board.getStatistics().getLikeCount())
+                .createdAt(board.getSnippet().getCreatedAt())
+                .updatedAt(board.getSnippet().getUpdatedAt())
                 .build();
+    }
+
+    // 리스트 변환
+    public static List<BoardResponse> from(List<Board> boards) {
+        return boards.stream()
+                .map(BoardResponse::from)
+                .collect(Collectors.toList());
     }
 
 

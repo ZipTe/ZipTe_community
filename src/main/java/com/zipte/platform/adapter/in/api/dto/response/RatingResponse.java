@@ -1,5 +1,6 @@
 package com.zipte.platform.adapter.in.api.dto.response;
 
+import com.zipte.platform.domain.review.ReviewSnippet;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,18 +9,28 @@ import lombok.Data;
 public class RatingResponse {
 
     // 교통 여건 평점
-    private int transportConditionRating;
+    private int transport;
 
     // 주변 환경 평점
-    private int environmentConditionRating;
+    private int environment;
 
     // 단지 관리 평점
-    private int apartmentManagementRating;
+    private int apartmentManagement;
 
     // 거주 환경 평점
-    private int livingEnvironmentRating;
+    private int livingEnvironment;
 
     // 전체 평점
-    private int overallRating;
+    private int overall;
+
+    public static RatingResponse of (ReviewSnippet snippet) {
+        return RatingResponse.builder()
+                .transport(snippet.getTransport())
+                .environment(snippet.getEnvironment())
+                .apartmentManagement(snippet.getApartmentManagement())
+                .livingEnvironment(snippet.getLivingEnvironment())
+                .overall(snippet.getOverall())
+                .build();
+    }
 
 }
