@@ -1,4 +1,4 @@
-package com.zipte.platform.adapter.in.api.dto.request.board;
+package com.zipte.platform.application.port.in.dto.request.board;
 
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.List;
 public class BoardRequest {
 
     // 카테고리
-    private Long categoryId;
+    private List<Long> categoryIds;
 
     // 게시물
     private Long memberId;

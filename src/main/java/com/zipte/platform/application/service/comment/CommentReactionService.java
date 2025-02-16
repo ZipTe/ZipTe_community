@@ -2,13 +2,13 @@ package com.zipte.platform.application.service.comment;
 
 import com.zipte.platform.application.port.in.comment.AddLikeReactionUseCase;
 import com.zipte.platform.application.port.in.comment.RemoveLikeReactionUseCase;
+import com.zipte.platform.application.port.in.dto.request.board.CommentReactionRequest;
 import com.zipte.platform.application.port.out.LoadMemberPort;
 import com.zipte.platform.application.port.out.comment.CommentReactionPort;
 import com.zipte.platform.application.port.out.comment.LoadCommentPort;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import com.zipte.platform.adapter.in.api.dto.request.board.CommentReactionRequest;
 import com.zipte.platform.domain.comment.Comment;
 import com.zipte.platform.domain.comment.CommentReaction;
 import com.zipte.platform.domain.board.UserReaction;

@@ -1,7 +1,7 @@
 package com.zipte.platform.application.service.board;
 
-import com.zipte.platform.adapter.in.api.dto.request.board.CategoryRequest;
 import com.zipte.platform.application.port.in.board.*;
+import com.zipte.platform.application.port.in.dto.request.board.CategoryRequest;
 import com.zipte.platform.application.port.out.CategoryPort;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

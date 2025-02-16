@@ -1,5 +1,6 @@
 package com.zipte.platform.application.service.review;
 
+import com.zipte.platform.application.port.in.dto.request.review.ReviewRequest;
 import com.zipte.platform.application.port.in.review.CreateReviewUseCase;
 import com.zipte.platform.application.port.in.review.GetReviewUseCase;
 import com.zipte.platform.application.port.in.review.RemoveReviewUseCase;
@@ -11,7 +12,6 @@ import com.zipte.platform.domain.review.ReviewSnippet;
 import com.zipte.platform.domain.review.ReviewStatistics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import com.zipte.platform.adapter.in.api.dto.request.review.ReviewRequest;
 import com.zipte.platform.domain.user.Member;
 import com.zipte.platform.domain.review.Review;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.zipte.platform.adapter.in.api.dto.request.apt;
+package com.zipte.platform.application.port.in.dto.request.apt;
 
 import lombok.Builder;
 import lombok.Data;

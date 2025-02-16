@@ -1,4 +1,4 @@
-package com.zipte.platform.adapter.in.api.dto.request.review;
+package com.zipte.platform.application.port.in.dto.request.review;
 
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ public class ReviewRequest {
     private Long memberId;
 
     // 원하는 아파트 관리
-    private Long aptId;
+    private String aptId;
 
     // 리뷰 내용
     private String title;

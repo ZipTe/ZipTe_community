@@ -2,14 +2,13 @@ package com.zipte.platform.application.service.board;
 
 import com.zipte.platform.application.port.in.board.AddReactionUseCase;
 import com.zipte.platform.application.port.in.board.RemoveReactionUseCase;
+import com.zipte.platform.application.port.in.dto.request.board.BoardReactionRequest;
 import com.zipte.platform.application.port.out.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import com.zipte.platform.adapter.in.api.dto.request.board.BoardReactionRequest;
 import com.zipte.platform.domain.board.Board;
 import com.zipte.platform.domain.board.BoardReaction;
-import com.zipte.platform.domain.board.UserReaction;
 import com.zipte.platform.domain.user.Member;
 import org.springframework.stereotype.Service;
 
@@ -47,14 +46,14 @@ public class BoardReactionService implements AddReactionUseCase, RemoveReactionU
     }
 
     @Override
-    public void removeReaction(Long boardId, Long memberId, UserReaction reaction) {
+    public void removeReaction(BoardReactionRequest request) {
 
         // 멤버
-        Member member = loadMemberPort.loadUser(memberId)
+        Member member = loadMemberPort.loadUser(request.getMemberId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 회원이 존재하지 않습니다."));
 
         // 요청된 반응 찾기
-        BoardReaction boardReaction = loadReactionPort.loadBoardReactionByType(boardId, member, reaction)
+        BoardReaction boardReaction = loadReactionPort.loadBoardReactionByType(request.getBoardId(), member, request.getReactionType())
                 .orElseThrow(() -> new IllegalArgumentException("리액션을 삭제할 수 없습니다."));
 
         // 반응 삭제

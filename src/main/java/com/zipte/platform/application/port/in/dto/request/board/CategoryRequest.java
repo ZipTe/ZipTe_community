@@ -1,4 +1,4 @@
-package com.zipte.platform.adapter.in.api.dto.request.board;
+package com.zipte.platform.application.port.in.dto.request.board;
 
 import lombok.Data;
 
