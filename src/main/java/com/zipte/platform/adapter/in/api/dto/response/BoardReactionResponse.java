@@ -10,7 +10,7 @@ import com.zipte.platform.domain.board.UserReaction;
 @Builder
 public class BoardReactionResponse {
 
-    private String author;
+    private Long author;
 
     private Long boardId;
 
@@ -20,7 +20,7 @@ public class BoardReactionResponse {
     // 생성자
     public static BoardReactionResponse from(BoardReaction boardReaction) {
         return BoardReactionResponse.builder()
-                .author(boardReaction.getMember().getUsername())
+                .author(boardReaction.getMemberId())
                 .boardId(boardReaction.getBoard().getId())
                 .reactionType(boardReaction.getReactionType())
                 .build();

@@ -2,7 +2,6 @@ package com.zipte.platform.adapter.out.jpa.review;
 
 import com.zipte.platform.adapter.out.jpa.BaseEntity;
 import com.zipte.platform.domain.review.Review;
-import com.zipte.platform.domain.user.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,9 +20,7 @@ public class ReviewJpaEntity extends BaseEntity {
     @Column(name = "review_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    private Long memberId;
 
     @Column(name = "apt_id")
     private String aptId;
@@ -37,7 +34,7 @@ public class ReviewJpaEntity extends BaseEntity {
     // from
     public static ReviewJpaEntity from(Review review) {
         return ReviewJpaEntity.builder()
-                .member(review.getMember())
+                .memberId(review.getMemberId())
                 .aptId(review.getAptId()) // MongoDB의 AptDocument ID만 저장
                 .snippet(ReviewSnippetEntity.from(review.getSnippet()))
                 .statistics(ReviewStatisticsEntity.from(review.getStatistics()))
@@ -48,7 +45,7 @@ public class ReviewJpaEntity extends BaseEntity {
     public Review toDomain() {
         return Review.builder()
                 .id(this.getId())
-                .member(this.getMember())
+                .memberId(this.getMemberId())
                 .aptId(this.getAptId())
                 .snippet(this.getSnippet().toDomain())
                 .statistics(this.getStatistics().toDomain())

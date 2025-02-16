@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import com.zipte.platform.domain.user.Member;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,16 +13,29 @@ import com.zipte.platform.domain.user.Member;
 public class CommentReaction {
 
     private Long id;
-    private Member member;
+    private Long memberId;
     private Comment comment;
     private UserReaction reactionType;
 
     // 생성자
-    public static CommentReaction of(Comment comment, Member member, UserReaction reactionType) {
-        return CommentReaction.builder()
+    public static CommentReaction of(Comment comment, Long memberId, UserReaction reactionType) {
+        CommentReaction reaction = CommentReaction.builder()
                 .comment(comment)
-                .member(member)
+                .memberId(memberId)
                 .reactionType(reactionType)
                 .build();
+
+        checkUserReaction(comment, reactionType);
+
+        return reaction;
+    }
+
+    // 메소드 따로 빼기
+    private static void checkUserReaction(Comment comment, UserReaction reactionType) {
+        if(reactionType == UserReaction.LIKE) {
+            comment.getStatistics().addLikeCount();
+        } else {
+            comment.getStatistics().addDislikeCount();
+        }
     }
 }

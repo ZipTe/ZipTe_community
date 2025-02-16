@@ -1,11 +1,9 @@
 package com.zipte.platform.domain.board;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import com.zipte.platform.domain.user.Member;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,15 +12,15 @@ import com.zipte.platform.domain.user.Member;
 public class BoardReaction {
 
     private Long id;
-    private Member member;
+    private Long memberId;
     private Board board;
     private UserReaction reactionType;
 
     // 생성자
-    public static BoardReaction of(Board board, Member member, UserReaction reactionType) {
+    public static BoardReaction of(Board board, Long member, UserReaction reactionType) {
         BoardReaction reaction = BoardReaction.builder()
                 .board(board)
-                .member(member)
+                .memberId(member)
                 .reactionType(reactionType)
                 .build();
 

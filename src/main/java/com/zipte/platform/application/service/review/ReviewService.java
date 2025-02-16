@@ -12,7 +12,6 @@ import com.zipte.platform.domain.review.ReviewSnippet;
 import com.zipte.platform.domain.review.ReviewStatistics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import com.zipte.platform.domain.user.Member;
 import com.zipte.platform.domain.review.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,15 +33,13 @@ public class ReviewService implements CreateReviewUseCase, GetReviewUseCase, Rem
 
     @Override
     public Review createReview(ReviewRequest request) {
-        Member member = loadMemberPort.loadUser(request.getMemberId())
-                .orElseThrow(()-> new NoSuchElementException("유저가 존재하지 않습니다."));
 
         // 정보 생성
         ReviewSnippet snippet = ReviewSnippet.of(request.getTransport(), request.getEnvironment(), request.getApartmentManagement(), request.getLivingEnvironment());
         ReviewStatistics reviewStatistics = ReviewStatistics.of(0, 0);
 
         // 리뷰 생성
-        Review result = Review.of(member, request.getAptId(), snippet, reviewStatistics);
+        Review result = Review.of(request.getMemberId(), request.getAptId(), snippet, reviewStatistics);
 
         return saveReviewPort.saveReview(result);
     }

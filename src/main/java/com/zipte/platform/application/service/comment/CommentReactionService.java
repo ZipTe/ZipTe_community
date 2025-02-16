@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import com.zipte.platform.domain.comment.Comment;
 import com.zipte.platform.domain.comment.CommentReaction;
 import com.zipte.platform.domain.board.UserReaction;
-import com.zipte.platform.domain.user.Member;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,16 +29,13 @@ public class CommentReactionService implements AddLikeReactionUseCase, RemoveLik
         Comment comment = loadCommentPort.loadCommentById(request.getCommentId())
                 .orElseThrow(() -> new EntityNotFoundException("댓글이 존재하지 않습니다."));
 
-        Member member = loadMemberPort.loadUser(request.getMemberId())
-                .orElseThrow(() -> new EntityNotFoundException("멤버가 존재하지 않습니다."));
-
         // 동일한 회원이 동일한 게시글에 이미 반응을 남겼는지 확인
-        commentReactionPort.loadBoardReaction(comment.getId(), member).ifPresent(reaction -> {
+        commentReactionPort.loadBoardReaction(comment.getId(), request.getMemberId()).ifPresent(reaction -> {
             throw new IllegalStateException("이미 반응을 눌렀습니다.");
         });
 
         // 새로운 반응 생성 및 저장
-        CommentReaction reaction = CommentReaction.of(comment, member, request.getReactionType());
+        CommentReaction reaction = CommentReaction.of(comment, request.getMemberId(), request.getReactionType());
 
         return commentReactionPort.saveBoardReaction(reaction);
     }
@@ -48,14 +44,12 @@ public class CommentReactionService implements AddLikeReactionUseCase, RemoveLik
     public void removeReaction(CommentReactionRequest request) {
         Comment comment = loadCommentPort.loadCommentById(request.getCommentId())
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
-        Member member = loadMemberPort.loadUser(request.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
         // 요청된 반응 유형 가져오기
         UserReaction reactionType = request.getReactionType();
 
         // 요청된 반응 찾기
-        CommentReaction reaction = commentReactionPort.loadBoardReactionByType(comment.getId(), member, reactionType)
+        CommentReaction reaction = commentReactionPort.loadBoardReactionByType(comment.getId(), request.getMemberId(), reactionType)
                 .orElseThrow(() -> new IllegalArgumentException("Specified reaction not found"));
 
         // 반응 삭제

@@ -16,7 +16,7 @@ public class ReviewResponse {
     private String aptId;
 
     // 리뷰 작성자
-    private String author;
+    private Long author;
 
     // 리뷰 내용
     private String title;
@@ -36,7 +36,7 @@ public class ReviewResponse {
     public static ReviewResponse from(Review review) {
         return ReviewResponse.builder()
                 .aptId(review.getAptId())
-                .author(review.getMember().getUsername())
+                .author(review.getMemberId())
                 .title(review.getSnippet().getTitle())
                 .content(review.getSnippet().getContent())
                 .rating(RatingResponse.of(review.getSnippet()))

@@ -2,7 +2,6 @@ package com.zipte.platform.adapter.out.jpa.board;
 
 import com.zipte.platform.domain.board.BoardReaction;
 import com.zipte.platform.domain.board.UserReaction;
-import com.zipte.platform.domain.user.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,9 +20,7 @@ public class BoardReactionJpaEntity {
     @Column(name = "like_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    private Long memberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
@@ -36,7 +33,7 @@ public class BoardReactionJpaEntity {
     public static BoardReactionJpaEntity from(BoardReaction boardReaction) {
         return BoardReactionJpaEntity.builder()
                 .id(boardReaction.getId())
-                .member(boardReaction.getMember())
+                .memberId(boardReaction.getMemberId())
                 .board(BoardJpaEntity.from(boardReaction.getBoard()))
                 .reactionType(boardReaction.getReactionType())
                 .build();
@@ -47,7 +44,7 @@ public class BoardReactionJpaEntity {
         return BoardReaction.builder()
                 .id(this.getId())
                 .board(this.getBoard().toDomain())
-                .member(this.getMember())
+                .memberId(this.getMemberId())
                 .reactionType(this.getReactionType())
                 .build();
     }

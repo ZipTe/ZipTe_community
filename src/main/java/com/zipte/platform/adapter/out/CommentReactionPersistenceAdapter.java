@@ -5,7 +5,6 @@ import com.zipte.platform.adapter.out.jpa.comment.CommentReactionJpaRepository;
 import com.zipte.platform.application.port.out.comment.CommentReactionPort;
 import com.zipte.platform.domain.board.UserReaction;
 import com.zipte.platform.domain.comment.CommentReaction;
-import com.zipte.platform.domain.user.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -26,15 +25,15 @@ public class CommentReactionPersistenceAdapter implements CommentReactionPort {
     }
 
     @Override
-    public Optional<CommentReaction> loadBoardReaction(Long commentId, Member member) {
+    public Optional<CommentReaction> loadBoardReaction(Long commentId, Long memberId) {
 
-        return repository.findByCommentIdAndMember(commentId, member)
+        return repository.findByCommentIdAndMemberId(commentId, memberId)
                 .map(CommentReactionJpaEntity::toDomain);
     }
 
     @Override
-    public Optional<CommentReaction> loadBoardReactionByType(Long commentId, Member member, UserReaction reactionType) {
-        return repository.findByCommentIdAndMemberAndReactionType(commentId, member, reactionType)
+    public Optional<CommentReaction> loadBoardReactionByType(Long commentId, Long memberId, UserReaction reactionType) {
+        return repository.findByCommentIdAndMemberIdAndReactionType(commentId, memberId, reactionType)
                 .map(CommentReactionJpaEntity::toDomain);
     }
 

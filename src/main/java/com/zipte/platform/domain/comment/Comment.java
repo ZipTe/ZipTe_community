@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import com.zipte.platform.domain.user.Member;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,21 +18,25 @@ public class Comment {
 
     private Long id;
     private Board board;
-    private Member member;
+    private Long memberId;
     private String content;
     private Comment parent;
     private List<Comment> children;
+
+    private CommentStatistics statistics;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     // 생성자
-    public static Comment of(Board board, Member member, Comment parent, String content) {
+    public static Comment of(Board board, Long memberId, Comment parent, String content, CommentStatistics statistics) {
 
         return Comment.builder()
                 .board(board)
-                .member(member)
+                .memberId(memberId)
                 .parent(parent)
                 .content(content)
+                .statistics(statistics)
                 .createdAt(LocalDateTime.now())
                 .build();
 

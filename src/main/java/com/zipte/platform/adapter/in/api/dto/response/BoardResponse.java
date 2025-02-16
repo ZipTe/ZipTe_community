@@ -25,7 +25,7 @@ public class BoardResponse {
     private List<CategoryResponse> categories = List.of(); // Immutable 빈 리스트 사용
 
     private Long id;
-    private String author;
+    private Long author;
     private String title;
     private String content;
 
@@ -55,7 +55,7 @@ public class BoardResponse {
                 .id(board.getId())
                 .title(board.getSnippet().getTitle())
                 .content(board.getSnippet().getContent())
-                .author(board.getMember().getUsername())
+                .author(board.getMemberId())
                 .viewCount(board.getStatistics().getViewCount())
                 .commentCount(board.getStatistics().getCommentCount())
                 .likeCount(board.getStatistics().getLikeCount())

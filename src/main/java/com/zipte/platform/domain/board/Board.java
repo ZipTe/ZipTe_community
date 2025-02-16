@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import com.zipte.platform.domain.user.Member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,16 +16,16 @@ import java.util.List;
 public class Board {
 
     private Long id;
-    private Member member;
+    private Long memberId;
     private BoardSnippet snippet;
     private BoardStatistics statistics;
     private List<Category> categories = new ArrayList<>();
 
     // 생성자
-    public static Board of(Member member, BoardSnippet snippet, BoardStatistics statistics, List<Category> categories) {
+    public static Board of(Long memberId, BoardSnippet snippet, BoardStatistics statistics, List<Category> categories) {
 
         Board board = Board.builder()
-                .member(member)
+                .memberId(memberId)
                 .snippet(snippet)
                 .statistics(statistics)
                 .build();

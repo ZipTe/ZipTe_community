@@ -4,14 +4,14 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Data;
-import com.zipte.platform.domain.board.CommentReaction;
+import com.zipte.platform.domain.comment.CommentReaction;
 import com.zipte.platform.domain.board.UserReaction;
 
 @Data
 @Builder
 public class CommentReactionResponse {
 
-    private String author;
+    private Long author;
 
     private Long commentId;
 
@@ -21,7 +21,7 @@ public class CommentReactionResponse {
     // 생성자
     public static CommentReactionResponse from(CommentReaction commentReaction) {
         return CommentReactionResponse.builder()
-                .author(commentReaction.getMember().getUsername())
+                .author(commentReaction.getMemberId())
                 .commentId(commentReaction.getComment().getId())
                 .reactionType(commentReaction.getReactionType())
                 .build();

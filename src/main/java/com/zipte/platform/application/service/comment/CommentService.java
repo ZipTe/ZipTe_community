@@ -9,13 +9,13 @@ import com.zipte.platform.application.port.out.LoadMemberPort;
 import com.zipte.platform.application.port.out.comment.LoadCommentPort;
 import com.zipte.platform.application.port.out.comment.RemoveCommentPort;
 import com.zipte.platform.application.port.out.comment.SaveCommentPort;
+import com.zipte.platform.domain.comment.CommentStatistics;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.zipte.platform.domain.board.Board;
 import com.zipte.platform.domain.comment.Comment;
-import com.zipte.platform.domain.user.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,8 +34,6 @@ public class CommentService implements CreateCommentUseCase, GetCommentUseCase, 
 
     @Override
     public Comment createComment(CommentRequest commentRequest) {
-        Member member = loadMemberPort.loadUser(commentRequest.getMemberId())
-                .orElseThrow(() -> new EntityNotFoundException("해당 회원이 존재하지 않습니다."));
 
         Board board = loadBoardPort.loadBoardById(commentRequest.getBoardId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 게시판이 존재하지 않습니다."));
@@ -45,7 +43,11 @@ public class CommentService implements CreateCommentUseCase, GetCommentUseCase, 
         if (commentRequest.getParentId() != null) {
             parent = loadCommentPort.loadCommentById(commentRequest.getParentId()).orElseThrow();
         }
-        return saveCommentPort.saveComment(Comment.of(board, member, parent, commentRequest.getContent()));
+
+        // 통계
+        CommentStatistics statistics = CommentStatistics.of();
+
+        return saveCommentPort.saveComment(Comment.of(board, commentRequest.getMemberId(), parent, commentRequest.getContent(), statistics));
     }
 
     @Override

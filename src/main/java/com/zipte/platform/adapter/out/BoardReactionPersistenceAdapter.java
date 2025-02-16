@@ -7,7 +7,6 @@ import com.zipte.platform.application.port.out.RemoveBoardReactionPort;
 import com.zipte.platform.application.port.out.SaveBoardReactionPort;
 import com.zipte.platform.domain.board.BoardReaction;
 import com.zipte.platform.domain.board.UserReaction;
-import com.zipte.platform.domain.user.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -27,16 +26,16 @@ public class BoardReactionPersistenceAdapter implements LoadBoardReactionPort, S
     }
 
     @Override
-    public Optional<BoardReaction> loadBoardReaction(Long boardId, Member member) {
+    public Optional<BoardReaction> loadBoardReaction(Long boardId, Long memberId) {
 
-        return repository.findByBoardIdAndMember(boardId, member)
+        return repository.findByBoardIdAndMemberId(boardId, memberId)
                 .map(BoardReactionJpaEntity::toDomain);
     }
 
     @Override
-    public Optional<BoardReaction> loadBoardReactionByType(Long boardId, Member member, UserReaction reactionType) {
+    public Optional<BoardReaction> loadBoardReactionByType(Long boardId, Long memberId, UserReaction reactionType) {
 
-        return repository.findByBoardIdAndMemberAndReactionType(boardId, member, reactionType)
+        return repository.findByBoardIdAndMemberIdAndReactionType(boardId, memberId, reactionType)
                 .map(BoardReactionJpaEntity::toDomain);
     }
 

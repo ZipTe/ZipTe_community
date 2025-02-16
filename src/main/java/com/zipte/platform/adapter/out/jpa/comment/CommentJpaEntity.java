@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zipte.platform.adapter.out.jpa.board.BoardJpaEntity;
 import com.zipte.platform.domain.board.Board;
 import com.zipte.platform.domain.comment.Comment;
-import com.zipte.platform.domain.user.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,9 +32,7 @@ public class CommentJpaEntity {
     @JoinColumn(name = "review_id")
     private BoardJpaEntity board;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    private Long memberId;
 
     private String content;
 
@@ -71,7 +68,7 @@ public class CommentJpaEntity {
         return CommentJpaEntity.builder()
                 .id(comment.getId())
                 .board(BoardJpaEntity.from(comment.getBoard()))
-                .member(comment.getMember())
+                .memberId(comment.getMemberId())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
                 .updatedAt(comment.getUpdatedAt())
@@ -101,7 +98,7 @@ public class CommentJpaEntity {
         return Comment.builder()
                 .id(entity.getId())
                 .board(board)
-                .member(entity.getMember())
+                .memberId(entity.getMemberId())
                 .content(entity.getContent())
                 .createdAt(entity.getCreatedAt())
                 .build();

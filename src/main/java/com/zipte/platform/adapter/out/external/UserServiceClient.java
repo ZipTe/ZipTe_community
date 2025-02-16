@@ -1,32 +1,31 @@
 package com.zipte.platform.adapter.out.external;
 
 import com.zipte.platform.application.port.out.LoadMemberPort;
-import com.zipte.platform.domain.user.Member;
-import com.zipte.platform.adapter.out.external.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.Optional;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class UserServiceClient implements LoadMemberPort {
 
     private final RestTemplate restTemplate;
+    private static final String USER_SERVICE_URL = "http://user-service/api/users/";
 
     @Override
-    public Optional<Member> loadUser(Long memberId) {
+    public boolean existsById(Long memberId) {
         try {
-            String url = "http://user-service/api/users/" + memberId;
-            UserResponse response = restTemplate.getForObject(url, UserResponse.class);
-            if (response != null) {
-                return Optional.of(Member.of(response.getId(), response.getUsername(), response.getUserThumbnail()));
-            } else {
-                return Optional.empty();
-            }
+            restTemplate.headForHeaders(USER_SERVICE_URL + memberId);
+            return true;
+        } catch (HttpClientErrorException.NotFound e) {
+            return false;
         } catch (Exception e) {
-            return Optional.empty();
+            log.error("Failed to check user existence: {}", memberId, e);
+            return false;
         }
     }
 }

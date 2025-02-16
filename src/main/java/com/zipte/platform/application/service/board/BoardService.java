@@ -9,7 +9,6 @@ import com.zipte.platform.domain.board.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import com.zipte.platform.domain.user.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Log4j2
 @Service
@@ -30,13 +30,11 @@ public class BoardService implements CreateBoardUseCase, GetBoardInfoUseCase, Re
     private final CategoryPort categoryPort;
     private final RemoveBoardPort removeBoardPort;
 
-    // 생성하기
     @Override
     public Board createBoard(BoardRequest request) {
-
-        // 유저 생성
-        Member member = loadMemberPort.loadUser(request.getMemberId())
-                .orElseThrow(()-> new EntityNotFoundException("해당 멤버가 존재하지 않습니다."));
+        if (!loadMemberPort.existsById(request.getMemberId())) {
+            throw new NoSuchElementException("해당 ID의 멤버가 존재하지 않습니다: " + request.getMemberId());
+        }
 
         // 게시물 생성
         BoardSnippet snippet = BoardSnippet.of(request.getTitle(), request.getContent(), "링크", LocalDateTime.now());
@@ -45,9 +43,10 @@ public class BoardService implements CreateBoardUseCase, GetBoardInfoUseCase, Re
         // 카테고리와 연결
         List<Category> categories = categoryPort.loadAllByCategoryId(request.getCategoryIds());
 
-        return saveBoardPort.saveBoard(Board.of(member, snippet, statistics, categories));
-
+        Board board = Board.of(request.getMemberId(), snippet, statistics, categories);
+        return saveBoardPort.saveBoard(board);
     }
+
 
     @Override
     public Page<Board> getByCategoryId(Long categoryId, Pageable pageable) {

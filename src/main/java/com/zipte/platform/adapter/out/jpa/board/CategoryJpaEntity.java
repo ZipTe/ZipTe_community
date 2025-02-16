@@ -29,6 +29,10 @@ public class CategoryJpaEntity {
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board")
+    private BoardJpaEntity board;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private CategoryJpaEntity parent;
 

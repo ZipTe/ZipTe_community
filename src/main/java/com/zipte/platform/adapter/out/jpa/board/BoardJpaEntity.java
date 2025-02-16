@@ -2,7 +2,6 @@ package com.zipte.platform.adapter.out.jpa.board;
 
 
 import com.zipte.platform.domain.board.Board;
-import com.zipte.platform.domain.user.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,9 +22,7 @@ public class BoardJpaEntity {
     @Column(name = "board_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    private Long memberId;
 
     @Embedded
     private BoardSnippetJpaEntity boardSnippet;
@@ -39,7 +36,7 @@ public class BoardJpaEntity {
     // From
     public static BoardJpaEntity from(Board board) {
         return BoardJpaEntity.builder()
-                .member(board.getMember())
+                .memberId(board.getId())
                 .boardSnippet(BoardSnippetJpaEntity.from(board.getSnippet()))
                 .boardCategories(board.getCategories()
                         .stream().map(CategoryJpaEntity::from).toList())
@@ -52,7 +49,7 @@ public class BoardJpaEntity {
                 .id(this.getId())
                 .snippet(this.getBoardSnippet().toDomain())
                 .statistics(this.getBoardStatistics().toDomain())
-                .member(this.getMember())
+                .memberId(this.getMemberId())
                 .categories(this.getBoardCategories().stream().map(CategoryJpaEntity::toDomain).toList())
                 .build();
     }

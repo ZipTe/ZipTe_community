@@ -2,7 +2,6 @@ package com.zipte.platform.adapter.out.jpa.comment;
 
 import com.zipte.platform.domain.board.UserReaction;
 import com.zipte.platform.domain.comment.CommentReaction;
-import com.zipte.platform.domain.user.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,9 +20,7 @@ public class CommentReactionJpaEntity {
     @Column(name = "like_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    private Long memberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
@@ -35,7 +32,7 @@ public class CommentReactionJpaEntity {
     // from
     public static CommentReactionJpaEntity from(CommentReaction commentReaction) {
         return CommentReactionJpaEntity.builder()
-                .member(commentReaction.getMember())
+                .memberId(commentReaction.getMemberId())
                 .comment(CommentJpaEntity.from(commentReaction.getComment()))
                 .reactionType(commentReaction.getReactionType())
                 .build();
@@ -45,7 +42,7 @@ public class CommentReactionJpaEntity {
     public CommentReaction toDomain() {
         return CommentReaction.builder()
                 .id(this.getId())
-                .member(this.getMember())
+                .memberId(this.getMemberId())
                 .comment(CommentJpaEntity.toDomain(this.getComment()))
                 .reactionType(this.getReactionType())
                 .build();
