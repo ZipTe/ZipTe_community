@@ -20,7 +20,7 @@ public class CategoryPersistenceAdapter implements CategoryPort {
     public Category saveCategory(Category category) {
 
         var entity = CategoryJpaEntity.from(category);
-        return CategoryJpaEntity.toDomain(repository.save(entity));
+        return repository.save(entity).toDomain();
     }
 
     @Override

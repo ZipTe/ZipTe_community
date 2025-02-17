@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Builder
 @NoArgsConstructor
@@ -19,19 +16,18 @@ public class Board {
     private Long memberId;
     private BoardSnippet snippet;
     private BoardStatistics statistics;
-    private List<Category> categories = new ArrayList<>();
+    private Category category;
 
     // 생성자
-    public static Board of(Long memberId, BoardSnippet snippet, BoardStatistics statistics, List<Category> categories) {
+    public static Board of(Long memberId, BoardSnippet snippet, BoardStatistics statistics, Category category) {
 
-        Board board = Board.builder()
+        return Board.builder()
                 .memberId(memberId)
                 .snippet(snippet)
                 .statistics(statistics)
+                .category(category)
                 .build();
 
-        board.setCategories(categories);
-        return board;
     }
 
     // 양방향
@@ -46,10 +42,5 @@ public class Board {
 
     public void removeLikeReaction() {
         this.getStatistics().removeLikeCount();
-    }
-
-
-    public void setCategories(List<Category> categories) {
-        this.categories = this.categories;
     }
 }

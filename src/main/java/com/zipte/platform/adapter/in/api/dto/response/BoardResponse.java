@@ -6,11 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.zipte.platform.domain.board.Board;
-import com.zipte.platform.domain.board.Category;
-import com.zipte.platform.domain.board.BoardCategory;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,8 +18,7 @@ import java.util.stream.Collectors;
 @Builder
 public class BoardResponse {
 
-    @Builder.Default
-    private List<CategoryResponse> categories = List.of(); // Immutable 빈 리스트 사용
+    private CategoryResponse category; // Immutable 빈 리스트 사용
 
     private Long id;
     private Long author;
@@ -46,12 +42,10 @@ public class BoardResponse {
     // 생성자
     public static BoardResponse from(Board board) {
 
-        List<Category> boardCategories = board.getCategories();
-
-        List<CategoryResponse> categories = CategoryResponse.from(boardCategories);
+        CategoryResponse categoryResponse = CategoryResponse.from(board.getCategory());
 
         return BoardResponse.builder()
-                .categories(categories)
+                .category(categoryResponse)
                 .id(board.getId())
                 .title(board.getSnippet().getTitle())
                 .content(board.getSnippet().getContent())

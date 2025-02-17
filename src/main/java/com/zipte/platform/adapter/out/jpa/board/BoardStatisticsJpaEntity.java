@@ -3,7 +3,6 @@ package com.zipte.platform.adapter.out.jpa.board;
 import com.zipte.platform.domain.board.BoardStatistics;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +17,7 @@ public class BoardStatisticsJpaEntity {
     private long likeCount;
 
     // from
-    public BoardStatisticsJpaEntity from(BoardStatistics boardStatistics) {
+    public static BoardStatisticsJpaEntity from(BoardStatistics boardStatistics) {
         return new BoardStatisticsJpaEntity
                 (boardStatistics.getViewCount(), boardStatistics.getCommentCount(), boardStatistics.getLikeCount());
     }

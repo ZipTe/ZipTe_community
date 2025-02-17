@@ -29,10 +29,6 @@ public class CategoryJpaEntity {
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board")
-    private BoardJpaEntity board;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private CategoryJpaEntity parent;
 
@@ -42,45 +38,42 @@ public class CategoryJpaEntity {
 
     // from
     public static CategoryJpaEntity from(Category category) {
-        CategoryJpaEntity entity = make(category); // 부모-자식 없이 생성
+        if (category == null) {
+            return null;
+        }
 
-        entity.parent = from(category.getParent()); // 부모 설정
-        entity.children = category.getChildren().stream()
-                .map(CategoryJpaEntity::from) // 자식 리스트 설정
-                .collect(Collectors.toList());
-
-        return entity;
-    }
-
-    //
-    public static CategoryJpaEntity make(Category category) {
-        return CategoryJpaEntity.builder()
+        CategoryJpaEntity categoryJpaEntity = CategoryJpaEntity.builder()
                 .id(category.getId())
                 .name(category.getName())
                 .code(category.getCode())
+                .parent(from(category.getParent()))  // 부모 변환
                 .build();
-    }
 
+        if (category.getChildren() != null) {
+            List<CategoryJpaEntity> childEntities = category.getChildren().stream()
+                    .map(child -> {
+                        CategoryJpaEntity childEntity = from(child);
+                        childEntity.parent = categoryJpaEntity;  // 부모 설정
+                        return childEntity;
+                    })
+                    .collect(Collectors.toList());
+
+            categoryJpaEntity.children = childEntities;
+        }
+
+        return categoryJpaEntity;
+    }
 
     // toDomain
-    public static Category toDomain(CategoryJpaEntity entity){
-        if (entity == null) return null;
-
-        Category category = make(entity); // 부모-자식 없이 생성
-
-        category.setParent(toDomain(entity.getParent())); // 부모 설정
-        category.setChildren(entity.getChildren().stream()
-                .map(CategoryJpaEntity::toDomain) // 자식 리스트 설정
-                .collect(Collectors.toList()));
-
-        return category;
-    }
-
-    public static Category make(CategoryJpaEntity entity){
-        return Category.builder()
-                .id(entity.getId())
-                .name(entity.getName())
-                .code(entity.getCode())
-                .build();
+    public Category toDomain() {
+        return new Category(
+                this.id,
+                this.name,
+                this.code,
+                this.parent != null ? this.parent.toDomain() : null,  // 부모 변환
+                this.children != null
+                        ? this.children.stream().map(CategoryJpaEntity::toDomain).collect(Collectors.toList())
+                        : List.of()  // 자식 변환
+        );
     }
 }

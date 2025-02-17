@@ -30,16 +30,18 @@ public class BoardJpaEntity {
     @Embedded
     private BoardStatisticsJpaEntity boardStatistics;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CategoryJpaEntity> boardCategories = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private CategoryJpaEntity category;
+
 
     // From
     public static BoardJpaEntity from(Board board) {
         return BoardJpaEntity.builder()
                 .memberId(board.getId())
                 .boardSnippet(BoardSnippetJpaEntity.from(board.getSnippet()))
-                .boardCategories(board.getCategories()
-                        .stream().map(CategoryJpaEntity::from).toList())
+                .boardStatistics(BoardStatisticsJpaEntity.from(board.getStatistics()))
+                .category(CategoryJpaEntity.from(board.getCategory()))
                 .build();
     }
 
@@ -50,7 +52,7 @@ public class BoardJpaEntity {
                 .snippet(this.getBoardSnippet().toDomain())
                 .statistics(this.getBoardStatistics().toDomain())
                 .memberId(this.getMemberId())
-                .categories(this.getBoardCategories().stream().map(CategoryJpaEntity::toDomain).toList())
+                .category(this.getCategory().toDomain())
                 .build();
     }
     

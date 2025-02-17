@@ -12,7 +12,7 @@ import java.util.List;
 public class BoardRequest {
 
     // 카테고리
-    private List<Long> categoryIds;
+    private Long categoryId;
 
     // 게시물
     private Long memberId;
