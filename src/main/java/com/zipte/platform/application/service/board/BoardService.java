@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Log4j2
@@ -32,18 +31,19 @@ public class BoardService implements CreateBoardUseCase, GetBoardInfoUseCase, Re
 
     @Override
     public Board createBoard(BoardRequest request) {
-        if (!loadMemberPort.existsById(request.getMemberId())) {
-            throw new NoSuchElementException("해당 ID의 멤버가 존재하지 않습니다: " + request.getMemberId());
-        }
+//        if (!loadMemberPort.existsById(request.getMemberId())) {
+//            throw new NoSuchElementException("해당 ID의 멤버가 존재하지 않습니다: " + request.getMemberId());
+//        }
 
         // 게시물 생성
         BoardSnippet snippet = BoardSnippet.of(request.getTitle(), request.getContent(), "링크", LocalDateTime.now());
         BoardStatistics statistics = BoardStatistics.of();
 
         // 카테고리와 연결
-        List<Category> categories = categoryPort.loadAllByCategoryId(request.getCategoryIds());
+        Category category = categoryPort.loadCategory(request.getCategoryId())
+                .orElseThrow(() -> new NoSuchElementException("카테고리가 존재하지 않습니다"));
 
-        Board board = Board.of(request.getMemberId(), snippet, statistics, categories);
+        Board board = Board.of(request.getMemberId(), snippet, statistics, category);
         return saveBoardPort.saveBoard(board);
     }
 
